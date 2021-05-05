@@ -1,0 +1,4 @@
+credentials = "project-306607.json"
+iam_member  = "1234567890@cloudbuild.gserviceaccount.com"
+location    = "europe-central2"
+project_id  = "project-306607"
