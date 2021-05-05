@@ -9,7 +9,7 @@ steps:
       echo "$BRANCH_NAME"
       echo "***********************"
 - id: 'tf init'
-  name: 'hashicorp/terraform:0.11.14'
+  name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
   entrypoint: 'sh'
   args:
   - '-c'
@@ -33,7 +33,7 @@ steps:
       fi 
 # [START tf-plan]
 - id: 'tf plan'
-  name: 'hashicorp/terraform:0.11.14'
+  name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
   entrypoint: 'sh'
   args: 
   - '-c'
@@ -59,7 +59,7 @@ steps:
 
 # [START tf-apply]
 - id: 'tf apply'
-  name: 'hashicorp/terraform:0.11.14'
+  name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
   entrypoint: 'sh'
   args: 
   - '-c'
@@ -73,3 +73,5 @@ steps:
         echo "*******************************************************************************"
       fi
 # [END tf-apply]
+substitutions:
+    _TERRAFORM_VERSION: 0.14.10
