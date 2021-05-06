@@ -36,3 +36,20 @@ variable "force_destroy" {
   type        = bool
   default     = false
 }
+
+variable "activate_apis" {
+  description = "All APIs that should be enabled for a project"
+  type        = list(string)
+  default     = [
+    "compute.googleapis.com",
+    "cloudbuild.googleapis.com",
+    "container.googleapis.com",
+    "containerregistry.googleapis.com"
+    ]
+}
+
+variable "disable_services_on_destroy" {
+  description = "Whether services should be disabled when running destroy"
+  type        = bool
+  default     = false
+}

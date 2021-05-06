@@ -1,4 +1,4 @@
-# Stage 1 - Terraform code for deploying GCS Bucket
+# Stage 1 - Terraform code for deploying GCS Bucket and activating required APIs
 
 ## Purpose
 
@@ -15,6 +15,8 @@ From the book `Terraform Up & Running`:
 > configuration to it to use the newly created S3 bucket and
 > DynamoDB table, and run terraform init to copy your
 > local state to S3.
+
+Additionally this module have to enable all required APIs in order to create infrastructure.
 
 ## Usage
 
