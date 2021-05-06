@@ -74,10 +74,3 @@ Run `terraform init`
 These sections describe requirements for using this module.
 
 - Terraform v0.14
-
-## Reminder
-
-The Golden Rule of Terraform:
-> The master branch of the live repository should be a 1:1
-> representation of what’s actually deployed in production.
-
