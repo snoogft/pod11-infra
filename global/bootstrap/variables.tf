@@ -41,10 +41,11 @@ variable "activate_apis" {
   description = "All APIs that should be enabled for a project"
   type        = list(string)
   default     = [
-    "compute.googleapis.com",
-    "cloudbuild.googleapis.com",
-    "container.googleapis.com",
-    "containerregistry.googleapis.com"
+      "compute.googleapis.com",
+      "cloudbuild.googleapis.com",
+      "container.googleapis.com",
+      "containerregistry.googleapis.com",
+      "secretmanager.googleapis.com"
     ]
 }
 
