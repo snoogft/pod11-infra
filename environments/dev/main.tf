@@ -1,5 +1,5 @@
 locals {
-  env = "dev"
+  env            = "dev"
   subnet-01_name = "subnet-${local.env}-01"
 }
 
@@ -18,11 +18,11 @@ module "vpc_network" {
 }
 
 module "bastion_host" {
-  source = "../../modules/iap-tunneling"
-  members = var.members
-  project = var.project
-  region = var.region
-  zone = var.zone
-  network = module.vpc_network.network_name
+  source     = "../../modules/iap-tunneling"
+  members    = var.members
+  project    = var.project
+  region     = var.region
+  zone       = var.zone
+  network    = module.vpc_network.network_name
   subnetwork = local.subnet-01_name
 }

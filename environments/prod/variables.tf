@@ -23,9 +23,5 @@ variable "zone" {
 
 variable "machine_type" {
   description = "Machine type for "
-  default = "n1-standard-1"
-}
-
-variable "subnetwork_name" {
-  default =
+  default     = "n1-standard-1"
 }

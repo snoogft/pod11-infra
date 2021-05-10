@@ -9,7 +9,7 @@ module "vpc" {
 }
 
 module "subnets" {
-  source = "terraform-google-modules/network/google//modules/subnets"
+  source  = "terraform-google-modules/network/google//modules/subnets"
   version = "~> 3.2.2"
 
   project_id   = var.project_id
@@ -17,11 +17,11 @@ module "subnets" {
 
   subnets = [
     {
-      subnet_name               = var.subnet-01_name
-      subnet_ip                 = var.subnet-01_ip
-      subnet_region             = var.subnet-01_region
-      subnet_private_access     = "true"
-      description               = "subnet-01 for ${var.env}-vpc-network"
+      subnet_name           = var.subnet-01_name
+      subnet_ip             = var.subnet-01_ip
+      subnet_region         = var.subnet-01_region
+      subnet_private_access = "true"
+      description           = "subnet-01 for ${var.env}-vpc-network"
     }
   ]
 
@@ -37,7 +37,7 @@ module "subnets" {
 
 module "firewall_rules" {
   source       = "terraform-google-modules/network/google//modules/firewall-rules"
-  version = "~> 3.2.2"
+  version      = "~> 3.2.2"
   project_id   = var.project_id
   network_name = module.vpc.network_name
 

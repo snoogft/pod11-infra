@@ -20,5 +20,5 @@ variable "zone" {
 
 variable "members" {
   description = "Project members"
-  type = list(string)
+  type        = list(string)
 }
