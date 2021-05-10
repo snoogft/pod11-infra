@@ -17,7 +17,7 @@ module "subnets" {
 
   subnets = [
     {
-      subnet_name               = "subnet-${var.env}-01"
+      subnet_name               = var.subnet-01_name
       subnet_ip                 = var.subnet-01_ip
       subnet_region             = var.subnet-01_region
       subnet_private_access     = "true"
