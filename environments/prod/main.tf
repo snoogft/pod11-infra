@@ -1,4 +1,3 @@
-
 resource "google_compute_network" "network" {
   project                 = var.project
   name                    = "test-network-iap"
@@ -25,7 +24,7 @@ module "instance_template" {
   source  = "terraform-google-modules/vm/google//modules/instance_template"
   version = "1.1.0"
   project_id   = var.project
-  machine_type = "n1-standard-1"
+  machine_type = var.machine_type
   subnetwork   = google_compute_subnetwork.subnet.self_link
   service_account = {
     email  = google_service_account.vm_sa.email

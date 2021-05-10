@@ -1,46 +1,55 @@
-/**
- * Copyright 2021 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-resource "google_compute_firewall" "allow_from_iap_to_instances" {
-  count   = var.create_firewall_rule ? 1 : 0
-  project = var.host_project != "" ? var.host_project : var.project
-  name    = var.fw_name_allow_ssh_from_iap
-  network = var.network
-
-  allow {
-    protocol = "tcp"
-    ports    = toset(concat(["22"], var.additional_ports))
-  }
-
-  # https://cloud.google.com/iap/docs/using-tcp-forwarding#before_you_begin
-  # This is the netblock needed to forward to the instances
-  source_ranges = ["35.235.240.0/20"]
-
-  target_service_accounts = length(var.service_accounts) > 0 ? var.service_accounts : null
-  target_tags             = length(var.network_tags) > 0 ? var.network_tags : null
+resource "google_compute_network" "network" {
+  project                 = var.project
+  name                    = "test-network-iap"
+  auto_create_subnetworks = false
 }
 
-resource "google_iap_tunnel_instance_iam_binding" "enable_iap" {
-  for_each = {
-    for i in var.instances :
-    "${i.name} ${i.zone}" => i
+resource "google_compute_subnetwork" "subnet" {
+  project                  = var.project
+  name                     = "test-subnet-iap"
+  region                   = var.region
+  ip_cidr_range            = "10.127.0.0/20"
+  network                  = google_compute_network.network.self_link
+  private_ip_google_access = true
+}
+
+# A testing VM to allow OS Login + IAP tunneling.
+module "instance_template" {
+  source  = "terraform-google-modules/vm/google//modules/instance_template"
+  version = "1.1.0"
+  project_id   = var.project
+  machine_type = var.machine_type
+  subnetwork   = google_compute_subnetwork.subnet.self_link
+  service_account = {
+    email  = var.sa_email
+    scopes = ["cloud-platform"]
   }
-  project  = var.project
-  zone     = each.value.zone
-  instance = each.value.name
-  role     = "roles/iap.tunnelResourceAccessor"
-  members  = var.members
+  metadata = {
+    enable-oslogin = "TRUE"
+  }
+}
+
+resource "google_compute_instance_from_template" "vm" {
+  name    = var.instance
+  project = var.project
+  zone    = var.zone
+  network_interface {
+    subnetwork = google_compute_subnetwork.subnet.self_link
+  }
+  source_instance_template = module.instance_template.self_link
+}
+
+
+
+module "iap_tunneling" {
+  source  = "terraform-google-modules/bastion-host/google//examples/iap_tunneling"
+  fw_name_allow_ssh_from_iap = "test-allow-ssh-from-iap-to-tunnel"
+  project                    = var.project
+  network                    = google_compute_network.network.self_link
+  service_accounts           = [google_service_account.vm_sa.email]
+  instances = [{
+    name = google_compute_instance_from_template.vm.name
+    zone = var.zone
+  }]
+  members = var.members
 }
