@@ -1,9 +1,9 @@
 members = [
-  "user: padk@gft.com",
-  "user: mzkz@gft.com",
-  "user: jwwz@gft.com",
-  "user: kamc@gft.com",
-  "user: snoo@gft.com"
+  "user:padk@gft.com",
+  "user:mzkz@gft.com",
+  "user:jwwz@gft.com",
+  "user:kamc@gft.com",
+  "user:snoo@gft.com"
 ]
 region = "europe-central2"
 zone = "europe-central2-a"
