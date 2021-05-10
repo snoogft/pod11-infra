@@ -62,7 +62,7 @@ resource "google_project_iam_member" "os_login_bindings" {
 }
 
 module "iap_tunneling" {
-  source                     = "../../modules/iap-tunneling"
+  source  = "terraform-google-modules/bastion-host/google//examples/iap_tunneling"
   fw_name_allow_ssh_from_iap = "test-allow-ssh-from-iap-to-tunnel"
   project                    = var.project
   network                    = google_compute_network.network.self_link
