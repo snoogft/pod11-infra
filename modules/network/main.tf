@@ -20,10 +20,6 @@ module "subnets" {
       subnet_ip                 = var.subnet-01_ip
       subnet_region             = var.subnet-01_region
       subnet_private_access     = "true"
-      subnet_flow_logs          = "true"
-      subnet_flow_logs_interval = "INTERVAL_10_MIN"
-      subnet_flow_logs_sampling = 0.7
-      subnet_flow_logs_metadata = "INCLUDE_ALL_METADATA"
       description               = "subnet-01 for ${var.env}-vpc-network"
     }
   ]
