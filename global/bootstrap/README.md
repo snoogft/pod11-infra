@@ -19,6 +19,17 @@ From the book `Terraform Up & Running`:
 Additionally this module have to enable all required APIs in order to create infrastructure.
 
 ## Usage
+Enable APIs
+```
+gcloud services enable compute.googleapis.com \
+cloudbuild.googleapis.com \
+container.googleapis.com \
+containerregistry.googleapis.com \
+secretmanager.googleapis.com \
+storage-api.googleapis.com \
+oslogin.googleapis.com \
+iap.googleapis.com
+```
 
 In order to use this module you have to copy example file:
 ```bash
