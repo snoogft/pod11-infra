@@ -10,13 +10,14 @@ module "vpc" {
 
 module "subnets" {
   source = "terraform-google-modules/network/google//modules/subnets"
+  version = "~> 3.2.2"
 
   project_id   = var.project_id
   network_name = module.vpc.network_name
 
   subnets = [
     {
-      subnet_name               = "subnet-01"
+      subnet_name               = "subnet-${var.env}-01"
       subnet_ip                 = var.subnet-01_ip
       subnet_region             = var.subnet-01_region
       subnet_private_access     = "true"
@@ -29,34 +30,36 @@ module "subnets" {
       {
         range_name    = "subnet-01-secondary-01"
         ip_cidr_range = var.subnet-01-secondary-01_ip
-      },
+      }
     ]
   }
 }
 
 module "firewall_rules" {
   source       = "terraform-google-modules/network/google//modules/firewall-rules"
+  version = "~> 3.2.2"
   project_id   = var.project_id
   network_name = module.vpc.network_name
 
-  rules = [{
-    name                    = "allow-ssh"
-    description             = null
-    direction               = "INGRESS"
-    priority                = null
-    ranges                  = ["0.0.0.0/0"]
-    source_tags             = null
-    source_service_accounts = null
-    target_tags             = null
-    target_service_accounts = null
-    allow = [{
-      protocol = "tcp"
-      ports    = ["22"]
-    }]
-    deny = []
-    log_config = {
-      metadata = "INCLUDE_ALL_METADATA"
-    }
+  rules = [
+    {
+      name                    = "allow-ssh"
+      description             = null
+      direction               = "INGRESS"
+      priority                = null
+      ranges                  = ["0.0.0.0/0"]
+      source_tags             = null
+      source_service_accounts = null
+      target_tags             = null
+      target_service_accounts = null
+      allow = [{
+        protocol = "tcp"
+        ports    = ["22"]
+      }]
+      deny = []
+      log_config = {
+        metadata = "INCLUDE_ALL_METADATA"
+      }
     },
     {
       name                    = "allow-http-https"
