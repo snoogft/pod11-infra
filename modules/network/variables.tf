@@ -1,5 +1,9 @@
-variable "project" {
+variable "project_id" {
   description = "Id of the project"
+}
+
+variable "env" {
+  description = "environment type dev/prod"
 }
 
 variable "subnet-01_ip" {
