@@ -83,38 +83,3 @@ module "firewall_rules" {
     }
   ]
 }
-
-# resource "google_compute_network" "vpc_network" {
-#   name = "${var.env}-vpc-network"
-#   auto_create_subnetworks = false
-# }
-
-# resource "google_compute_subnetwork" "vpc_subnetwork-01" {
-#   name          = "${var.env}-vpc-subnetwork-01"
-#   ip_cidr_range = "10.${var.env == "dev" ? 10 : 20}.10.0/24"
-#   region        = "us-central1"
-#   network       = google_compute_network.vpc_network.id
-#   secondary_ip_range {
-#     range_name    = "${var.env}-secondary-range-subnetwork-01"
-#     ip_cidr_range = "192.168.${var.env == "dev" ? 10 : 20}.0/24"
-#  }
-# }
-
-# resource "google_compute_firewall" "firewall-rules" {
-#   name = "${google_compute_network.vpc_network.name}-firewall"
-#   network = "${google_compute_network.vpc_network.name}"
-
-#   allow {
-#     protocol = "icmp"
-#   }
-
-#   allow {
-#     protocol = "tcp"
-#     ports    = ["22", "80", "443", "8080", "1000-2000"]
-#   }
-
-#  target_tags = ["allow-http", "allow-https"]
-#   priority    = 1000
-#   source_tags = ["web"]
-# }
-
