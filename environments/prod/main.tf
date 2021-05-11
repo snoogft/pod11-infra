@@ -1,4 +1,3 @@
-
 resource "google_compute_network" "network" {
   project                 = var.project
   name                    = "test-network-iap"
@@ -22,10 +21,10 @@ resource "google_service_account" "vm_sa" {
 
 # A testing VM to allow OS Login + IAP tunneling.
 module "instance_template" {
-  source  = "terraform-google-modules/vm/google//modules/instance_template"
-  version = "1.1.0"
+  source       = "terraform-google-modules/vm/google//modules/instance_template"
+  version      = "1.1.0"
   project_id   = var.project
-  machine_type = "n1-standard-1"
+  machine_type = var.machine_type
   subnetwork   = google_compute_subnetwork.subnet.self_link
   service_account = {
     email  = google_service_account.vm_sa.email
@@ -62,7 +61,7 @@ resource "google_project_iam_member" "os_login_bindings" {
 }
 
 module "iap_tunneling" {
-  source  = "terraform-google-modules/bastion-host/google//examples/iap_tunneling"
+  source                     = "terraform-google-modules/bastion-host/google//examples/iap_tunneling"
   fw_name_allow_ssh_from_iap = "test-allow-ssh-from-iap-to-tunnel"
   project                    = var.project
   network                    = google_compute_network.network.self_link

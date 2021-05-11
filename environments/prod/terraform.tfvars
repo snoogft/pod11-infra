@@ -1,5 +1,12 @@
-members = ["user: padk@gft.com", "user: mzkz@gft.com", "user: jwwz@gft.com", "user: knze@gft.com", "user: kdsi@gft.com" ]
-project = ""
-instance = "instance-1"
-zone     = "us-central1-a"
-region   = "us-central1"
+members = [
+  "user:padk@gft.com",
+  "user:mzkz@gft.com",
+  "user:jwwz@gft.com",
+  "user:kamc@gft.com",
+  "user:snoo@gft.com"
+]
+region                    = "europe-central2"
+zone                      = "europe-central2-a"
+project                   = "pol-pod11-dev-01"
+subnet-01_ip              = "10.10.10.0/24"
+subnet-01-secondary-01_ip = "192.168.64.0/24"
