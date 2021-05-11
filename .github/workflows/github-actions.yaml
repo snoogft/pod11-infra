@@ -1,0 +1,3 @@
+- name: Terraform-Lint
+  uses: actionshub/terraform-lint@1.0.0
+
