@@ -6,4 +6,5 @@ module "iap_bastion" {
   network = var.network
   subnet  = var.subnetwork
   members = var.members
+  machine_type = "f1-micro"
 }
