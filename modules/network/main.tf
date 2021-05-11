@@ -31,7 +31,7 @@ module "subnets" {
         range_name    = "subnet-01-secondary-01"
         ip_cidr_range = var.subnet-01-secondary-01_ip
       }
-    ]
+    ],
     subnet-02 = [
       {
         range_name    = "subnet-01-services-ip"

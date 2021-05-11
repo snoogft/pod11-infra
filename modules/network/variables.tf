@@ -21,3 +21,7 @@ variable "subnet-01-secondary-01_ip" {
 variable "subnet-01_region" {
   description = "Region for a subnet-01"
 }
+
+variable "subnet-01-services-ip" {
+  description = "IP for subnet-01"
+}
