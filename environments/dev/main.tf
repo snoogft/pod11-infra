@@ -3,10 +3,6 @@ locals {
   subnet-01_name = "subnet-${local.env}-01"
 }
 
-terraform {
-  required_version = "~> 0.14.11"
-}
-
 module "vpc_network" {
   source                    = "../../modules/network"
   project_id                = var.project
