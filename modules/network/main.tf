@@ -28,13 +28,13 @@ module "subnets" {
   secondary_ranges = {
     subnet-01 = [
       {
-        range_name    = "subnet-01-secondary-01"
+        range_name    = var.subnet-01-secondary-01_name
         ip_cidr_range = var.subnet-01-secondary-01_ip
       }
     ],
     subnet-02 = [
       {
-        range_name    = "subnet-01-services-ip"
+        range_name    = var.subnet-01-services-name
         ip_cidr_range = var.subnet-01-services-ip
       }
     ]

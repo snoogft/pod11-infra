@@ -4,23 +4,39 @@ locals {
 }
 
 module "vpc_network" {
-  source                    = "../../modules/network"
-  project_id                = var.project
-  env                       = local.env
-  subnet-01_ip              = var.subnet-01_ip
-  subnet-01-secondary-01_ip = var.subnet-01-secondary-01_ip
-  subnet-01_region          = var.region
-  subnet-01_name            = local.subnet-01_name
-  subnet-01-services-ip = var.subnet-01-services-ip
+  source                      = "../../modules/network"
+  project_id                  = var.project
+  env                         = local.env
+  subnet-01_ip                = var.subnet-01_ip
+  subnet-01-secondary-01_ip   = var.subnet-01-secondary-01_ip
+  subnet-01-secondary-01_name = var.subnet-01-secondary-01_name
+  subnet-01_region            = var.region
+  subnet-01-services-name     = var.subnet-01-services-name
+  subnet-01_name              = local.subnet-01_name
+  subnet-01-services-ip       = var.subnet-01-services-ip
 }
 
-module "bastion_host" {
-  source     = "../../modules/iap-tunneling"
-  members    = var.members
-  project    = var.project
-  region     = var.region
-  zone       = var.zone
-  network    = module.vpc_network.network_name
-  subnetwork = local.subnet-01_name
-  depends_on = [module.vpc_network]
+//module "bastion_host" {
+//  source     = "../../modules/iap-tunneling"
+//  members    = var.members
+//  project    = var.project
+//  region     = var.region
+//  zone       = var.zone
+//  network    = module.vpc_network.network_name
+//  subnetwork = local.subnet-01_name
+//  depends_on = [module.vpc_network]
+//}
+
+module "gke" {
+  source                         = "../../modules/cluster"
+  project_id                     = var.project
+  region                         = var.region
+  zones                          = [var.zone]
+  environment                    = local.env
+  network                        = module.vpc_network.network_name
+  subnetwork                     = local.subnet-01_name
+  ip_range_pods_name             = var.subnet-01-secondary-01_name
+  ip_range_services_name         = var.subnet-01-services-name
+  compute_engine_service_account = var.compute_engine_service_account
+  depends_on                     = [module.vpc_network]
 }
