@@ -1,5 +1,5 @@
 locals {
-  subnet_01 = "${var.subnet-01_name}"
+  subnet_01 = var.subnet-01_name
 }
 
 module "vpc" {
