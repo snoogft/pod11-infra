@@ -27,16 +27,17 @@ module "vpc_network" {
 //  depends_on = [module.vpc_network]
 //}
 
-# module "gke" {
-#   source                         = "../../modules/cluster"
-#   project_id                     = var.project
-#   region                         = var.region
-#   zones                          = [var.zone]
-#   environment                    = local.env
-#   network                        = module.vpc_network.network_name
-#   subnetwork                     = local.subnet-01_name
-#   ip_range_pods_name             = var.subnet-01-secondary-01_name
-#   ip_range_services_name         = var.subnet-01-services-name
-#   compute_engine_service_account = var.compute_engine_service_account
-#   depends_on                     = [module.vpc_network]
-# }
+module "gke" {
+  source                         = "../../modules/cluster"
+  project_id                     = var.project
+  region                         = var.region
+  zones                          = [var.zone]
+  environment                    = local.env
+  network                        = module.vpc_network.network_name
+  subnetwork                     = local.subnet-01_name
+  ip_cidr_range                  = var.subnet-01_ip
+  ip_range_pods_name             = var.subnet-01-secondary-01_name
+  ip_range_services_name         = var.subnet-01-services-name
+  compute_engine_service_account = var.compute_engine_service_account
+  depends_on                     = [module.vpc_network]
+}

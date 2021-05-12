@@ -19,6 +19,11 @@ variable "subnetwork" {
   description = "The subnetwork to host the cluster in"
 }
 
+variable "ip_cidr_range" {
+  description = "Authorized network CIDR block"
+  type        = string
+}
+
 variable "ip_range_pods_name" {
   description = "The secondary ip range to use for pods"
 }

@@ -17,7 +17,7 @@ module "gke" {
 
   master_authorized_networks = [
     {
-      cidr_block   = "0.0.0.0/0"
+      cidr_block   = var.ip_cidr_range
       display_name = "VPC"
     }
   ]
