@@ -10,8 +10,16 @@ variable "subnet-01-secondary-01_ip" {
   description = "Ip address for a subnet-01 secondary range"
 }
 
+variable "subnet-01-secondary-01_name" {
+  description = "Name for a subnet-01 secondary range"
+}
+
 variable "subnet-01-services-ip" {
   description = "Ip address for a subnet-01 services"
+}
+
+variable "subnet-01-services-name" {
+  description = "Name for subnet-01"
 }
 
 variable "region" {
@@ -25,4 +33,9 @@ variable "zone" {
 variable "members" {
   description = "Project members"
   type        = list(string)
+}
+
+variable "compute_engine_service_account" {
+  description = "SA for CKE storage nodes"
+  type        = string
 }
