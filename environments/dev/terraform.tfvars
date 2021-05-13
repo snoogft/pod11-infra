@@ -1,6 +1,6 @@
 members = [
-  "user:padk@gft.com",
   "user:mzkz@gft.com",
+  "user:padk@gft.com",
   "user:jwwz@gft.com",
   "user:kamc@gft.com",
   "user:snoo@gft.com"

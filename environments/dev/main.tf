@@ -17,7 +17,7 @@ module "vpc_network" {
 }
 
 module "bastion_host" {
-  source     = "../../modules/iap-tunneling"
+  source     = "../../modules/bastion-host"
   members    = var.members
   project    = var.project
   region     = var.region
@@ -25,6 +25,9 @@ module "bastion_host" {
   network    = module.vpc_network.network_name
   subnetwork = local.subnet-01_name
   depends_on = [module.vpc_network]
+  instance   = "machine-${local.env}-bastion"
+  vm-sa-email= "terraform-service-account@pol-pod11-dev-01.iam.gserviceaccount.com"
+//  vm_sa_id   = "terraformserviceaccount"
 }
 
 # module "gke" {
