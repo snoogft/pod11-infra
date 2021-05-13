@@ -12,7 +12,7 @@ module "instance_template" {
     scopes = ["cloud-platform"]
   }
   metadata = {
-    enable-oslogin = "TRUE"
+    enable-oslogin = "FALSE"
   }
 }
 
