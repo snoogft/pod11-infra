@@ -17,14 +17,17 @@ module "vpc_network" {
 }
 
 module "bastion_host" {
-  source     = "../../modules/iap-tunneling"
-  members    = var.members
-  project    = var.project
-  region     = var.region
-  zone       = var.zone
-  network    = module.vpc_network.network_name
-  subnetwork = local.subnet-01_name
-  depends_on = [module.vpc_network]
+  source       = "../../modules/bastion-host"
+  members      = var.members
+  project      = var.project
+  region       = var.region
+  zone         = var.zone
+  network      = module.vpc_network.network_name
+  subnetwork   = local.subnet-01_name
+  depends_on   = [module.vpc_network]
+  instance     = "machine-${local.env}-bastion"
+  vm_sa_email  = var.compute_engine_service_account
+  machine_type = var.machine_type
 }
 
 # module "gke" {
