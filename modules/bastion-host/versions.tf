@@ -20,4 +20,7 @@ terraform {
       source = "hashicorp/google"
     }
   }
+  provider_meta "google" {
+    module_name = "blueprints/terraform/terraform-google-bastion-host:iap-tunneling/v3.2.0"
+  }
 }
