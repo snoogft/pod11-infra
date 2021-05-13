@@ -3,7 +3,8 @@ members = [
   "user:padk@gft.com",
   "user:jwwz@gft.com",
   "user:kamc@gft.com",
-  "user:snoo@gft.com"
+  "user:snoo@gft.com",
+  "user:TZKZ@gft.com"
 ]
 region                         = "europe-central2"
 zone                           = "europe-central2-a"
@@ -14,3 +15,4 @@ subnet-01-secondary-01_name    = "subnet-01-secondary-01"
 subnet-01-services-name        = "subnet-01-services-ip"
 subnet-01-services-ip          = "192.168.128.0/24"
 compute_engine_service_account = "186160847895-compute@developer.gserviceaccount.com"
+machine_type                   = "f1-micro"

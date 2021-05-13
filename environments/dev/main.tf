@@ -17,17 +17,17 @@ module "vpc_network" {
 }
 
 module "bastion_host" {
-  source     = "../../modules/bastion-host"
-  members    = var.members
-  project    = var.project
-  region     = var.region
-  zone       = var.zone
-  network    = module.vpc_network.network_name
-  subnetwork = local.subnet-01_name
-  depends_on = [module.vpc_network]
-  instance   = "machine-${local.env}-bastion"
-  vm-sa-email= "terraform-service-account@pol-pod11-dev-01.iam.gserviceaccount.com"
-//  vm_sa_id   = "terraformserviceaccount"
+  source       = "../../modules/bastion-host"
+  members      = var.members
+  project      = var.project
+  region       = var.region
+  zone         = var.zone
+  network      = module.vpc_network.network_name
+  subnetwork   = local.subnet-01_name
+  depends_on   = [module.vpc_network]
+  instance     = "machine-${local.env}-bastion"
+  vm_sa_email  = var.compute_engine_service_account
+  machine_type = var.machine_type
 }
 
 # module "gke" {

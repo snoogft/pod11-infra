@@ -28,10 +28,14 @@ variable "instance" {
   description = "Name of the example VM instance to create and allow SSH from IAP."
 }
 
-variable "vm-sa-email" {
+variable "vm_sa_email" {
   description = "Service account email for VM"
 }
 
 variable "vm_sa_id" {
   default = "Service account id for VM"
+}
+
+variable "machine_type" {
+  default = "Type of machine"
 }
