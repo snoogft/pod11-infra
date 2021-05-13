@@ -44,3 +44,17 @@ module "gke" {
   compute_engine_service_account = var.compute_engine_service_account
   depends_on                     = [module.vpc_network]
 }
+
+module "cloud_router" {
+  source  = "terraform-google-modules/cloud-router/google"
+  version = "~> 1.0.0"
+
+  name    = format("%s-router", local.env)
+  project = var.project
+  region  = var.region
+  network = module.vpc_network.network_name
+
+  nats = [{
+    name = format("%s-nat", local.env)
+  }]
+}
