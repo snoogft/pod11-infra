@@ -1,42 +1,16 @@
-# iap-tunneling
+# bastion host with IAP tunneling
 
-This module will create firewall rules and IAM bindings to allow TCP forwarding using
+This module allow TCP forwarding using
 [Identity-Aware Proxy (IAP) Tunneling](https://cloud.google.com/iap/docs/using-tcp-forwarding).
 
 This module will:
 
 - Create firewall rules to allow connections from IAP's TCP forwarding IP addresses to the TCP port
-of your resource's admin service.
+of Kubernetes cluster.
 - Create IAM bindings to allow IAP from specified members.
 
 ## Usage
 
-Basic usage of this module is as follows:
-
-```hcl
-module "iap_tunneling" {
-  source = "terraform-google-modules/bastion-host/google//modules/iap-tunneling"
-
-  project                    = var.project
-  network                    = var.network
-  service_accounts           = [var.service_account_email]
-
-  instances = [{
-    name = var.vm1_name
-    zone = var.vm1_zone
-  }]
-
-  members = [
-    "group:devs@example.com",
-    "user:me@example.com",
-  ]
-}
-```
-
-Once the firewall rule is created, you can search for the newly created firewall rule with something
-similar to the following:
-
-```
 $ gcloud compute firewall-rules list --project my-project --filter="name=allow-ssh-from-iap-to-tunnel"
 NAME                          NETWORK  DIRECTION  PRIORITY  ALLOW   DENY  DISABLED
 allow-ssh-from-iap-to-tunnel  default  INGRESS    1000      tcp:22        False
