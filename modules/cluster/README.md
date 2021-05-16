@@ -60,3 +60,5 @@ Kubernetes Engine API - container.googleapis.com
 
 ### Installed Software
 - [Terraform](https://www.terraform.io/downloads.html) ~> 0.14.11
+
+[project-factory-module]: https://registry.terraform.io/modules/terraform-google-modules/kubernetes-engine/google/latest
