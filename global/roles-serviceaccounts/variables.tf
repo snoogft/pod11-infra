@@ -5,10 +5,10 @@ variable "members" {
 
 variable "cloud_build_member_name" {
   description = "Email pointing on cloud build SA"
-  type = string
+  type        = string
 }
 
 variable "project" {
   description = "Project ID where to set up the instance and IAP tunneling"
-  type = string
+  type        = string
 }
