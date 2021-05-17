@@ -33,7 +33,6 @@ module "gke" {
 ## Inputs
 | Name | Description | Type |
 |------|-------------|:------:|
-
 | project\_id | 	The project ID to host the cluster in (required) | `string` |
 | name | 	The name of the cluster (required) | `string` |
 | pregional | 	Whether is a regional cluster (zonal cluster if set false. WARNING: changing this after cluster creation is destructive!) | `bool` |
