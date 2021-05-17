@@ -1,13 +1,13 @@
-# IAP Tunneling Example
+# bastion host with IAP tunneling
 
-This module will generate a bastion host vm compatible with [OS Login](https://cloud.google.com/compute/docs/oslogin/) and [IAP Tunneling](https://cloud.google.com/iap/) for given members that can be used to access Kubernetes Cluster.
+This module allow TCP forwarding using
+[Identity-Aware Proxy (IAP) Tunneling](https://cloud.google.com/iap/docs/using-tcp-forwarding).
 
 This module will:
 
-- Create a dedicated service account for the bastion host
-- Create a GCE instance to be the bastion host
-- Create a firewall rule to allow TCP:22 SSH access from the IAP to the bastion
-- Necessary IAM bindings to allow IAP and OS Logins from specified members
+- Create firewall rules to allow connections from IAP's TCP forwarding IP addresses to the TCP port
+of Kubernetes cluster.
+- Create IAM bindings to allow IAP from specified members.
 
 ### APIs
 
@@ -35,6 +35,10 @@ You can ssh to the VM instance with something similar to the following:
 ```
 gcloud auth login
 gcloud compute ssh instance-1 --zone us-central1-a --project my-project
+=======
+$ gcloud compute firewall-rules list --project my-project --filter="name=allow-ssh-from-iap-to-tunnel"
+NAME                          NETWORK  DIRECTION  PRIORITY  ALLOW   DENY  DISABLED
+allow-ssh-from-iap-to-tunnel  default  INGRESS    1000      tcp:22        False
 ```
 
 You should now be logged in as a user that looks like `ext_me_example_com` with the prefix of `ext` indicating you have logged in with OS Login.
