@@ -1,6 +1,6 @@
 # GKE
 
-This module will create Google Kubernetes Engine (GKE) cluster and configuration with Node Pools, Network Policy, etc.
+This module create Google Kubernetes Engine (GKE) cluster and configuration with Node Pools, Network Policy, etc.
 
 ## Usage
 ```hcl
