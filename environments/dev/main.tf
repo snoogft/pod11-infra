@@ -1,5 +1,5 @@
 locals {
-  env            = "prod"
+  env            = "dev"
   subnet-01_name = "subnet-${local.env}-01"
 }
 
