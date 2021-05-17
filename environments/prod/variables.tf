@@ -1,27 +1,45 @@
-variable "members" {
-  description = "List of members in the standard GCP form: user:{email}, serviceAccount:{email}, group:{email}"
-  type        = list(string)
-}
-
 variable "project" {
-  description = "Project ID where to set up the instance and IAP tunneling"
+  description = "Id of the project"
 }
 
-variable "instance" {
-  description = "Name of the example VM instance to create and allow SSH from IAP."
+variable "subnet-01_ip" {
+  description = "Ip address for a subnet-01"
+}
+
+variable "subnet-01-secondary-01_ip" {
+  description = "Ip address for a subnet-01 secondary range"
+}
+
+variable "subnet-01-secondary-01_name" {
+  description = "Name for a subnet-01 secondary range"
+}
+
+variable "subnet-01-services-ip" {
+  description = "Ip address for a subnet-01 services"
+}
+
+variable "subnet-01-services-name" {
+  description = "Name for subnet-01"
 }
 
 variable "region" {
-  description = "Region to create the subnet and example VM."
-  default     = "us-west1"
+  description = "Region for a subnet-01"
 }
 
 variable "zone" {
-  description = "Zone of the example VM instance to create and allow SSH from IAP."
-  default     = "us-west1-a"
+  description = "Zone for a subnet-01"
+}
+
+variable "members" {
+  description = "Project members"
+  type        = list(string)
+}
+
+variable "compute_engine_service_account" {
+  description = "SA for CKE storage nodes"
+  type        = string
 }
 
 variable "machine_type" {
-  description = "Machine type for "
-  default     = "n1-standard-1"
+  description = "Type of machine"
 }
