@@ -29,7 +29,8 @@ gcloud services enable compute.googleapis.com \
                        storage-api.googleapis.com \
                        oslogin.googleapis.com \
                        iap.googleapis.com \
-                       cloudresourcemanager.googleapis.com
+                       cloudresourcemanager.googleapis.com \
+                       cloudscheduler.googleapis.com
 ```
 
 In order to use this module you have to copy example file:
