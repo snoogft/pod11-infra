@@ -1,74 +1,61 @@
-resource "google_compute_network" "network" {
-  project                 = var.project
-  name                    = "test-network-iap"
-  auto_create_subnetworks = false
+locals {
+  env            = "prod"
+  subnet-01_name = "subnet-${local.env}-01"
 }
 
-resource "google_compute_subnetwork" "subnet" {
-  project                  = var.project
-  name                     = "test-subnet-iap"
-  region                   = var.region
-  ip_cidr_range            = "10.127.0.0/20"
-  network                  = google_compute_network.network.self_link
-  private_ip_google_access = true
+module "vpc_network" {
+  source                      = "../../modules/network"
+  project_id                  = var.project
+  env                         = local.env
+  subnet-01_ip                = var.subnet-01_ip
+  subnet-01-secondary-01_ip   = var.subnet-01-secondary-01_ip
+  subnet-01-secondary-01_name = var.subnet-01-secondary-01_name
+  subnet-01_region            = var.region
+  subnet-01-services-name     = var.subnet-01-services-name
+  subnet-01_name              = local.subnet-01_name
+  subnet-01-services-ip       = var.subnet-01-services-ip
 }
 
-resource "google_service_account" "vm_sa" {
+module "bastion_host" {
+  source       = "../../modules/bastion-host"
+  members      = var.members
   project      = var.project
-  account_id   = var.instance
-  display_name = "Service Account for VM"
-}
-
-# A testing VM to allow OS Login + IAP tunneling.
-module "instance_template" {
-  source       = "terraform-google-modules/vm/google//modules/instance_template"
-  version      = "1.1.0"
-  project_id   = var.project
+  region       = var.region
+  zone         = var.zone
+  network      = module.vpc_network.network_name
+  subnetwork   = local.subnet-01_name
+  depends_on   = [module.vpc_network]
+  instance     = "machine-${local.env}-bastion"
+  vm_sa_email  = var.compute_engine_service_account
   machine_type = var.machine_type
-  subnetwork   = google_compute_subnetwork.subnet.self_link
-  service_account = {
-    email  = google_service_account.vm_sa.email
-    scopes = ["cloud-platform"]
-  }
-  metadata = {
-    enable-oslogin = "TRUE"
-  }
+  env          = local.env
 }
 
-resource "google_compute_instance_from_template" "vm" {
-  name    = var.instance
+module "gke" {
+  source                         = "../../modules/cluster"
+  project_id                     = var.project
+  region                         = var.region
+  zones                          = [var.zone]
+  environment                    = local.env
+  network                        = module.vpc_network.network_name
+  subnetwork                     = local.subnet-01_name
+  ip_cidr_range                  = var.subnet-01_ip
+  ip_range_pods_name             = var.subnet-01-secondary-01_name
+  ip_range_services_name         = var.subnet-01-services-name
+  compute_engine_service_account = var.compute_engine_service_account
+  depends_on                     = [module.vpc_network]
+}
+
+module "cloud_router" {
+  source  = "terraform-google-modules/cloud-router/google"
+  version = "~> 1.0.0"
+
+  name    = format("%s-router", local.env)
   project = var.project
-  zone    = var.zone
-  network_interface {
-    subnetwork = google_compute_subnetwork.subnet.self_link
-  }
-  source_instance_template = module.instance_template.self_link
-}
+  region  = var.region
+  network = module.vpc_network.network_name
 
-# Additional OS login IAM bindings.
-# https://cloud.google.com/compute/docs/instances/managing-instance-access#granting_os_login_iam_roles
-resource "google_service_account_iam_binding" "sa_user" {
-  service_account_id = google_service_account.vm_sa.id
-  role               = "roles/iam.serviceAccountUser"
-  members            = var.members
-}
-
-resource "google_project_iam_member" "os_login_bindings" {
-  for_each = toset(var.members)
-  project  = var.project
-  role     = "roles/compute.osLogin"
-  member   = each.key
-}
-
-module "iap_tunneling" {
-  source                     = "terraform-google-modules/bastion-host/google//examples/iap_tunneling"
-  fw_name_allow_ssh_from_iap = "test-allow-ssh-from-iap-to-tunnel"
-  project                    = var.project
-  network                    = google_compute_network.network.self_link
-  service_accounts           = [google_service_account.vm_sa.email]
-  instances = [{
-    name = google_compute_instance_from_template.vm.name
-    zone = var.zone
+  nats = [{
+    name = format("%s-nat", local.env)
   }]
-  members = var.members
 }
