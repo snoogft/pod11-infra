@@ -39,3 +39,7 @@ variable "vm_sa_id" {
 variable "machine_type" {
   default = "Type of machine"
 }
+
+variable "env" {
+  description = "environment type dev/prod"
+}
