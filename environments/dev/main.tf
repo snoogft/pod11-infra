@@ -28,6 +28,7 @@ module "bastion_host" {
   instance     = "machine-${local.env}-bastion"
   vm_sa_email  = var.compute_engine_service_account
   machine_type = var.machine_type
+  env          = local.env
 }
 
 module "gke" {
