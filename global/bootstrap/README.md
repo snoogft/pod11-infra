@@ -70,6 +70,55 @@ Remember to migrate a local state to the newly configured "gcs" remote backend. 
 
 Run `terraform init`
 
+To schedule a cloud build:
+Create trigger
+```hcl
+    gcloud beta builds triggers create github \
+    --repo-name=REPO_NAME \
+    --repo-owner=REPO_OWNER \
+    --branch-pattern=BRANCH_PATTERN \ # or --tag-pattern=TAG_PATTERN
+    --build-config=BUILD_CONFIG_FILE \
+```
+| Name | Description |
+|------|-------------|
+|REPO_NAME|Name of your repository|
+|REPO_OWNER|Username of the repository owney|
+|BRANCH_PATTERN|Branch name in your repository to invoke the build on|
+|TAG_PATTERN|Tag name in your repository to invoke the build on|
+|BUILD_CONFIG_FILE|Path to your build configuration file|
+
+Create trigger for build environment
+```hcl
+    gcloud beta builds triggers create github \
+    --repo-name=pod11-infra \
+    --repo-owner=snoogft \
+    --branch-pattern=${BRANCH_NAME}
+    --build-config=cloudbuild.yaml \
+```
+Create trigger for destroy environment
+```hcl
+    gcloud beta builds triggers create github \
+    --repo-name=pod11-infra \
+    --repo-owner=snoogft \
+    --branch-pattern=${BRANCH_NAME}
+    --build-config=clouddestroy.yaml \
+```
+
+Create scheduler 
+```hcl
+	gcloud scheduler jobs create http ${PROJECT_ID}-run-trigger \
+    --schedule='0 12 * * *' \
+    --uri=https://cloudbuild.googleapis.com/v1/projects/${PROJECT_ID}/triggers/${TRIGGER_ID}:run \ 
+    --message-body='{\"branchName\": \"${BRANCH_NAME}\"}' \
+    --oauth-service-account-email=${PROJECT_ID}@appspot.gserviceaccount.com \
+    --oauth-token-scope=https://www.googleapis.com/auth/cloud-platform
+```
+| Name | Description |
+|------|-------------|
+|PROJECT_ID|Id of project|
+
+
+
 ## Inputs
 | Name | Description | Type |
 |------|-------------|------|
