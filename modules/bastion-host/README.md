@@ -9,79 +9,58 @@ This module will:
 of Kubernetes cluster.
 - Create IAM bindings to allow IAP from specified members.
 
+### APIs
+
+A project with the following APIs enabled must be used to host the
+resources of this module:
+
+- Google Cloud Storage JSON API: `storage-api.googleapis.com`
+- Compute Engine API: `compute.googleapis.com`
+- Cloud Identity-Aware Proxy API: `iap.googleapis.com`
+- OS Login API: `oslogin.googleapis.com`
+
+The [Project Factory module][project-factory-module] can be used to
+provision a project with the necessary APIs enabled.
+
+This module only sets up permissions for the bastion service account, not the users who need access. To allow access, grant one of the following instance access roles.
+
+* `roles/compute.osLogin` Does not grant administrator permissions
+* `roles/compute.osAdminLogin` Grants administrator permissions.
+
+If the user does not share the same domain as the org the bastion is in, you will also need to grant that user `roles/compute.osLoginExternalUser`. This is to prevent external SSH access from being granted at the project level. See the [OS Login documentation](https://cloud.google.com/compute/docs/instances/managing-instance-access#configure_users) for more information.
 ## Usage
 
+You can ssh to the VM instance with something similar to the following:
+
+```
+gcloud auth login
+gcloud compute ssh instance-1 --zone us-central1-a --project my-project
+=======
 $ gcloud compute firewall-rules list --project my-project --filter="name=allow-ssh-from-iap-to-tunnel"
 NAME                          NETWORK  DIRECTION  PRIORITY  ALLOW   DENY  DISABLED
 allow-ssh-from-iap-to-tunnel  default  INGRESS    1000      tcp:22        False
 ```
 
-Once the IAM bindings for IAP-secured Tunnel User is created, you can verify them with something
-similar to the following:
+You should now be logged in as a user that looks like `ext_me_example_com` with the prefix of `ext` indicating you have logged in with OS Login.
+You should also notice the following line in standard out that indicates you are tunnelling through IAP instead of the public internet:
 
 ```
-$ curl -H "Authorization: Bearer $(gcloud auth print-access-token)" -X POST \
-https://iap.googleapis.com/v1/projects/my-project/iap_tunnel/zones/us-central1-a/instances/my-instance:getIamPolicy
-{
-  "bindings": [
-    {
-      "role": "roles/iap.tunnelResourceAccessor",
-      "members": [
-        "user:me@example.com"
-      ]
-    }
-  ]
-}
+External IP address was not found; defaulting to using IAP tunneling.
 ```
-
-## Requirements
-
-These sections describe requirements for using this module.
-
-### Software
-
-The following dependencies must be available:
-
-- [Terraform][terraform] v0.12
-- [Terraform Provider for GCP][terraform-provider-gcp]
-
-### APIs
-
-A project with the following APIs enabled must be used to host the resources of this module:
-
-- Compute Engine API: `compute.googleapis.com`
-- Cloud Identity-Aware Proxy API: `iap.googleapis.com`
-
-The [Project Factory module][project-factory-module] can be used to provision a project with
-the necessary APIs enabled.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| additional\_ports | A list of additional ports/ranges to open access to on the instances from IAP. | `list(string)` | `[]` | no |
-| create\_firewall\_rule | If we need to create the firewall rule or not. | `bool` | `true` | no |
-| fw\_name\_allow\_ssh\_from\_iap | Firewall rule name for allowing SSH from IAP. | `string` | `"allow-ssh-from-iap-to-tunnel"` | no |
-| host\_project | The network host project ID. | `string` | `""` | no |
-| instances | Names and zones of the instances to allow SSH from IAP. | <pre>list(object({<br>    name = string<br>    zone = string<br>  }))</pre> | n/a | yes |
-| members | List of IAM resources to allow using the IAP tunnel. | `list(string)` | n/a | yes |
-| network | Self link of the network to attach the firewall to. | `any` | n/a | yes |
-| network\_tags | Network tags associated with the instances to allow SSH from IAP. Exactly one of service\_accounts or network\_tags should be specified. | `list(string)` | `[]` | no |
-| project | The project ID to deploy to. | `any` | n/a | yes |
-| service\_accounts | Service account emails associated with the instances to allow SSH from IAP. Exactly one of service\_accounts or network\_tags should be specified. | `list(string)` | `[]` | no |
+| instance | Name of the example VM instance to create and allow SSH from IAP. | `any` | n/a | yes |
+| members | List of members in the standard GCP form: user:{email}, serviceAccount:{email}, group:{email} | `list(string)` | n/a | yes |
+| project | Project ID where to set up the instance and IAP tunneling | `any` | n/a | yes |
+| region | Region to create the subnet and example VM. | `string` | `"us-west1"` | no |
+| zone | Zone of the example VM instance to create and allow SSH from IAP. | `string` | `"us-west1-a"` | no |
 
 ## Outputs
 
 No output.
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-
-## Contributing
-
-Refer to the [contribution guidelines](./CONTRIBUTING.md) for
-information on contributing to this module.
-
-[project-factory-module]: https://registry.terraform.io/modules/terraform-google-modules/project-factory/google
-[terraform-provider-gcp]: https://www.terraform.io/docs/providers/google/index.html
-[terraform]: https://www.terraform.io/downloads.html

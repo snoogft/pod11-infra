@@ -29,7 +29,8 @@ gcloud services enable compute.googleapis.com \
                        storage-api.googleapis.com \
                        oslogin.googleapis.com \
                        iap.googleapis.com \
-                       cloudresourcemanager.googleapis.com
+                       cloudresourcemanager.googleapis.com \
+                       cloudscheduler.googleapis.com
 ```
 
 In order to use this module you have to copy example file:
@@ -63,7 +64,6 @@ Remember to migrate a local state to the newly configured "gcs" remote backend. 
 #  backend "gcs" {
 #    bucket  = "project-306607-tfstate"
 #    prefix  = "global"
-#    credentials = "project-306607-0e52f545c1d0.json"
 #  }
 #}
 ```
