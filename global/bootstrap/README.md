@@ -70,7 +70,29 @@ Remember to migrate a local state to the newly configured "gcs" remote backend. 
 
 Run `terraform init`
 
-To schedule a cloud build:
+
+## Inputs
+| Name | Description | Type |
+|------|-------------|------|
+|credentials|Path to a file containing credentials to GCP Service account with enough permissions to create GCS bucket|string|
+|iam_member|IAM member to grant permissions on the bucket|string|
+|project_id|The ID of the project in which to provision resources.|string|
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+|bucket|The created storage bucket|
+
+## Requirements
+
+These sections describe requirements for using this module.
+
+- Terraform v0.14
+
+##Build Scheduler
+
+To schedule a cloud build:<br>
 A Cloud Build trigger automatically starts a build morning at 7:45 from monday to friday to creates environment and destroy it after finished job evening at 20:00.
 
 Create trigger
@@ -139,22 +161,3 @@ Create scheduler for trigger to run destroy environment
     --oauth-service-account-email=${PROJECT_ID}@appspot.gserviceaccount.com \
     --oauth-token-scope=https://www.googleapis.com/auth/cloud-platform
 ```
-
-## Inputs
-| Name | Description | Type |
-|------|-------------|------|
-|credentials|Path to a file containing credentials to GCP Service account with enough permissions to create GCS bucket|string|
-|iam_member|IAM member to grant permissions on the bucket|string|
-|project_id|The ID of the project in which to provision resources.|string|
-
-## Outputs
-
-| Name | Description |
-|------|-------------|
-|bucket|The created storage bucket|
-
-## Requirements
-
-These sections describe requirements for using this module.
-
-- Terraform v0.14
