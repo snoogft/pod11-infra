@@ -108,7 +108,7 @@ Create trigger for destroy environment
 
 Create scheduler 
 ```hcl
-	gcloud scheduler jobs create http ${PROJECT_ID}-run-trigger \
+    gcloud scheduler jobs create http ${PROJECT_ID}-run-trigger \
     --schedule= CRON \
     --uri=https://cloudbuild.googleapis.com/v1/projects/${PROJECT_ID}/triggers/TRIGGER_ID:run \ 
     --message-body='{\"branchName\": \"BRANCH_NAME\"}' \
@@ -122,7 +122,7 @@ Create scheduler
 
 Create scheduler for trigger to run build environment
 ```hcl
-	gcloud scheduler jobs create http ${PROJECT_ID}-run-trigger \
+    gcloud scheduler jobs create http ${PROJECT_ID}-run-trigger \
     --schedule= 45 7 * * 1-5 \
     --uri=https://cloudbuild.googleapis.com/v1/projects/${PROJECT_ID}/triggers/TRIGGER_ID:run \ 
     --message-body='{\"branchName\": \"BRANCH_NAME\"}' \
@@ -132,7 +132,7 @@ Create scheduler for trigger to run build environment
 
 Create scheduler for trigger to run destroy environment
 ```hcl
-	gcloud scheduler jobs create http ${PROJECT_ID}-run-trigger \
+    gcloud scheduler jobs create http ${PROJECT_ID}-run-trigger \
     --schedule= 0 20 * * 1-5 \
     --uri=https://cloudbuild.googleapis.com/v1/projects/${PROJECT_ID}/triggers/TRIGGER_ID:run \ 
     --message-body='{\"branchName\": \"BRANCH_NAME\"}' \
