@@ -59,3 +59,13 @@ module "cloud_router" {
     name = format("%s-nat", local.env)
   }]
 }
+
+module "database"{
+  source = "../../modules/database"
+  project_id = var.project
+  region     = var.region
+  zone       = var.zone
+  tier       = var.machine_type
+  authorized_networks =var.authorized_networks
+  env          = local.env
+}
