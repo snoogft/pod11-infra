@@ -21,4 +21,10 @@ module "gke" {
       display_name = "VPC"
     }
   ]
+  node_pools = [
+    {
+      min_count          = 4
+      max_count          = 10
+    }
+  ]
 }
