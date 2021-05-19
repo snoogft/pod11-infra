@@ -62,10 +62,10 @@ module "cloud_router" {
 
 module "database"{
   source = "../../modules/database"
-  project_id = var.project
-  region     = var.region
-  zone       = var.zone
-  tier       = var.machine_type
-  authorized_networks =var.authorized_networks
-  env          = local.env
+  project_id              = var.project
+  region                  = var.region
+  zone                    = var.zone
+  pg_ha_name              =var.pg_ha_name
+  pg_ha_external_ip_range = var.pg_ha_external_ip_range
+  env                     = local.env
 }

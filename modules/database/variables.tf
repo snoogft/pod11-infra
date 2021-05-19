@@ -15,35 +15,25 @@
  */
 
 variable "project_id" {
-  description = "The ID of the project in which resources will be provisioned."
   type        = string
+  description = "The project to run tests against"
 }
 
-variable "authorized_networks" {
-//  default = [{
-//    name  = "sample-gcp-health-checkers-range"
-//    value = "130.211.0.0/28"
-//  }]
-  type        = list(map(string))
-  description = "List of mapped public networks authorized to access to the instances. Default - short range of GCP health-checkers IPs"
+variable "pg_ha_name" {
+  type        = string
+  description = "The name for Cloud SQL instance"
+//  default     = "tf-pg-ha"
 }
 
-variable "db_name" {
-  description = "The name of the SQL Database instance"
-  default     = "example-postgres-public"
+variable "pg_ha_external_ip_range" {
+  type        = string
+  description = "The ip range to allow connecting from/to Cloud SQL"
+//  default     = "192.10.10.10/32"
 }
-
-variable "zone"{
-  description = "The project zone"
+variable "zone" {
+  description = "The zone of the project"
 }
 
 variable "region" {
-  description = "The project region"
+  description = "The region of project"
 }
-variable "machine_type" {
-  description = "Machine type"
-}
-variable "env" {
-  description = "environment type dev/prod"
-}
-
