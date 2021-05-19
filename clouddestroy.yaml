@@ -31,8 +31,8 @@ steps:
           cd ../../
         done
       fi
-# [START tf-plan]
-- id: 'tf plan'
+# [START tf-plan destroy]
+- id: 'tf plan destroy'
   name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
   entrypoint: 'sh'
   args:
@@ -40,7 +40,7 @@ steps:
   - |
       if [ -d "environments/$BRANCH_NAME/" ]; then
         cd environments/$BRANCH_NAME
-        terraform plan
+        terraform plan -destroy
       else
         for dir in environments/*/
         do
@@ -48,17 +48,15 @@ steps:
           env=${dir%*/}
           env=${env#*/}
           echo ""
-          echo "*************** TERRAFOM PLAN ******************"
+          echo "*************** TERRAFORM PLAN DESTROY ******************"
           echo "******* At environment: ${env} ********"
           echo "*************************************************"
-          terraform plan || exit 1
+          terraform plan -destroy || exit 1
           cd ../../
         done
       fi
-# [END tf-plan]
-
-# [START tf-apply]
-- id: 'tf apply'
+# [START tf destroy]
+- id: 'tf destroy'
   name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
   entrypoint: 'sh'
   args:
@@ -66,13 +64,22 @@ steps:
   - |
       if [ -d "environments/$BRANCH_NAME/" ]; then
         cd environments/$BRANCH_NAME
-        terraform apply -auto-approve
+        terraform destroy -auto-approve
       else
-        echo "********************** SKIPPING APPLYING ************************"
-        echo "Branch '$BRANCH_NAME' does not represent an oficial environment."
-        echo "*****************************************************************"
+        for dir in environments/*/
+        do
+          cd ${dir}
+          env=${dir%*/}
+          env=${env#*/}
+          echo ""
+          echo "*************** TERRAFOM DESTROY ******************"
+          echo "******* At environment: ${env} ********"
+          echo "*************************************************"
+          terraform destroy -auto-approve || exit 1
+          cd ../../
+        done
       fi
-# [END tf-apply]
+# [END tf destroy]
 substitutions:
     _TERRAFORM_VERSION: 0.14.11
 timeout: 1800s

@@ -39,3 +39,7 @@ variable "compute_engine_service_account" {
   description = "SA for CKE storage nodes"
   type        = string
 }
+
+variable "machine_type" {
+  description = "Type of machine"
+}
