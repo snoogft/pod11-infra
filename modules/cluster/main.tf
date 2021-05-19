@@ -23,8 +23,8 @@ module "gke" {
   ]
   node_pools = [
     {
-      min_count          = 4
-      max_count          = 10
+      min_count = 4
+      max_count = 10
     }
   ]
 }
