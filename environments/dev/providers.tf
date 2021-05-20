@@ -11,7 +11,6 @@ module "gcloud" {
 
   create_cmd_entrypoint = "gcloud"
   create_cmd_body       = "container clusters get-credentials ${module.gke.name} --region=${var.zone}"
-  module_depends_on     = module.gke
 }
 
 provider "kubernetes" {
