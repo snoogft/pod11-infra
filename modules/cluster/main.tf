@@ -23,6 +23,7 @@ module "gke" {
   ]
   node_pools = [
     {
+      name      = "default-node-pool"
       min_count = 4
       max_count = 10
     }
