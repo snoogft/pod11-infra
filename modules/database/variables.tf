@@ -37,3 +37,6 @@ variable "zone" {
 variable "region" {
   description = "The region of project"
 }
+variable "db_user" {
+  description = "User for db"
+}

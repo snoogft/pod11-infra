@@ -68,4 +68,5 @@ module "database"{
   pg_ha_name              =var.pg_ha_name
   pg_ha_external_ip_range = var.pg_ha_external_ip_range
   env                     = local.env
+  db_user                 = var.db_user
 }

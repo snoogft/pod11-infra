@@ -25,19 +25,47 @@ provider "null" {
 provider "random" {
   version = "~> 2.2"
 }
+resource "google_secret_manager_secret" "pgsql-root-password" {
+  secret_id = "pgsql-root-password"
 
-locals {
-  read_replica_ip_configuration = {
-    ipv4_enabled    = true
-    require_ssl     = false
-    private_network = null
-    authorized_networks = [
-      {
-        name  = "${var.project_id}-cidr"
-        value = var.pg_ha_external_ip_range
-      },
-    ]
+  replication {
+    automatic = true
   }
+}
+
+
+resource "google_secret_manager_generated_password" "pgsql-root-password" {
+  secret          = google_secret_manager_secret.pgsql-root-password.id
+  logical_version = "v8"
+
+
+  required {
+    count    = 1
+    alphabet = "~!@#$%^&*()_+-="
+  }
+
+  required {
+    count    = 1
+    alphabet = "1234567890"
+  }
+
+  required {
+    count    = 1
+    alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  }
+
+  required {
+    count    = 2
+    alphabet = "abcdefghijklmnopqrstuvwxyz"
+  }
+
+  return_secret     = true
+  delete_on_destroy = false
+  provider          = google-secrets
+}
+
+output "secret" {
+  value = "${google_secret_manager_generated_password.pgsql-root-password.id} = ${google_secret_manager_generated_password.mysql-root-password.value}"
 }
 
 module "pg" {
@@ -76,76 +104,10 @@ module "pg" {
     ]
   }
 
-  backup_configuration = {
-    enabled                        = true
-    start_time                     = "20:55"
-    location                       = null
-    point_in_time_recovery_enabled = false
-  }
-
-  // Read replica configurations
-  read_replica_name_suffix = "-test"
-  read_replicas = [
-    {
-      name             = "0"
-      zone             = "us-central1-a"
-      tier             = "db-custom-2-13312"
-      ip_configuration = local.read_replica_ip_configuration
-      database_flags   = [{ name = "autovacuum", value = "off" }]
-      disk_autoresize  = null
-      disk_size        = null
-      disk_type        = "PD_HDD"
-      user_labels      = { bar = "baz" }
-    },
-    {
-      name             = "1"
-      zone             = "us-central1-b"
-      tier             = "db-custom-2-13312"
-      ip_configuration = local.read_replica_ip_configuration
-      database_flags   = [{ name = "autovacuum", value = "off" }]
-      disk_autoresize  = null
-      disk_size        = null
-      disk_type        = "PD_HDD"
-      user_labels      = { bar = "baz" }
-    },
-    {
-      name             = "2"
-      zone             = "us-central1-c"
-      tier             = "db-custom-2-13312"
-      ip_configuration = local.read_replica_ip_configuration
-      database_flags   = [{ name = "autovacuum", value = "off" }]
-      disk_autoresize  = null
-      disk_size        = null
-      disk_type        = "PD_HDD"
-      user_labels      = { bar = "baz" }
-    },
-  ]
 
   db_name      = var.pg_ha_name
   db_charset   = "UTF8"
   db_collation = "en_US.UTF8"
-
-  additional_databases = [
-    {
-      name      = "${var.pg_ha_name}-additional"
-      charset   = "UTF8"
-      collation = "en_US.UTF8"
-    },
-  ]
-
-  user_name     = "tftest"
-  user_password = "foobar"
-
-  additional_users = [
-    {
-      name     = "tftest2"
-      password = "abcdefg"
-      host     = "localhost"
-    },
-    {
-      name     = "tftest3"
-      password = "abcdefg"
-      host     = "localhost"
-    },
-  ]
+  user_name     = var.db_user
+  user_password = google_secret_manager_secret.pgsql-root-password
 }
