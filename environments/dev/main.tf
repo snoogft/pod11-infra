@@ -44,7 +44,6 @@ module "gke" {
   ip_range_services_name         = var.subnet-01-services-name
   compute_engine_service_account = var.compute_engine_service_account
   depends_on                     = [module.vpc_network]
-  providers                      = {}
 }
 
 module "cloud_router" {
