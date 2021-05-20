@@ -25,8 +25,8 @@ module "gke" {
     {
       name        = "default-node-pool"
       autoscaling = true
-      node_count  = 5
-      min_count   = 4
+      node_count  = 3
+      min_count   = 3
       max_count   = 10
     }
   ]
