@@ -3,10 +3,12 @@ variable "members" {
   type        = list(string)
 }
 
-variable "project" {
-  description = "Project ID where to set up the instance and IAP tunneling"
+variable "cloud_build_member_name" {
+  description = "Email pointing on cloud build SA"
+  type        = string
 }
 
-variable "instance" {
-  description = "Name of the example VM instance to create and allow SSH from IAP."
+variable "project" {
+  description = "Project ID where to set up the instance and IAP tunneling"
+  type        = string
 }

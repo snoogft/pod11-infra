@@ -70,6 +70,7 @@ Remember to migrate a local state to the newly configured "gcs" remote backend. 
 
 Run `terraform init`
 
+
 ## Inputs
 | Name | Description | Type |
 |------|-------------|------|
@@ -88,3 +89,75 @@ Run `terraform init`
 These sections describe requirements for using this module.
 
 - Terraform v0.14
+
+## Build Scheduler
+
+To schedule a cloud build:<br>
+A Cloud Build trigger automatically starts a build morning at 7:45 from monday to friday to creates environment and destroy it after finished job evening at 20:00.
+
+Create trigger
+```hcl
+    gcloud beta builds triggers create github \
+    --repo-name= REPO_NAME \
+    --repo-owner= REPO_OWNER \
+    --branch-pattern= BRANCH_PATTERN \ # or --tag-pattern=TAG_PATTERN
+    --build-config= BUILD_CONFIG_FILE \
+```
+| Name | Description |
+|------|-------------|
+|REPO_NAME|Name of your repository|
+|REPO_OWNER|Username of the repository owney|
+|BRANCH_PATTERN|Branch name in your repository to invoke the build on|
+|TAG_PATTERN|Tag name in your repository to invoke the build on|
+|BUILD_CONFIG_FILE|Path to your build configuration file|
+
+Create trigger for build environment
+```hcl
+    gcloud beta builds triggers create github \
+    --repo-name= pod11-infra \
+    --repo-owner= snoogft \
+    --branch-pattern= dev
+    --build-config= cloudbuild.yaml \
+```
+Create trigger for destroy environment
+```hcl
+    gcloud beta builds triggers create github \
+    --repo-name= pod11-infra \
+    --repo-owner= snoogft \
+    --branch-pattern= dev
+    --build-config= clouddestroy.yaml \
+```
+
+Create scheduler 
+```hcl
+    gcloud scheduler jobs create http ${PROJECT_ID}-run-trigger \
+    --schedule= CRON \
+    --uri=https://cloudbuild.googleapis.com/v1/projects/${PROJECT_ID}/triggers/TRIGGER_ID:run \ 
+    --message-body='{\"branchName\": \"BRANCH_NAME\"}' \
+    --oauth-service-account-email=${PROJECT_ID}@appspot.gserviceaccount.com \
+    --oauth-token-scope=https://www.googleapis.com/auth/cloud-platform
+```
+| Name | Description |
+|------|-------------|
+|CRON|Cron expression, example: https://crontab.guru/|
+|TRIGGER_ID|Trigger ID from trigger created ealier|
+
+Create scheduler for trigger to run build environment
+```hcl
+    gcloud scheduler jobs create http ${PROJECT_ID}-run-trigger \
+    --schedule= 45 7 * * 1-5 \
+    --uri=https://cloudbuild.googleapis.com/v1/projects/${PROJECT_ID}/triggers/TRIGGER_ID:run \ 
+    --message-body='{\"branchName\": \"BRANCH_NAME\"}' \
+    --oauth-service-account-email=${PROJECT_ID}@appspot.gserviceaccount.com \
+    --oauth-token-scope=https://www.googleapis.com/auth/cloud-platform
+```
+
+Create scheduler for trigger to run destroy environment
+```hcl
+    gcloud scheduler jobs create http ${PROJECT_ID}-run-trigger \
+    --schedule= 0 20 * * 1-5 \
+    --uri=https://cloudbuild.googleapis.com/v1/projects/${PROJECT_ID}/triggers/TRIGGER_ID:run \ 
+    --message-body='{\"branchName\": \"BRANCH_NAME\"}' \
+    --oauth-service-account-email=${PROJECT_ID}@appspot.gserviceaccount.com \
+    --oauth-token-scope=https://www.googleapis.com/auth/cloud-platform
+```
