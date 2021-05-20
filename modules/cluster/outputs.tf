@@ -9,8 +9,3 @@ output "ca_certificate" {
   description = "CA certificate"
   sensitive   = true
 }
-
-output "name" {
-  value     = module.gke.name
-  sensitive = true
-}
