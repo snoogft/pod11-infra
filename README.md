@@ -3,7 +3,11 @@ Repository for pod11 infrastructure project on GCP
 
 ## FAQ
 
-What to do if I am getting following error:
+### How should I write shell scripts?
+
+Google shell style guide: https://google.github.io/styleguide/shellguide.html
+
+### What to do if I am getting error "Attempted to load application default credentials"
 ```
 Error: Attempted to load application default credentials since neither `credentials` nor `access_token` was set in the provider block.  No credentials loaded. To use your gcloud credentials, run 'gcloud auth application-default login'.  Original error: google: could not find default credentials. See https://developers.google.com/accounts/docs/application-default-credentials for more information.
 ```
