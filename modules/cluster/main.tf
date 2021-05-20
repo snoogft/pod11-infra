@@ -22,3 +22,11 @@ module "gke" {
     }
   ]
 }
+
+module "workload_identity" {
+  source              = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
+  project_id          = var.project_id
+  name                = "identity-${module.gke.name}"
+  namespace           = "default"
+  use_existing_k8s_sa = false
+}
