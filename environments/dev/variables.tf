@@ -40,6 +40,8 @@ variable "compute_engine_service_account" {
   type        = string
 }
 
+variable "machine_type" {}
+
 
 variable "pg_ha_external_ip_range" {
 
@@ -49,6 +51,6 @@ variable "pg_ha_name" {
 
 }
 variable "db_user" {
-  description = "name of db user"
+  description = "user name"
   type        = string
 }

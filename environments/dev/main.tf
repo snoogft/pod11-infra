@@ -60,13 +60,29 @@ module "cloud_router" {
   }]
 }
 
-module "database"{
-  source = "../../modules/database"
-  project_id              = var.project
-  region                  = var.region
-  zone                    = var.zone
-  pg_ha_name              =var.pg_ha_name
-  pg_ha_external_ip_range = var.pg_ha_external_ip_range
-  env                     = local.env
-  db_user                 = var.db_user
+module "postgresql" {
+  source  = "AckeeCZ/postgresql/sql"
+  project                = var.project
+  region                 = var.region
+  zone                   = var.zone
+  namespace              = local.env
+  cluster_ca_certificate = module.gke.cluster_ca_certificate
+  cluster_token          = module.gke.access_token
+  cluster_endpoint       = module.gke.endpoint
+  environment            = "production"
+  availability_type      = "REGIONAL" # REGIONAL for HA setup, ZONAL for single zone
+  vault_secret_path      = "secret/devops/production/${var.project}/${local.env}"
+  enable_local_access    = true
+  private_ip             = true
+  sqlproxy_dependencies  = true
+  point_in_time_recovery = true
+  authorized_networks = [
+    {
+      name : var.subnet-01-secondary-01_name
+      cidr : var.subnet-01-secondary-01_ip
+    }
+  ]
+  database_flags = {
+    log_connections : "on"
+  }
 }
