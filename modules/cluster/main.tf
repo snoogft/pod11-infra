@@ -23,9 +23,11 @@ module "gke" {
   ]
   node_pools = [
     {
-      name      = "default-node-pool"
-      min_count = 4
-      max_count = 10
+      name        = "default-node-pool"
+      autoscaling = true
+      node_count  = 5
+      min_count   = 4
+      max_count   = 10
     }
   ]
 }
