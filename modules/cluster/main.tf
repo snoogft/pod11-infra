@@ -32,13 +32,19 @@ module "gke" {
     }
   ]
 }
-data "google_client_config" "default" {}
+module "gcloud" {
+  source  = "terraform-google-modules/gcloud/google"
+  version = "~> 0.5"
+
+  platform = "linux"
+
+  create_cmd_entrypoint = "gcloud"
+  create_cmd_body       = "container clusters get-credentials ${module.gke.name} --region=${var.zones[0]}"
+  module_depends_on     = module.gke
+}
 
 provider "kubernetes" {
-  load_config_file       = false
-  host                   = "https://${module.gke.endpoint}"
-  token                  = data.google_client_config.default.access_token
-  cluster_ca_certificate = base64decode(module.gke.ca_certificate)
+  # the authorization is handled by running gcloud clusters get-credentials using the gcloud terraform module
 }
 
 module "workload_identity" {
