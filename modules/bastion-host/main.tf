@@ -20,7 +20,7 @@ resource "google_compute_instance_from_template" "vm" {
   name                    = var.instance
   project                 = var.project
   zone                    = var.zone
-  metadata_startup_script = "../scripts/startup_script_bastion_host.sh"
+  metadata_startup_script = "sudo apt-get install -y kubectl && sudo yum install -y bash-completion"
   network_interface {
     subnetwork = var.subnetwork
   }
