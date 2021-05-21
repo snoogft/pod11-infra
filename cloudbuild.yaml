@@ -8,81 +8,16 @@ steps:
       echo "***********************"
       echo "$BRANCH_NAME"
       echo "***********************"
-- id: 'tf init'
-  name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
-  entrypoint: 'sh'
-  args:
-  - '-c'
-  - |
-      if [ -d "environments/$BRANCH_NAME/" ]; then
-        cd environments/$BRANCH_NAME
-        terraform init
-      else
-        for dir in environments/*/
-        do
-          cd ${dir}
-          env=${dir%*/}
-          env=${env#*/}
-          echo ""
-          echo "*************** TERRAFORM INIT ******************"
-          echo "******* At environment: ${env} ********"
-          echo "*************************************************"
-          terraform init || exit 1
-          cd ../../
-        done
-      fi
-# [START tf-plan]
-- id: 'tf plan'
-  name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
-  entrypoint: 'sh'
-  args:
-  - '-c'
-  - |
-      if [ -d "environments/$BRANCH_NAME/" ]; then
-        cd environments/$BRANCH_NAME
-        terraform plan
-      else
-        for dir in environments/*/
-        do
-          cd ${dir}
-          env=${dir%*/}
-          env=${env#*/}
-          echo ""
-          echo "*************** TERRAFOM PLAN ******************"
-          echo "******* At environment: ${env} ********"
-          echo "*************************************************"
-          terraform plan || exit 1
-          cd ../../
-        done
-      fi
-# [END tf-plan]
-
-# [START tf-apply]
-- id: 'tf apply'
-  name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
-  entrypoint: 'sh'
-  args:
-  - '-c'
-  - |
-      if [ -d "environments/$BRANCH_NAME/" ]; then
-        cd environments/$BRANCH_NAME
-        terraform apply -auto-approve
-      else
-        echo "********************** SKIPPING APPLYING ************************"
-        echo "Branch '$BRANCH_NAME' does not represent an oficial environment."
-        echo "*****************************************************************"
-      fi
-# [END tf-apply]
-# - id: 'build remote-builder'
-#   name: 'gcr.io/cloud-builders/docker'
-#   args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/remote-builder', 'remote-builder' ]
-# - id: 'configure kubernetes'
-#   name: gcr.io/$PROJECT_ID/remote-builder
-#   env:
-#     - INSTANCE_ARGS=--image-project debian-cloud --image-family debian-10 --network=${BRANCH_NAME}-vpc-network --subnet=subnet-${BRANCH_NAME}-01 --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible
-#     - ZONE=${_ZONE}
-#     - USERNAME=cloud-user
-#     - COMMAND=chmod +x ~/workspace/scripts/install_terraform.sh && ~/workspace/scripts/install_terraform.sh
+- id: 'build remote-builder'
+  name: 'gcr.io/cloud-builders/docker'
+  args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/remote-builder', 'remote-builder' ]
+- id: 'run terraform'
+  name: gcr.io/$PROJECT_ID/remote-builder
+  env:
+    - INSTANCE_ARGS=--image-project debian-cloud --image-family debian-10 --network=${BRANCH_NAME}-vpc-network --subnet=subnet-${BRANCH_NAME}-01 --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible
+    - ZONE=${_ZONE}
+    - USERNAME=cloud-user
+    - COMMAND=chmod +x ~/workspace/scripts/* && TERRAFORM_VERSION=${_TERRAFORM_VERSION} ~/workspace/scripts/install_terraform.sh && cd ~/workspace && BRANCH_NAME=${BRANCH_NAME} ./scripts/run_terraform.sh
 substitutions:
     _ZONE: europe-central2-a
     _TERRAFORM_VERSION: 0.14.11
