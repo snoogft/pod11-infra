@@ -71,4 +71,5 @@ module "cloud_sql" {
   machine_type             = var.machine_type_db
   cloudsql_pg_sa           = module.gke.gcp_service_account_email
   env                      = local.env
+  name_prefix              = "${local.env}-"
 }
