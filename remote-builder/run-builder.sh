@@ -58,8 +58,4 @@ ${GCLOUD} compute scp ${SSH_ARGS} --compress --recurse \
 
 ssh "${COMMAND}"
 
-${GCLOUD} compute scp ${SSH_ARGS} --compress --recurse \
-       ${USERNAME}@${INSTANCE_NAME}:${REMOTE_WORKSPACE}* $(pwd) \
-       --ssh-key-file=${KEYNAME}
-
 exit 0
