@@ -30,6 +30,7 @@ module "bastion_host" {
   machine_type = var.machine_type
   env          = local.env
 }
+data "google_client_config" "default" {}
 
 module "gke" {
   source                         = "../../modules/cluster"
@@ -58,4 +59,16 @@ module "cloud_router" {
   nats = [{
     name = format("%s-nat", local.env)
   }]
+}
+
+module "cloud_sql" {
+  source                   = "../../modules/database"
+  project                  = var.project
+  zone                     = var.zone
+  region                   = var.region
+  private_network          = local.subnet-01_name
+  authorized_networks      = var.subnet-01_ip
+  authorized_networks_name = local.subnet-01_name
+  machine_type             = var.machine_type_db
+  cloudsql_pg_s            = module.gke.gcp_service_account_email
 }
