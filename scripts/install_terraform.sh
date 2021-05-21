@@ -2,4 +2,4 @@
 sudo apt install -y software-properties-common
 sudo curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
 sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-sudo apt install -y terraform=0.14.11
+sudo apt install -y terraform=${TERRAFORM_VERSION}
