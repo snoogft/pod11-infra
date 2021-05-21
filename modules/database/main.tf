@@ -14,6 +14,8 @@ module "postgresql-db" {
     ipv4_enabled    = true
     private_network = var.private_network
     require_ssl     = true
+    authorized_networks = [
+    ]
   }
 
   database_flags = [
