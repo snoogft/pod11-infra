@@ -37,5 +37,5 @@ output "psql_user_pass" {
 
 output "public_ip_address" {
   description = "The first public (PRIMARY) IPv4 address assigned for the master instance"
-  value = module.postgresql-db.public_ip_address
+  value       = module.postgresql-db.public_ip_address
 }
