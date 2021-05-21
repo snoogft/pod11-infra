@@ -30,7 +30,6 @@ module "bastion_host" {
   machine_type = var.machine_type
   env          = local.env
 }
-data "google_client_config" "default" {}
 
 module "gke" {
   source                         = "../../modules/cluster"
