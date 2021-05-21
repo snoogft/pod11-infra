@@ -14,7 +14,7 @@ steps:
 - id: 'run terraform'
   name: gcr.io/$PROJECT_ID/remote-builder
   env:
-    - INSTANCE_ARGS=--image-project debian-cloud --image-family debian-10 --network=${BRANCH_NAME}-vpc-network --subnet=subnet-${BRANCH_NAME}-01 --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible
+    - INSTANCE_ARGS=--image-project debian-cloud --image-family debian-10 --network=${BRANCH_NAME}-vpc-network --subnet=subnet-${BRANCH_NAME}-01 --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible --service-account=${_CLOUD_BUILD_SA}
     - ZONE=${_ZONE}
     - USERNAME=cloud-user
     - COMMAND=chmod +x ~/workspace/scripts/* && TERRAFORM_VERSION=${_TERRAFORM_VERSION} ~/workspace/scripts/install_terraform.sh && cd ~/workspace && BRANCH_NAME=${_BRANCH_NAME} ./scripts/run_terraform.sh
@@ -23,4 +23,5 @@ substitutions:
     _ZONE: europe-central2-a
     _TERRAFORM_VERSION: 0.14.11
     _CONTAINER_CLUSTER: ${BRANCH_NAME}-cluster
+    _CLOUD_BUILD_SA: 186160847895@cloudbuild.gserviceaccount.com
 timeout: 1800s
