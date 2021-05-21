@@ -30,7 +30,8 @@ gcloud services enable compute.googleapis.com \
                        oslogin.googleapis.com \
                        iap.googleapis.com \
                        cloudresourcemanager.googleapis.com \
-                       cloudscheduler.googleapis.com
+                       cloudscheduler.googleapis.com \
+                       sqladmin.googleapis.com
 ```
 
 In order to use this module you have to copy example file:
