@@ -43,3 +43,7 @@ variable "compute_engine_service_account" {
 variable "machine_type" {
   description = "Type of machine"
 }
+
+variable "machine_type_db" {
+  description = "Type of machine for database"
+}
