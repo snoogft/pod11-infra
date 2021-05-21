@@ -35,10 +35,6 @@ variable "machine_type" {
   type        = string
 }
 
-variable "db_name" {
-  description = "Name for the db"
-  type        = string
-}
 
 variable "name_override" {
   description = "You may optionally override the name_prefix + random string by specifying an override"
