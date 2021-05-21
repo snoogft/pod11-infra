@@ -1,6 +1,5 @@
 module "postgresql-db" {
-  source               = "GoogleCloudPlatform/sql-db/google//modules/postgresql"
-  version              = "5.0.1"
+  source               = "git::https://github.com/terraform-google-modules/terraform-google-sql-db//modules/postgresql"
   name                 = "db-${var.env}"
   random_instance_name = true
   database_version     = var.postgres_version

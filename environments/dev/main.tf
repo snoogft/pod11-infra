@@ -72,4 +72,5 @@ module "cloud_sql" {
   cloudsql_pg_sa           = module.gke.gcp_service_account_email
   env                      = local.env
   name_prefix              = "${local.env}-"
+  depends_on               = [module.gke]
 }
