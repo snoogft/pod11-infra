@@ -1,4 +1,5 @@
-export GOOGLE_APPLICATION_CREDENTIALS="./pol-pod11-dev-01.json"
+#!/bin/bash -xe
+
 terraform init
 terraform validate
 terraform plan
