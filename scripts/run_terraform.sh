@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -e
+BRANCH_NAME=$1
 if [ -d "environments/$BRANCH_NAME/" ]; then
   cd environments/$BRANCH_NAME
   terraform init
