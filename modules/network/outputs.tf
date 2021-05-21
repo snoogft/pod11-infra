@@ -10,3 +10,7 @@ output "subnets" {
   value       = module.subnets.subnets
   description = "The created subnet resources"
 }
+output "network_self_link" {
+  value = module.vpc.network_self_link
+  description = "The URI of the VPC being created"
+}
