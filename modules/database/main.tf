@@ -45,6 +45,6 @@ module "postgresql-db" {
 
   # Supports creation of both IAM Users and IAM Service Accounts with provided emails
   iam_user_emails = [
-    var.cloudsql_pg_sa
+    var.cloudsql_pg_sa,
   ]
 }

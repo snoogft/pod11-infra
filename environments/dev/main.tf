@@ -62,7 +62,7 @@ module "cloud_router" {
 
 module "cloud_sql" {
   source                   = "../../modules/database"
-  project_id                  = var.project
+  project_id               = var.project
   zone                     = var.zone
   region                   = var.region
   private_network          = local.subnet-01_name
