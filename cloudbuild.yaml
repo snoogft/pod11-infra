@@ -18,6 +18,12 @@ steps:
     - ZONE=${_ZONE}
     - USERNAME=cloud-user
     - COMMAND=chmod +x ~/workspace/scripts/* && TERRAFORM_VERSION=${_TERRAFORM_VERSION} ~/workspace/scripts/install_terraform.sh && chmod +x ~/workspace/environments/${BRANCH_NAME}/run.sh && cd ~/workspace/environments/${BRANCH_NAME} && ./run.sh
+availableSecrets:
+  secretManager:
+    - versionName: projects/50470763408/secrets/${BRANCH_NAME}-postgres-account-db-password
+      env: 'TF_VARS_account_db_password'
+    - versionName: projects/50470763408/secrets/${BRANCH_NAME}-postgres-ledger-db-password
+      env: 'TF_VARS_ledger_db_password'
 substitutions:
     _BRANCH_NAME: ${BRANCH_NAME}
     _ZONE: europe-central2-a
