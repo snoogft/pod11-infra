@@ -1,41 +1,42 @@
-/**
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+# ------------------------------------------------------------------------------
+# MASTER OUTPUTS
+# ------------------------------------------------------------------------------
 
-output "project_id" {
-  value       = var.project_id
-  description = "The project to run tests against"
+output "master_instance_name" {
+  description = "The name of the database instance"
+  value       = module.postgresql-db.master_instance_name
 }
 
-output "name" {
-  description = "The name for Cloud SQL instance"
-  value       = module.postgresql-db.instance_name
+output "master_ip_addresses" {
+  description = "All IP addresses of the instance as list of maps, see https://www.terraform.io/docs/providers/google/r/sql_database_instance.html#ip_address-0-ip_address"
+  value       = module.postgresql-db.master_ip_addresses
 }
 
-output "psql_conn" {
-  value       = module.postgresql-db.instance_connection_name
-  description = "The connection name of the master instance to be used in connection strings"
+output "master_private_ip" {
+  description = "The private IPv4 address of the master instance"
+  value       = module.postgresql-db.master_private_ip_address
 }
 
-output "psql_user_pass" {
-  value       = module.postgresql-db.generated_user_password
-  description = "The password for the default user. If not set, a random one will be generated and available in the generated_user_password output variable."
-  sensitive   = true
+output "master_instance" {
+  description = "Self link to the master instance"
+  value       = module.postgresql-db.master_instance
 }
 
-output "public_ip_address" {
-  description = "The first public (PRIMARY) IPv4 address assigned for the master instance"
-  value       = module.postgresql-db.public_ip_address
+output "master_proxy_connection" {
+  description = "Instance path for connecting with Cloud SQL Proxy. Read more at https://cloud.google.com/sql/docs/mysql/sql-proxy"
+  value       = module.postgresql-db.master_proxy_connection
+}
+
+# ------------------------------------------------------------------------------
+# DB OUTPUTS
+# ------------------------------------------------------------------------------
+
+output "db_name" {
+  description = "Name of the default database"
+  value       = module.postgresql-db.db_name
+}
+
+output "db" {
+  description = "Self link to the default database"
+  value       = module.postgresql-db.db
 }
