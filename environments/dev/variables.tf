@@ -54,3 +54,6 @@ variable "account_db_password" {
 variable "ledger_db_password" {
   description = "User password for ledger_db"
 }
+variable "root_db_password" {
+  default = "User root password"
+}
