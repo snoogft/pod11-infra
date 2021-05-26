@@ -30,7 +30,7 @@ terraform {
 //}
 
 locals {
-  postgress_name=var.private_network_name
+  postgress_name = var.private_network_name
 }
 //
 //# ------------------------------------------------------------------------------
@@ -65,8 +65,8 @@ resource "google_service_networking_connection" "private_vpc_connection" {
 # CREATE DATABASE INSTANCE WITH PRIVATE IP
 # ------------------------------------------------------------------------------
 
-module "postgresql-db"{
-  source = "github.com/gruntwork-io/terraform-google-sql.git//modules/cloud-sql?ref=v0.5.0"
+module "postgresql-db" {
+  source  = "github.com/gruntwork-io/terraform-google-sql.git//modules/cloud-sql?ref=v0.5.0"
   project = var.project
   region  = var.region
   db_name = var.db_name
@@ -88,5 +88,26 @@ module "postgresql-db"{
 
   custom_labels = {
     test-id = "postgres-private-ip-example"
+  }
+}
+
+resource "kubernetes_config_map" "db_config_map" {
+  metadata {
+    name = "db-config"
+  }
+
+  data = {
+    INSTANCE_CONNECTION_NAME = module.postgresql-db.master_proxy_connection
+  }
+}
+
+resource "kubernetes_secret" "db_secret" {
+  metadata {
+    name = "db-secret"
+  }
+
+  data = {
+    username = var.master_user_name
+    password = var.master_user_password
   }
 }

@@ -32,7 +32,10 @@ gcloud services enable compute.googleapis.com \
                        cloudresourcemanager.googleapis.com \
                        cloudscheduler.googleapis.com \
                        sqladmin.googleapis.com \
-                       servicenetworking.googleapis.com
+                       servicenetworking.googleapis.com \
+                       secretmanager.googleapis.com \
+                       containeranalysis.googleapis.com \
+                       artifactregistry.googleapis.com \
 ```
 
 In order to use this module you have to copy example file:

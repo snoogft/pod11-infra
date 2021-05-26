@@ -49,7 +49,6 @@ variable "machine_type" {
 variable "db_name" {
   description = "Name for the db"
   type        = string
-  default     = "default"
 }
 
 variable "name_override" {
@@ -58,7 +57,7 @@ variable "name_override" {
   default     = null
 }
 
-variable "private_network_name"{
+variable "private_network_name" {
 
 }
 variable "private_network" {}
