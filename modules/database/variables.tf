@@ -49,7 +49,6 @@ variable "machine_type" {
 variable "db_name" {
   description = "Name for the db"
   type        = string
-  default     = "default"
 }
 
 variable "name_override" {
