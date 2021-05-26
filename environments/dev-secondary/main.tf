@@ -1,5 +1,5 @@
 locals {
-  env            = "dev"
+  env            = "dev-secondary"
   subnet-01_name = "subnet-${local.env}-01"
 }
 
@@ -62,13 +62,15 @@ module "cloud_router" {
 
 module "cloud_sql" {
   source                   = "../../modules/database"
-  project                  = var.project
+  project_id               = var.project
+  zone                     = var.zone
   region                   = var.region
-  db_name                  = "${local.env}_db"
   private_network          = module.vpc_network.network_self_link
-  private_network_name     = module.vpc_network.network_name
+  authorized_networks      = var.subnet-01_ip
+  authorized_networks_name = local.subnet-01_name
   machine_type             = var.machine_type_db
+  cloudsql_pg_sa           = module.gke.gcp_service_account_email
+  env                      = local.env
   name_prefix              = "${local.env}-"
-  master_user_password     =var.root_db_password
-  master_user_name         ="root"
+  depends_on               = [module.gke]
 }
