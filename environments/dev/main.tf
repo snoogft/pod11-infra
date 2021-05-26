@@ -71,4 +71,5 @@ module "cloud_sql" {
   name_prefix          = "${local.env}-"
   master_user_password = var.root_db_password
   master_user_name     = "root"
+  deletion_protection  = false
 }
