@@ -58,7 +58,7 @@ variable "name_override" {
   default     = null
 }
 
-variable "private_network_name"{
+variable "private_network_name" {
 
 }
 variable "private_network" {}
