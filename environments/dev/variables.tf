@@ -47,6 +47,7 @@ variable "machine_type" {
 variable "machine_type_db" {
   description = "Type of machine for database"
 }
+
 variable "account_db_password" {
   description = "User password for account_db"
 }
@@ -54,6 +55,7 @@ variable "account_db_password" {
 variable "ledger_db_password" {
   description = "User password for ledger_db"
 }
+
 variable "root_db_password" {
   default = "User root password"
 }
