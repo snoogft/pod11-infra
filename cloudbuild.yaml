@@ -14,9 +14,9 @@ steps:
   args:
   - '-c'
   - |
-      if [ -d "environments/$BRANCH_NAME/" ]; then
-        cd environments/$BRANCH_NAME
-        terraform init environments/dev/main1.tf
+      if [ -d "environments/$BRANCH_NAME/test1" ]; then
+        cd environments/$BRANCH_NAME/test1
+        terraform init 
       else
         for dir in environments/*/
         do
@@ -38,9 +38,9 @@ steps:
   args:
   - '-c'
   - |
-      if [ -d "environments/$BRANCH_NAME/" ]; then
-        cd environments/$BRANCH_NAME
-        terraform plan environments/dev/main1.tf
+      if [ -d "environments/$BRANCH_NAME/test1" ]; then
+        cd environments/$BRANCH_NAME/test1
+        terraform plan 
       else
         for dir in environments/*/
         do
@@ -51,7 +51,7 @@ steps:
           echo "*************** TERRAFOM PLAN ******************"
           echo "******* At environment: ${env} ********"
           echo "*************************************************"
-          terraform plan environments/dev/main1.tf || exit 1
+          terraform plan || exit 1
           cd ../../
         done
       fi
@@ -64,9 +64,9 @@ steps:
   args:
   - '-c'
   - |
-      if [ -d "environments/$BRANCH_NAME/" ]; then
-        cd environments/$BRANCH_NAME
-        terraform apply main1.tf -auto-approve
+      if [ -d "environments/$BRANCH_NAME/test1" ]; then
+        cd environments/$BRANCH_NAME/test1
+        terraform apply -auto-approve
       else
         echo "********************** SKIPPING APPLYING ************************"
         echo "Branch '$BRANCH_NAME' does not represent an oficial environment."

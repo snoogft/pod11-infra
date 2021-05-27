@@ -4,7 +4,7 @@ locals {
 }
 
 module "vpc_network" {
-  source                      = "../../modules/network"
+  source                      = "../../../modules/network"
   project_id                  = var.project
   env                         = local.env
   subnet-01_ip                = var.subnet-01_ip
