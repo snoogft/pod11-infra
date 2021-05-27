@@ -9,11 +9,10 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@master
 
-      - name: Terraform init
-        run: cd environments/dev && ls -la && export GOOGLE_APPLICATION_CREDENTIALS="./pol-pod11-dev-01.json" && terraform init
-
       - name: tfsec
         uses: tfsec/tfsec-sarif-action@master
+        working-directory: "environments/dev"
+        run: "ls -la"
         with:
           github_token: ${{ secrets.github_token }}
           sarif_file:  tfsec.sarif
