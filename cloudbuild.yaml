@@ -8,14 +8,14 @@ steps:
       echo "***********************"
       echo "$BRANCH_NAME"
       echo "***********************"
-- id: 'tf init environments/dev/main1.tf'
+- id: 'tf init create network'
   name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
   entrypoint: 'sh'
   args:
   - '-c'
   - |
-      if [ -d "environments/$BRANCH_NAME/test1" ]; then
-        cd environments/$BRANCH_NAME/test1
+      if [ -d "environments/$BRANCH_NAME/create-network" ]; then
+        cd environments/$BRANCH_NAME/create-network
         terraform init 
       else
         for dir in environments/*/
@@ -27,7 +27,7 @@ steps:
           echo "*************** TERRAFORM INIT ******************"
           echo "******* At environment: ${env} ********"
           echo "*************************************************"
-          terraform init environments/dev/main1.tf || exit 1
+          terraform init || exit 1
           cd ../../
         done
       fi
@@ -38,8 +38,8 @@ steps:
   args:
   - '-c'
   - |
-      if [ -d "environments/$BRANCH_NAME/test1" ]; then
-        cd environments/$BRANCH_NAME/test1
+      if [ -d "environments/$BRANCH_NAME/create-network" ]; then
+        cd environments/$BRANCH_NAME/create-network
         terraform plan 
       else
         for dir in environments/*/
@@ -64,8 +64,8 @@ steps:
   args:
   - '-c'
   - |
-      if [ -d "environments/$BRANCH_NAME/test1" ]; then
-        cd environments/$BRANCH_NAME/test1
+      if [ -d "environments/$BRANCH_NAME/create-network" ]; then
+        cd environments/$BRANCH_NAME/create-network
         terraform apply -auto-approve
       else
         echo "********************** SKIPPING APPLYING ************************"
