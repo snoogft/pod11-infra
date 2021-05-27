@@ -10,7 +10,7 @@ jobs:
         uses: actions/checkout@master
 
       - name: Terraform init
-        run: cd environments/dev && export GOOGLE_APPLICATION_CREDENTIALS="pol-pod11-dev-01.json" && terraform init
+        run: cd environments/dev && ls -la && export GOOGLE_APPLICATION_CREDENTIALS="./pol-pod11-dev-01.json" && terraform init
 
       - name: tfsec
         uses: tfsec/tfsec-sarif-action@master
