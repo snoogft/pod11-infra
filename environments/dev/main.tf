@@ -72,5 +72,4 @@ module "cloud_sql" {
   master_user_password = var.root_db_password
   master_user_name     = "root"
   deletion_protection  = false
-  depends_on           = [module.vpc_network]
 }
