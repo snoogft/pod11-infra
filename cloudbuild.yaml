@@ -32,7 +32,7 @@ steps:
         done
       fi
 # [START tf-plan]
-- id: 'tf plan'
+- id: 'tf plan create network'
   name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
   entrypoint: 'sh'
   args:
@@ -58,7 +58,7 @@ steps:
 # [END tf-plan]
 
 # [START tf-apply]
-- id: 'tf apply'
+- id: 'tf apply create network'
   name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
   entrypoint: 'sh'
   args:
