@@ -10,7 +10,7 @@ jobs:
         uses: actions/checkout@master
 
       - name: Terraform init
-        run: terraform init
+        run: cd /github/workspace && terraform init
 
       - name: tfsec
         uses: tfsec/tfsec-sarif-action@master
