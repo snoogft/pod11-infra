@@ -10,7 +10,7 @@ jobs:
         uses: actions/checkout@master
 
       - name: Terraform init
-        run: ls -la
+        run: cd environments/$BRANCH_NAME && terraform init
 
       - name: tfsec
         uses: tfsec/tfsec-sarif-action@master
