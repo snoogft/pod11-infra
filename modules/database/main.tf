@@ -89,7 +89,7 @@ module "postgresql-db" {
   custom_labels = {
     test-id = "postgres-private-ip-example"
   }
-  deletion_protection  = false
+  deletion_protection = false
 }
 
 resource "kubernetes_config_map" "db_config_map" {
