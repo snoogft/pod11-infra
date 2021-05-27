@@ -9,6 +9,9 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@master
 
+      - name: Terraform init
+        run: terraform init
+
       - name: tfsec
         uses: tfsec/tfsec-sarif-action@master
         with:
