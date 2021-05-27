@@ -15,3 +15,17 @@ module "vpc_network" {
   subnet-01_name              = local.subnet-01_name
   subnet-01-services-ip       = var.subnet-01-services-ip
 }
+
+module "cloud_router" {
+  source  = "terraform-google-modules/cloud-router/google"
+  version = "~> 1.0.0"
+
+  name    = format("%s-router", local.env)
+  project = var.project
+  region  = var.region
+  network = module.vpc_network.network_name
+
+  nats = [{
+    name = format("%s-nat", local.env)
+  }]
+}
