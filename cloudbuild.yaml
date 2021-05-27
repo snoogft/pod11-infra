@@ -21,11 +21,11 @@ steps:
   secretEnv: ['TF_VARS_ledger_db_password', 'TF_VARS_account_db_password','TF_VARS_root_db_password']
 availableSecrets:
   secretManager:
-    - versionName: projects/186160847895/secrets/${BRANCH_NAME}-postgres-account-db-password
+    - versionName: projects/186160847895/secrets/dev-postgres-account-db-password/versions/latest
       env: 'TF_VARS_account_db_password'
-    - versionName: projects/186160847895/secrets/${BRANCH_NAME}-postgres-ledger-db-password
+    - versionName: projects/186160847895/secrets/dev-postgres-ledger-db-password/versions/latest
       env: 'TF_VARS_ledger_db_password'
-    - versionName: projects/186160847895/secrets/${BRANCH_NAME}-root-db-password
+    - versionName: projects/186160847895/secrets/dev-root-db-password/versions/latest
       env: 'TF_VARS_root_db_password'
 substitutions:
     _BRANCH_NAME: ${BRANCH_NAME}

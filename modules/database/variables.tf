@@ -57,6 +57,12 @@ variable "name_override" {
   default     = null
 }
 
+variable "deletion_protection" {
+  description = "Whether or not to allow Terraform to destroy the instance. Unless this field is set to false in Terraform state, a terraform destroy or terraform apply command that deletes the instance will fail."
+  type        = bool
+  default     = false
+}
+
 variable "private_network_name" {
 
 }

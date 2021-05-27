@@ -27,15 +27,6 @@ output "master_proxy_connection" {
   value       = module.postgresql-db.master_proxy_connection
 }
 
-output "master_user_password" {
-  description ="Password for user"
-  value = module.postgresql-db.master_user_password
-}
-output "master_user_name" {
-  description ="User name"
-  value = module.postgresql-db.master_user_name
-}
-
 # ------------------------------------------------------------------------------
 # DB OUTPUTS
 # ------------------------------------------------------------------------------

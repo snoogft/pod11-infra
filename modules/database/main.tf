@@ -89,21 +89,26 @@ module "postgresql-db" {
   custom_labels = {
     test-id = "postgres-private-ip-example"
   }
+  deletion_protection  = false
 }
 
-resource "database_config_map" "plsql" {
+resource "kubernetes_config_map" "db_config_map" {
   metadata {
-    name = "config"
+    name = "db-config"
   }
 
   data = {
-    api_host             = "myhost:443"
-    db_host              = "dbhost:5432"
-    "my_config_file.yml" = "${file("${path.module}/my_config_file.yml")}"
-  }
-
-  binary_data = {
-    "my_payload.bin" = "${filebase64("${path.module}/my_payload.bin")}"
+    INSTANCE_CONNECTION_NAME = module.postgresql-db.master_proxy_connection
   }
 }
 
+resource "kubernetes_secret" "db_secret" {
+  metadata {
+    name = "db-secret"
+  }
+
+  data = {
+    username = var.master_user_name
+    password = var.master_user_password
+  }
+}

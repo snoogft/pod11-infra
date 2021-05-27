@@ -61,14 +61,15 @@ module "cloud_router" {
 }
 
 module "cloud_sql" {
-  source                   = "../../modules/database"
-  project                  = var.project
-  region                   = var.region
-  db_name                  = "${local.env}_db"
-  private_network          = module.vpc_network.network_self_link
-  private_network_name     = module.vpc_network.network_name
-  machine_type             = var.machine_type_db
-  name_prefix              = "${local.env}-"
-  master_user_password     =var.root_db_password
-  master_user_name         ="root"
+  source               = "../../modules/database"
+  project              = var.project
+  region               = var.region
+  db_name              = "${local.env}_db"
+  private_network      = module.vpc_network.network_self_link
+  private_network_name = module.vpc_network.network_name
+  machine_type         = var.machine_type_db
+  name_prefix          = "${local.env}-"
+  master_user_password = var.root_db_password
+  master_user_name     = "root"
+  deletion_protection  = false
 }
