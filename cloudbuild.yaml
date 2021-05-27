@@ -8,6 +8,70 @@ steps:
       echo "***********************"
       echo "$BRANCH_NAME"
       echo "***********************"
+ - id: 'tf init main1'
+  name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
+  entrypoint: 'sh'
+  args:
+  - '-c'
+  - |
+      if [ -d "environments/$BRANCH_NAME/" ]; then
+        cd environments/$BRANCH_NAME
+        terraform init main1.tf
+      else
+        for dir in environments/*/
+        do
+          cd ${dir}
+          env=${dir%*/}
+          env=${env#*/}
+          echo ""
+          echo "*************** TERRAFORM INIT ******************"
+          echo "******* At environment: ${env} ********"
+          echo "*************************************************"
+          terraform init main1.tf || exit 1
+          cd ../../
+        done
+      fi
+# [START tf-plan]
+- id: 'tf plan'
+  name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
+  entrypoint: 'sh'
+  args:
+  - '-c'
+  - |
+      if [ -d "environments/$BRANCH_NAME/" ]; then
+        cd environments/$BRANCH_NAME
+        terraform plan main1.tf
+      else
+        for dir in environments/*/
+        do
+          cd ${dir}
+          env=${dir%*/}
+          env=${env#*/}
+          echo ""
+          echo "*************** TERRAFOM PLAN ******************"
+          echo "******* At environment: ${env} ********"
+          echo "*************************************************"
+          terraform plan main1.tf || exit 1
+          cd ../../
+        done
+      fi
+# [END tf-plan]
+
+# [START tf-apply]
+- id: 'tf apply'
+  name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
+  entrypoint: 'sh'
+  args:
+  - '-c'
+  - |
+      if [ -d "environments/$BRANCH_NAME/" ]; then
+        cd environments/$BRANCH_NAME
+        terraform apply main1.tf -auto-approve
+      else
+        echo "********************** SKIPPING APPLYING ************************"
+        echo "Branch '$BRANCH_NAME' does not represent an oficial environment."
+        echo "*****************************************************************"
+      fi 
 - id: 'build remote-builder'
   name: 'gcr.io/cloud-builders/docker'
   args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/remote-builder', 'remote-builder' ]
