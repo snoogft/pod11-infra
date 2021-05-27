@@ -8,7 +8,7 @@ steps:
       echo "***********************"
       echo "$BRANCH_NAME"
       echo "***********************"
-- id: 'tf init main1'
+- id: 'tf init environments/dev/main1.tf'
   name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
   entrypoint: 'sh'
   args:
@@ -16,7 +16,7 @@ steps:
   - |
       if [ -d "environments/$BRANCH_NAME/" ]; then
         cd environments/$BRANCH_NAME
-        terraform init main1.tf
+        terraform init environments/dev/main1.tf
       else
         for dir in environments/*/
         do
@@ -27,7 +27,7 @@ steps:
           echo "*************** TERRAFORM INIT ******************"
           echo "******* At environment: ${env} ********"
           echo "*************************************************"
-          terraform init main1.tf || exit 1
+          terraform init environments/dev/main1.tf || exit 1
           cd ../../
         done
       fi
@@ -40,7 +40,7 @@ steps:
   - |
       if [ -d "environments/$BRANCH_NAME/" ]; then
         cd environments/$BRANCH_NAME
-        terraform plan main1.tf
+        terraform plan environments/dev/main1.tf
       else
         for dir in environments/*/
         do
@@ -51,7 +51,7 @@ steps:
           echo "*************** TERRAFOM PLAN ******************"
           echo "******* At environment: ${env} ********"
           echo "*************************************************"
-          terraform plan main1.tf || exit 1
+          terraform plan environments/dev/main1.tf || exit 1
           cd ../../
         done
       fi
