@@ -95,6 +95,5 @@ module "postgresql-db" {
 resource "random_string" "random" {
   length  = 8
   special = false
-  lower = true
+  upper   = false
 }
-
