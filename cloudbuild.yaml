@@ -16,7 +16,7 @@ steps:
   - |
       if [ -d "environments/$BRANCH_NAME/create-network" ]; then
         cd environments/$BRANCH_NAME/create-network
-        terraform init 
+        terraform init -upgrade
       else
         for dir in environments/*/
         do
@@ -27,7 +27,7 @@ steps:
           echo "*************** TERRAFORM INIT ******************"
           echo "******* At environment: ${env} ********"
           echo "*************************************************"
-          terraform init || exit 1
+          terraform init -upgrade || exit 1
           cd ../../../
         done
       fi
