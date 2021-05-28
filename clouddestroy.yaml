@@ -88,7 +88,7 @@ steps:
       fi
 # [END tf destroy]
 substitutions:
-  _ZONE: europe-central2-a
+  _ZONE: europe-north1-a
   _TERRAFORM_VERSION: 0.14.11
   _CONTAINER_CLUSTER: ${BRANCH_NAME}-cluster
   _CLOUD_BUILD_SA: terraform-service-account@pol-pod11-dev-01.iam.gserviceaccount.com
