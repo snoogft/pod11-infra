@@ -70,7 +70,7 @@ module "postgresql-db" {
   project = var.project
   region  = var.region
   db_name = var.db_name
-  name    = var.db_name
+  name    = "${var.name}-${random_string.random.result}"
 
   engine       = var.postgres_version
   machine_type = var.machine_type
@@ -90,5 +90,10 @@ module "postgresql-db" {
     test-id = "postgres-private-ip-example"
   }
   deletion_protection = false
+}
+
+resource "random_string" "random" {
+  length  = 8
+  special = false
 }
 

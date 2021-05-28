@@ -51,6 +51,11 @@ variable "db_name" {
   type        = string
 }
 
+variable "name" {
+  description = "The name of the database instance"
+  type        = string
+}
+
 variable "name_override" {
   description = "You may optionally override the name_prefix + random string by specifying an override"
   type        = string
