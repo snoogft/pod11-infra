@@ -8,7 +8,7 @@ steps:
       echo "***********************"
       echo "$BRANCH_NAME"
       echo "***********************"
-- id: 'tf init'
+- id: 'tf init -upgrade'
   name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
   entrypoint: 'sh'
   args:
@@ -16,7 +16,7 @@ steps:
   - |
       if [ -d "environments/$BRANCH_NAME/" ]; then
         cd environments/$BRANCH_NAME
-        terraform init
+        terraform init -upgrade
       else
         for dir in environments/*/
         do
@@ -27,7 +27,7 @@ steps:
           echo "*************** TERRAFORM INIT ******************"
           echo "******* At environment: ${env} ********"
           echo "*************************************************"
-          terraform init || exit 1
+          terraform init -upgade || exit 1
           cd ../../
         done
       fi
