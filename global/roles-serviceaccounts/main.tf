@@ -77,3 +77,10 @@ resource "google_project_iam_member" "storage_admin" {
   role    = "roles/storage.admin"
   member  = var.cloud_build_member_name
 }
+
+resource "google_project_iam_member" "cloud_sql_admin" {
+  project = var.project
+  role    = "roles/cloudsql.admin"
+  member  = var.cloud_build_member_name
+}
+
