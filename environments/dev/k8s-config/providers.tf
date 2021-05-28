@@ -14,7 +14,6 @@ data "google_container_cluster" "my_cluster" {
 }
 
 provider "kubernetes" {
-  load_config_file = false
   host             = "https://${data.google_container_cluster.my_cluster.endpoint}"
   token            = data.google_client_config.default.access_token
   cluster_ca_certificate = base64decode(
