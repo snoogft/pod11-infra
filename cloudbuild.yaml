@@ -73,16 +73,16 @@ steps:
           echo "*****************************************************************"
         fi
 # [END tf-apply]
-   - id: 'build remote-builder'
-     name: 'gcr.io/cloud-builders/docker'
-     args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/remote-builder', 'remote-builder' ]
-   - id: 'configure kubernetes'
-     name: gcr.io/$PROJECT_ID/remote-builder
-     env:
-       - INSTANCE_ARGS=--image-project debian-cloud --image-family debian-10 --network=${BRANCH_NAME}-vpc-network --subnet=subnet-${BRANCH_NAME}-01 --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible
-       - ZONE=${_ZONE}
-       - USERNAME=cloud-user
-       - COMMAND=chmod +x ~/workspace/scripts/* && TERRAFORM_VERSION=${_TERRAFORM_VERSION} ~/workspace/scripts/install_terraform.sh && chmod +x ~/workspace/environments/${BRANCH_NAME}/k8s-config/run.sh && cd ~/workspace/environments/${BRANCH_NAME}/k8s-config && ./run.sh
+  - id: 'build remote-builder'
+    name: 'gcr.io/cloud-builders/docker'
+    args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/remote-builder', 'remote-builder' ]
+  - id: 'configure kubernetes'
+    name: gcr.io/$PROJECT_ID/remote-builder
+    env:
+     - INSTANCE_ARGS=--image-project debian-cloud --image-family debian-10 --network=${BRANCH_NAME}-vpc-network --subnet=subnet-${BRANCH_NAME}-01 --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible
+     - ZONE=${_ZONE}
+     - USERNAME=cloud-user
+     - COMMAND=chmod +x ~/workspace/scripts/* && TERRAFORM_VERSION=${_TERRAFORM_VERSION} ~/workspace/scripts/install_terraform.sh && chmod +x ~/workspace/environments/${BRANCH_NAME}/k8s-config/run.sh && cd ~/workspace/environments/${BRANCH_NAME}/k8s-config && ./run.sh
 substitutions:
   _ZONE: europe-central2-a
   _TERRAFORM_VERSION: 0.14.11
