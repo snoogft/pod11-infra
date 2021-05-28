@@ -70,7 +70,7 @@ module "postgresql-db" {
   project = var.project
   region  = var.region
   db_name = var.db_name
-  name    = var.db_name
+  name    = "${var.name}-${random_string.random.result}"
 
   engine       = var.postgres_version
   machine_type = var.machine_type
@@ -92,23 +92,8 @@ module "postgresql-db" {
   deletion_protection = false
 }
 
-resource "kubernetes_config_map" "db_config_map" {
-  metadata {
-    name = "db-config"
-  }
-
-  data = {
-    INSTANCE_CONNECTION_NAME = module.postgresql-db.master_proxy_connection
-  }
-}
-
-resource "kubernetes_secret" "db_secret" {
-  metadata {
-    name = "db-secret"
-  }
-
-  data = {
-    username = var.master_user_name
-    password = var.master_user_password
-  }
+resource "random_string" "random" {
+  length  = 8
+  special = false
+  upper   = false
 }

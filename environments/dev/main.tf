@@ -64,7 +64,7 @@ module "cloud_sql" {
   source               = "../../modules/database"
   project              = var.project
   region               = var.region
-  db_name              = "${local.env}_db"
+  db_name              = "${local.env}-db"
   private_network      = module.vpc_network.network_self_link
   private_network_name = module.vpc_network.network_name
   machine_type         = var.machine_type_db
@@ -72,4 +72,5 @@ module "cloud_sql" {
   master_user_password = var.root_db_password
   master_user_name     = "root"
   deletion_protection  = false
+  name                 = "${local.env}-db"
 }
