@@ -8,37 +8,14 @@ steps:
         echo "***********************"
         echo "$BRANCH_NAME"
         echo "***********************"
-  - id: 'tf create workspace for proper env'
-    name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
-    entrypoint: 'sh'
-    args:
-      - '-c'
-      - |
-        if [ -d "environments/dev/" ]; then
-          cd environments/dev
-          terraform workspace new ${BRANCH_NAME}
-        else
-          for dir in environments/*/
-          do
-            cd ${dir}
-            env=${dir%*/}
-            env=${env#*/}
-            echo ""
-            echo "*************** TERRAFORM INIT ******************"
-            echo "******* At environment: ${env} ********"
-            echo "*************************************************"
-            terraform workspace new ${BRANCH_NAME} || exit 1
-            cd ../../
-          done
-        fi
   - id: 'tf init'
     name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
     entrypoint: 'sh'
     args:
       - '-c'
       - |
-        if [ -d "environments/dev/" ]; then
-          cd environments/dev
+        if [ -d "environments/$BRANCH_NAME/" ]; then
+          cd environments/$BRANCH_NAME
           terraform init -upgrade
         else
           for dir in environments/*/
@@ -61,9 +38,9 @@ steps:
     args:
       - '-c'
       - |
-        if [ -d "environments/dev/" ]; then
-          cd environments/dev
-          terraform plan -var-file=${BRANCH_NAME}.tfvars
+        if [ -d "environments/$BRANCH_NAME/" ]; then
+          cd environments/$BRANCH_NAME
+          terraform plan
         else
           for dir in environments/*/
           do
@@ -87,9 +64,9 @@ steps:
     args:
       - '-c'
       - |
-        if [ -d "environments/dev/" ]; then
-          cd environments/dev
-          terraform apply -auto-approve -var-file=${BRANCH_NAME}.tfvars
+        if [ -d "environments/$BRANCH_NAME/" ]; then
+          cd environments/$BRANCH_NAME
+          terraform apply -auto-approve
         else
           echo "********************** SKIPPING APPLYING ************************"
           echo "Branch '$BRANCH_NAME' does not represent an oficial environment."
@@ -102,7 +79,7 @@ steps:
      - INSTANCE_ARGS=--image-project debian-cloud --image-family debian-10 --network=${BRANCH_NAME}-vpc-network --subnet=subnet-${BRANCH_NAME}-01 --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible --service-account=${_CLOUD_BUILD_SA}
      - ZONE=${_ZONE}
      - USERNAME=cloud-user
-     - COMMAND=chmod +x ~/workspace/scripts/* && TERRAFORM_VERSION=${_TERRAFORM_VERSION} ~/workspace/scripts/install_terraform.sh && chmod +x ~/workspace/environments/${BRANCH_NAME}/k8s-config/run.sh && cd ~/workspace/environments/${BRANCH_NAME}/k8s-config && BRANCH_NAME=${BRANCH_NAME} ./run.sh
+     - COMMAND=chmod +x ~/workspace/scripts/* && TERRAFORM_VERSION=${_TERRAFORM_VERSION} ~/workspace/scripts/install_terraform.sh && chmod +x ~/workspace/environments/${BRANCH_NAME}/k8s-config/run.sh && cd ~/workspace/environments/${BRANCH_NAME}/k8s-config && ./run.sh
 substitutions:
   _ZONE: europe-central2-a
   _TERRAFORM_VERSION: 0.14.11
