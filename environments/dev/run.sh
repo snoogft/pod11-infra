@@ -2,5 +2,5 @@
 
 terraform init -upgrade
 terraform validate
-terraform plan
-terraform apply -auto-approve
+terraform plan -var-file=${BRANCH_NAME}.tfvars
+terraform apply -auto-approve -var-file=${BRANCH_NAME}.tfvars
