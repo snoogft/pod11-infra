@@ -57,5 +57,5 @@ variable "ledger_db_password" {
 }
 
 variable "root_db_password" {
-  default = "User root password"
+  description = "User root password"
 }
