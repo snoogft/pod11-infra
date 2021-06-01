@@ -35,6 +35,7 @@ steps:
   - id: 'tf plan'
     name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
     entrypoint: 'sh'
+    secretEnv: ['TF_VAR_root_db_password']
     args:
       - '-c'
       - |
@@ -61,6 +62,7 @@ steps:
   - id: 'tf apply'
     name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
     entrypoint: 'sh'
+    secretEnv: ['TF_VAR_root_db_password']
     args:
       - '-c'
       - |
@@ -80,6 +82,10 @@ steps:
      - ZONE=${_ZONE}
      - USERNAME=cloud-user
      - COMMAND=chmod +x ~/workspace/scripts/* && TERRAFORM_VERSION=${_TERRAFORM_VERSION} ~/workspace/scripts/install_terraform.sh && chmod +x ~/workspace/environments/${BRANCH_NAME}/k8s-config/run.sh && cd ~/workspace/environments/${BRANCH_NAME}/k8s-config && ./run.sh
+availableSecrets:
+  secretManager:
+  - versionName: projects/186160847895/secrets/dev-secondary-root-db-password/versions/latest
+    env: 'TF_VAR_root_db_password'
 substitutions:
   _ZONE: europe-north1-a
   _TERRAFORM_VERSION: 0.14.11
