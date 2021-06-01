@@ -11,13 +11,13 @@ jobs:
         run: echo "BRANCH_NAME=$(echo ${GITHUB_REF##*/})" >> $GITHUB_ENV
       - name: Terraform security scan for core branches
         uses: triat/terraform-security-scan@v2.2.3
-        if: ${{  ${BRANCH_NAME} == 'dev' || ${BRANCH_NAME} == 'dev-secondary' || ${BRANCH_NAME} == 'prod'}}
+        if: ${{ env.BRANCH_NAME == 'dev' || env.BRANCH_NAME == 'dev-secondary' || env.BRANCH_NAME == 'prod'}}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           tfsec_actions_working_dir: "environments/${BRANCH_NAME}"
       - name: Terraform security scan for other branches
         uses: triat/terraform-security-scan@v2.2.3
-        if: ${{  ${BRANCH_NAME} != 'dev' && ${BRANCH_NAME} != 'dev-secondary' && ${BRANCH_NAME} != 'prod'}}
+        if: ${{ env.BRANCH_NAME != 'dev' && env.BRANCH_NAME != 'dev-secondary' && env.BRANCH_NAME != 'prod'}}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           tfsec_actions_working_dir: "environments/dev"
