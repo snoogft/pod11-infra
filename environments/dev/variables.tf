@@ -48,14 +48,6 @@ variable "machine_type_db" {
   description = "Type of machine for database"
 }
 
-variable "account_db_password" {
-  description = "User password for account_db"
-}
-
-variable "ledger_db_password" {
-  description = "User password for ledger_db"
-}
-
 variable "root_db_password" {
   description = "User root password"
 }
