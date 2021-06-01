@@ -3,7 +3,7 @@ module "gcs_buckets" {
   version = "~> 1.7"
 
   project_id = var.project_id
-  name       = format("%s-%s", var.project_id, var.name)
+  name       = format("%s-tfstate", var.project_id)
   location   = var.location
 
   iam_members = [{
@@ -16,5 +16,65 @@ module "gcs_buckets" {
   labels = ({
     project = var.project_id
     purpose = "tfstate"
+  })
+}
+
+module "gcs_buckets" {
+  source  = "terraform-google-modules/cloud-storage/google//modules/simple_bucket"
+  version = "~> 1.7"
+
+  project_id = var.project_id
+  name       = format("artifacts.%s.appspot.com", var.project_id)
+  location   = var.location
+
+  iam_members = [{
+    role   = "roles/storage.objectAdmin"
+    member = format("serviceAccount:%s", var.iam_member)
+  }]
+
+  lifecycle_rules = [{
+    action = {
+      type = "Delete"
+    }
+    condition = {
+      age        = 7
+      with_state = "ANY"
+    }
+  }]
+  versioning    = false
+  force_destroy = true
+  labels = ({
+    project = var.project_id
+    purpose = "storing artifacts"
+  })
+}
+
+module "gcs_buckets" {
+  source  = "terraform-google-modules/cloud-storage/google//modules/simple_bucket"
+  version = "~> 1.7"
+
+  project_id = var.project_id
+  name       = format("%s_cloudbuild", var.project_id)
+  location   = var.location
+
+  iam_members = [{
+    role   = "roles/storage.objectAdmin"
+    member = format("serviceAccount:%s", var.iam_member)
+  }]
+
+  lifecycle_rules = [{
+    action = {
+      type = "Delete"
+    }
+    condition = {
+      age        = 7
+      with_state = "ANY"
+    }
+  }]
+  versioning    = false
+  force_destroy = true
+  labels = ({
+    project = var.project_id
+    purpose = "cloudbuild"
   })
 }

@@ -8,12 +8,6 @@ variable "project_id" {
   type        = string
 }
 
-variable "name" {
-  description = "Name of the bucket for Terraform state"
-  type        = string
-  default     = "tfstate"
-}
-
 variable "location" {
   description = "Name of the bucket for Terraform state"
   type        = string
