@@ -17,10 +17,10 @@ resource "kubernetes_secret" "cloud_sql_admin" {
   }
 
   data = {
-    username = data.terraform_remote_state.dev.outputs.master_user_name
-    password = data.terraform_remote_state.dev.outputs.master_user_password
+    username       = data.terraform_remote_state.dev.outputs.master_user_name
+    password       = data.terraform_remote_state.dev.outputs.master_user_password
     connectionName = data.terraform_remote_state.dev.outputs.master_proxy_connection
-  }  
+  }
 
   type = "Opaque"
 }
