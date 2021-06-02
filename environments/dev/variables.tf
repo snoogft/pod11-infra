@@ -2,23 +2,23 @@ variable "project" {
   description = "Id of the project"
 }
 
-variable "subnet-01_ip" {
+variable "subnet_01_ip" {
   description = "Ip address for a subnet-01"
 }
 
-variable "subnet-01-secondary-01_ip" {
+variable "subnet_01_secondary_01_ip" {
   description = "Ip address for a subnet-01 secondary range"
 }
 
-variable "subnet-01-secondary-01_name" {
+variable "subnet_01_secondary_01_name" {
   description = "Name for a subnet-01 secondary range"
 }
 
-variable "subnet-01-services-ip" {
+variable "subnet_01_services_ip" {
   description = "Ip address for a subnet-01 services"
 }
 
-variable "subnet-01-services-name" {
+variable "subnet_01_services_name" {
   description = "Name for subnet-01"
 }
 
