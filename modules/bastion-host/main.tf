@@ -28,7 +28,7 @@ resource "google_compute_instance_from_template" "vm" {
   name                    = var.instance
   project                 = var.project
   zone                    = var.zone
-  metadata_startup_script = data.template_file.bastion_host_startup_script
+  metadata_startup_script = data.template_file.bastion_host_startup_script.rendered
   network_interface {
     subnetwork = var.subnetwork
   }
