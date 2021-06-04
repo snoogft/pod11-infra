@@ -77,6 +77,7 @@ steps:
 # [END tf-apply]
   - id: 'configure kubernetes'
     name: eu.gcr.io/$PROJECT_ID/remote-builder
+    secretEnv: ['TF_VAR_accounts_db_password', 'TF_VAR_ledger_db_password']
     env:
      - INSTANCE_ARGS=--image-project debian-cloud --image-family debian-10 --network=${BRANCH_NAME}-vpc-network --subnet=subnet-${BRANCH_NAME}-01 --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible --service-account=${_CLOUD_BUILD_SA}
      - ZONE=${_ZONE}
@@ -86,6 +87,10 @@ availableSecrets:
   secretManager:
   - versionName: projects/186160847895/secrets/dev-root-db-password/versions/latest
     env: 'TF_VAR_root_db_password'
+  - versionName: projects/186160847895/secrets/dev-postgres-account-db-password/versions/latest
+    env: 'TF_VAR_accounts_db_password'
+  - versionName: projects/186160847895/secrets/dev-postgres-ledger-db-password/versions/latest
+    env: 'TF_VAR_ledger_db_password'
 substitutions:
   _ZONE: europe-central2-a
   _TERRAFORM_VERSION: 0.14.11
