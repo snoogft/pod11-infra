@@ -24,3 +24,66 @@ resource "kubernetes_secret" "cloud_sql_admin" {
 
   type = "Opaque"
 }
+
+resource "kubernetes_config_map" "environment_config" {
+  metadata {
+    name = "environment-config"
+  }
+
+  data = {
+    LOCAL_ROUTING_NUM = "883745000"
+    PUB_KEY_PATH      = "/root/.ssh/publickey"
+  }
+}
+
+resource "kubernetes_config_map" "service_api_config" {
+  metadata {
+    name = "service-api-config"
+  }
+
+  data = {
+    TRANSACTIONS_API_ADDR = "ledgerwriter:8080"
+    BALANCES_API_ADDR     = "balancereader:8080"
+    HISTORY_API_ADDR      = "transactionhistory:8080"
+    CONTACTS_API_ADDR     = "contacts:8080"
+    USERSERVICE_API_ADDR  = "userservice:8080"
+  }
+}
+
+resource "kubernetes_config_map" "demo_data_config" {
+  metadata {
+    name = "demo-data-config"
+  }
+
+  data = {
+    USE_DEMO_DATA = "True"
+    DEMO_LOGIN_USERNAME = "testuser"
+    DEMO_LOGIN_PASSWORD = "password"
+  }
+}
+
+resource "kubernetes_config_map" "accounts_db_config" {
+  metadata {
+    name = "accounts-db-config"
+  }
+
+  data = {
+    ACCOUNTS_DB_URI = format("postgresql://%s:%s@127.0.0.1:5432/%s", data.terraform_remote_state.dev.outputs.accounts_db_username, var.data.terraform_remote_state.dev.outputs.accounts_db_password, data.terraform_remote_state.dev.outputs.accounts_db_name) 
+  }
+}
+
+resource "kubernetes_config_map" "ledger_db_config" {
+  metadata {
+    name = "ledger-db-config"
+  }
+
+  data = {
+    POSTGRES_DB = postgresdb
+    POSTGRES_USER = data.terraform_remote_state.dev.outputs.ledger_db_username
+    POSTGRES_PASSWORD = data.terraform_remote_state.dev.outputs.ledger_db_password
+    # Updated to use CloudSQL Proxy
+    SPRING_DATASOURCE_URL = format("jdbc:postgresql://127.0.0.1:5432/%s", data.terraform_remote_state.dev.outputs.ledger_db_name) 
+    SPRING_DATASOURCE_USERNAME = data.terraform_remote_state.dev.outputs.ledger_db_username # should match POSTGRES_USER
+    SPRING_DATASOURCE_PASSWORD = data.terraform_remote_state.dev.outputs.ledger_db_password # should match POSTGRES_PASSWORD
+  }
+}
