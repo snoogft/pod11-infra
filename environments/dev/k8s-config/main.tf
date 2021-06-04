@@ -68,6 +68,9 @@ resource "kubernetes_config_map" "accounts_db_config" {
   }
 
   data = {
+    POSTGRES_DB = data.terraform_remote_state.dev.outputs.accounts_db_name
+    POSTGRES_USER = data.terraform_remote_state.dev.outputs.accounts_db_username
+    POSTGRES_PASSWORD = data.terraform_remote_state.dev.outputs.accounts_db_password
     ACCOUNTS_DB_URI = format("postgresql://%s:%s@127.0.0.1:5432/%s", data.terraform_remote_state.dev.outputs.accounts_db_username, data.terraform_remote_state.dev.outputs.accounts_db_password, data.terraform_remote_state.dev.outputs.accounts_db_name) 
   }
 }
