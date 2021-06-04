@@ -71,6 +71,7 @@ steps:
   - |
       if [ -d "environments/$BRANCH_NAME/" ]; then
         cd environments/$BRANCH_NAME
+        terraform state rm module.cloud_sql.module.postgresql-db.google_sql_user.default
         terraform destroy -auto-approve
       else
         for dir in environments/*/

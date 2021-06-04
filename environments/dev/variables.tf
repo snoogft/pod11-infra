@@ -51,3 +51,31 @@ variable "machine_type_db" {
 variable "root_db_password" {
   description = "User root password"
 }
+
+variable "accounts_db_name" {
+  description = "Accounts database name"
+  default = "accountsdb"
+}
+
+variable "accounts_db_username" {
+  description = "Accounts database username"
+  default = "accounts"
+}
+
+variable "accounts_db_password" {
+  description = "User accounts password"
+}
+
+variable "ledger_db_name" {
+  description = "Ledger database name"
+  default = "ledgerdb"
+}
+
+variable "ledger_db_username" {
+  description = "Ledger database username"
+  default = "ledger"
+}
+
+variable "ledger_db_password" {
+  description = "User ledger password"
+}
