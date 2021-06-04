@@ -24,11 +24,12 @@ module "bastion_host" {
   zone         = var.zone
   network      = module.vpc_network.network_name
   subnetwork   = local.subnet_01_name
-  depends_on   = [module.vpc_network]
+  depends_on   = [module.vpc_network, module.gke]
   instance     = "machine-${local.env}-bastion"
   vm_sa_email  = var.compute_engine_service_account
   machine_type = var.machine_type
   env          = local.env
+  cluster_name = module.gke.cluster_name
 }
 
 module "gke" {

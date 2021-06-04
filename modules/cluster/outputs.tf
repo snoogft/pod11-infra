@@ -9,3 +9,8 @@ output "ca_certificate" {
   description = "CA certificate"
   sensitive   = true
 }
+
+output "cluster_name" {
+  value = module.gke.name
+  description = "Cluster name"
+}
