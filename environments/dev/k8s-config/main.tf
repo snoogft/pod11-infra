@@ -90,3 +90,37 @@ resource "kubernetes_config_map" "ledger_db_config" {
     SPRING_DATASOURCE_PASSWORD = data.terraform_remote_state.dev.outputs.ledger_db_password # should match POSTGRES_PASSWORD
   }
 }
+
+resource "kubernetes_config_map" "accounts_init_config" {
+  metadata {
+    name = "accounts-init-config"
+  }
+
+  data = {
+    0-accountsdb-init.sql = data.template_file.accounts_init_config_sql.rendered
+  }
+}
+
+data "template_file" "accounts_init_config_sql" {
+  template = file("../../../scripts/0-accountsdb-init.sql.tpl")
+  vars = {
+    accounts_db_password = data.terraform_remote_state.dev.outputs.accounts_db_password
+  }
+}
+
+resource "kubernetes_config_map" "ledger_init_config" {
+  metadata {
+    name = "ledger-init-config"
+  }
+
+  data = {
+    0-ledgerdb-init.sql = data.template_file.ledger_init_config_sql.rendered
+  }
+}
+
+data "template_file" "ledger_init_config_sql" {
+  template = file("../../../scripts/0-ledgerdb-init.sql.tpl")
+  vars = {
+    ledger_db_password = data.terraform_remote_state.dev.outputs.ledger_db_password
+  }
+}
