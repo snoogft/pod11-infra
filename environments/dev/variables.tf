@@ -54,12 +54,12 @@ variable "root_db_password" {
 
 variable "accounts_db_name" {
   description = "Accounts database name"
-  default = "accountsdb"
+  default     = "accountsdb"
 }
 
 variable "accounts_db_username" {
   description = "Accounts database username"
-  default = "accounts"
+  default     = "accounts"
 }
 
 variable "accounts_db_password" {
@@ -68,12 +68,12 @@ variable "accounts_db_password" {
 
 variable "ledger_db_name" {
   description = "Ledger database name"
-  default = "ledgerdb"
+  default     = "ledgerdb"
 }
 
 variable "ledger_db_username" {
   description = "Ledger database username"
-  default = "ledger"
+  default     = "ledger"
 }
 
 variable "ledger_db_password" {

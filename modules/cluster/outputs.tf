@@ -11,6 +11,6 @@ output "ca_certificate" {
 }
 
 output "cluster_name" {
-  value = module.gke.name
+  value       = module.gke.name
   description = "Cluster name"
 }

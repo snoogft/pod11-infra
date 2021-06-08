@@ -20,7 +20,7 @@ data "template_file" "bastion_host_startup_script" {
   template = file("../../scripts/startup_script_bastion_host.tpl")
   vars = {
     cluster_name = var.cluster_name
-    zone = var.zone
+    zone         = var.zone
   }
 }
 
