@@ -1,3 +1,0 @@
- CREATE DATABASE ledgerdb;
- CREATE USER ledger WITH ENCRYPTED PASSWORD '${ledger_db_password}';
- GRANT ALL PRIVILEGES ON DATABASE ledgerdb TO ledger;

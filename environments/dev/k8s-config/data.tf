@@ -1,13 +1,17 @@
 data "template_file" "accounts_init_config_sql" {
-  template = file("../../../scripts/0-accountsdb-init.sql.tpl")
+  template = file("../../../scripts/0-template-db-init.tpl")
   vars = {
-    accounts_db_password = data.terraform_remote_state.dev.outputs.accounts_db_password
+    db_name = "accountsdb"
+    db_user = "accounts"
+    db_password = data.terraform_remote_state.dev.outputs.accounts_db_password
   }
 }
 
 data "template_file" "ledger_init_config_sql" {
-  template = file("../../../scripts/0-ledgerdb-init.sql.tpl")
+  template = file("../../../scripts/0-template-db-init.tpl")
   vars = {
-    ledger_db_password = data.terraform_remote_state.dev.outputs.ledger_db_password
+    db_name = "ledgerdb"
+    db_user = "ledger"
+    db_password = data.terraform_remote_state.dev.outputs.ledger_db_password
   }
 }
