@@ -83,11 +83,11 @@ resource "kubernetes_config_map" "ledger_db_config" {
   data = {
     POSTGRES_DB       = "postgresdb"
     POSTGRES_USER     = data.terraform_remote_state.dev.outputs.ledger_db_username
-    POSTGRES_PASSWORD = data.terraform_remote_state.dev.outputs.ledger_db_password
+    POSTGRES_PASSWORD = "password1"
     # Updated to use CloudSQL Proxy
     SPRING_DATASOURCE_URL      = format("jdbc:postgresql://127.0.0.1:5432/%s", data.terraform_remote_state.dev.outputs.ledger_db_name)
     SPRING_DATASOURCE_USERNAME = data.terraform_remote_state.dev.outputs.ledger_db_username # should match POSTGRES_USER
-    SPRING_DATASOURCE_PASSWORD = data.terraform_remote_state.dev.outputs.ledger_db_password # should match POSTGRES_PASSWORD
+    SPRING_DATASOURCE_PASSWORD = "password1" # should match POSTGRES_PASSWORD
   }
 }
 
