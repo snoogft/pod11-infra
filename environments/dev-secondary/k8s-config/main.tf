@@ -12,6 +12,11 @@ module "workload_identity" {
   namespace           = "default"
   annotate_k8s_sa     = true
   use_existing_k8s_sa = true
+  roles = [
+    "roles/cloudtrace.agent",
+    "roles/monitoring.metricWriter",
+    "roles/cloudsql.client",
+  ]
 }
 
 resource "kubernetes_secret" "cloud_sql_admin" {
