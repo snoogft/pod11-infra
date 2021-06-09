@@ -10,7 +10,6 @@ module "workload_identity" {
   project_id          = var.project
   name                = "cluster-sa"
   namespace           = "default"
-  annotate_k8s_sa     = true
   use_existing_k8s_sa = true
   roles = [
     "roles/cloudtrace.agent",
