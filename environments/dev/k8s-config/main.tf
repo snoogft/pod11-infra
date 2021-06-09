@@ -112,6 +112,8 @@ resource "kubernetes_config_map" "ledger_init_config" {
 }
 
 resource "kubernetes_job" "create_accounts_db" {
+  wait_for_completion = false
+  depends_on = [kubernetes_config_map.accounts_init_config, kubernetes_secret.cloud_sql_admin]
   metadata {
     name = "create-accounts-db"
   }
@@ -192,6 +194,8 @@ resource "kubernetes_job" "create_accounts_db" {
 }
 
 resource "kubernetes_job" "create_ledger_db" {
+  wait_for_completion = false
+  depends_on = [kubernetes_config_map.ledger_init_config, kubernetes_secret.cloud_sql_admin]
   metadata {
     name = "create-ledger-db"
   }
