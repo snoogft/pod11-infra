@@ -1,9 +1,17 @@
+resource "kubernetes_service_account" "preexisting" {
+  metadata {
+    name = "cluster-sa"
+    namespace = "default"
+  }
+}
+
 module "workload_identity" {
   source              = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
   project_id          = var.project
-  name                = "iden-${var.cluster_name}"
+  name                = "cluster-sa"
   namespace           = "default"
-  use_existing_k8s_sa = false
+  annotate_k8s_sa     = true
+  use_existing_k8s_sa = true
 }
 
 resource "kubernetes_secret" "cloud_sql_admin" {
