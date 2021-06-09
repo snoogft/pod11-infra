@@ -35,6 +35,7 @@ steps:
 - id: 'tf plan destroy'
   name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
   entrypoint: 'sh'
+  secretEnv: ['TF_VAR_root_db_password', 'TF_VAR_accounts_db_password', 'TF_VAR_ledger_db_password']
   args:
   - '-c'
   - |
@@ -59,6 +60,7 @@ steps:
 - id: 'tf destroy'
   name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
   entrypoint: 'sh'
+  secretEnv: ['TF_VAR_root_db_password', 'TF_VAR_accounts_db_password', 'TF_VAR_ledger_db_password']
   args:
   - '-c'
   - |
@@ -81,9 +83,17 @@ steps:
         done
       fi
 # [END tf destroy]
+availableSecrets:
+  secretManager:
+  - versionName: projects/186160847895/secrets/dev-secondary-root-db-password/versions/latest
+    env: 'TF_VAR_root_db_password'
+  - versionName: projects/186160847895/secrets/dev-secondary-postgres-account-db-password/versions/latest
+    env: 'TF_VAR_accounts_db_password'
+  - versionName: projects/186160847895/secrets/dev-secondary-postgres-ledger-db-password/versions/latest
+    env: 'TF_VAR_ledger_db_password'
 substitutions:
   _ZONE: europe-north1-a
   _TERRAFORM_VERSION: 0.14.11
   _CONTAINER_CLUSTER: ${BRANCH_NAME}-cluster
   _CLOUD_BUILD_SA: terraform-service-account@pol-pod11-dev-01.iam.gserviceaccount.com
-timeout: 1800s
+timeout: 2700s

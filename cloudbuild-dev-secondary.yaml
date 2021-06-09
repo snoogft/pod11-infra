@@ -35,7 +35,7 @@ steps:
   - id: 'tf plan'
     name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
     entrypoint: 'sh'
-    secretEnv: ['TF_VAR_root_db_password']
+    secretEnv: ['TF_VAR_root_db_password', 'TF_VAR_accounts_db_password', 'TF_VAR_ledger_db_password']
     args:
       - '-c'
       - |
@@ -62,7 +62,7 @@ steps:
   - id: 'tf apply'
     name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
     entrypoint: 'sh'
-    secretEnv: ['TF_VAR_root_db_password']
+    secretEnv: ['TF_VAR_root_db_password', 'TF_VAR_accounts_db_password', 'TF_VAR_ledger_db_password']
     args:
       - '-c'
       - |
@@ -81,14 +81,18 @@ steps:
      - INSTANCE_ARGS=--image-project debian-cloud --image-family debian-10 --network=${BRANCH_NAME}-vpc-network --subnet=subnet-${BRANCH_NAME}-01 --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible --service-account=${_CLOUD_BUILD_SA}
      - ZONE=${_ZONE}
      - USERNAME=cloud-user
-     - COMMAND=chmod +x ~/workspace/scripts/* && TERRAFORM_VERSION=${_TERRAFORM_VERSION} ~/workspace/scripts/install_terraform.sh && chmod +x ~/workspace/environments/${BRANCH_NAME}/k8s-config/run.sh && cd ~/workspace/environments/${BRANCH_NAME}/k8s-config && ./run.sh
+     - COMMAND=gcloud container clusters get-credentials dev-secondary-cluster --zone=europe-north1-a && chmod +x ~/workspace/scripts/* && TERRAFORM_VERSION=${_TERRAFORM_VERSION} ~/workspace/scripts/install_terraform.sh && chmod +x ~/workspace/environments/${BRANCH_NAME}/k8s-config/run.sh && cd ~/workspace/environments/${BRANCH_NAME}/k8s-config && ./run.sh
 availableSecrets:
   secretManager:
   - versionName: projects/186160847895/secrets/dev-secondary-root-db-password/versions/latest
     env: 'TF_VAR_root_db_password'
+  - versionName: projects/186160847895/secrets/dev-secondary-postgres-account-db-password/versions/latest
+    env: 'TF_VAR_accounts_db_password'
+  - versionName: projects/186160847895/secrets/dev-secondary-postgres-ledger-db-password/versions/latest
+    env: 'TF_VAR_ledger_db_password'
 substitutions:
   _ZONE: europe-north1-a
   _TERRAFORM_VERSION: 0.14.11
   _CONTAINER_CLUSTER: ${BRANCH_NAME}-cluster
   _CLOUD_BUILD_SA: terraform-service-account@pol-pod11-dev-01.iam.gserviceaccount.com
-timeout: 3600s
+timeout: 2700s
