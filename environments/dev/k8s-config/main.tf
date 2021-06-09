@@ -110,3 +110,164 @@ resource "kubernetes_config_map" "ledger_init_config" {
     "0-ledgerdb-init.sql" = data.template_file.ledger_init_config_sql.rendered
   }
 }
+
+resource "kubernetes_job" "create_accounts_db" {
+  metadata {
+    name = "create-accounts-db"
+  }
+  spec {
+    backoff_limit = 4
+    template {
+      metadata {}
+      spec {
+        volume {
+          name = "scripts"
+          config_map {
+            name = "accounts-init-config"
+          }
+        }
+        container {
+          name    = "create-accounts-db"
+          image   = "postgres:13.0-alpine"
+          command = ["bash", "-c"]
+          args    = ["sleep 5 && psql -h 127.0.0.1 -p 5432 -d postgres -f /scripts/0-accountsdb-init.sql; apk add pcre-tools && sql_proxy_pid=$(/usr/bin/pgrep cloud_sql_proxy) && kill -INT $sql_proxy_pid"]
+          env {
+            name = "PGUSER"
+            value_from {
+              secret_key_ref {
+                name = "cloud-sql-admin"
+                key  = "username"
+              }
+            }
+          }
+          env {
+            name = "PGPASSWORD"
+            value_from {
+              secret_key_ref {
+                name = "cloud-sql-admin"
+                key  = "password"
+              }
+            }
+          }
+          volume_mount {
+            name       = "scripts"
+            read_only  = true
+            mount_path = "/scripts"
+          }
+          security_context {
+            capabilities {
+              add = ["SYS_PTRACE"]
+            }
+          }
+        }
+        container {
+          name    = "cloudsql-proxy"
+          image   = "gcr.io/cloudsql-docker/gce-proxy:1.19.0-alpine"
+          command = ["/cloud_sql_proxy", "-instances=$(CONNECTION_NAME)=tcp:5432"]
+          env {
+            name = "CONNECTION_NAME"
+
+            value_from {
+              secret_key_ref {
+                name = "cloud-sql-admin"
+                key  = "connectionName"
+              }
+            }
+          }
+          resources {
+            limits {
+              cpu    = "200m"
+              memory = "100Mi"
+            }
+          }
+          security_context {
+            run_as_non_root = true
+          }
+        }
+        restart_policy          = "Never"
+        service_account_name    = "iden-dev-cluster"
+        share_process_namespace = true
+      }
+    }
+  }
+}
+
+resource "kubernetes_job" "create_ledger_db" {
+  metadata {
+    name = "create-ledger-db"
+  }
+  spec {
+    backoff_limit = 4
+    template {
+      metadata {}
+      spec {
+        volume {
+          name = "scripts"
+          config_map {
+            name = "ledger-init-config"
+          }
+        }
+        container {
+          name    = "create-ledger-db"
+          image   = "postgres:13.0-alpine"
+          command = ["bash", "-c"]
+          args    = ["sleep 5 && psql -h 127.0.0.1 -p 5432 -d postgres -f /scripts/0-ledgerdb-init.sql; apk add pcre-tools && sql_proxy_pid=$(/usr/bin/pgrep cloud_sql_proxy) && kill -INT $sql_proxy_pid"]
+          env {
+            name = "PGUSER"
+            value_from {
+              secret_key_ref {
+                name = "cloud-sql-admin"
+                key  = "username"
+              }
+            }
+          }
+          env {
+            name = "PGPASSWORD"
+            value_from {
+              secret_key_ref {
+                name = "cloud-sql-admin"
+                key  = "password"
+              }
+            }
+          }
+          volume_mount {
+            name       = "scripts"
+            read_only  = true
+            mount_path = "/scripts"
+          }
+          security_context {
+            capabilities {
+              add = ["SYS_PTRACE"]
+            }
+          }
+        }
+        container {
+          name    = "cloudsql-proxy"
+          image   = "gcr.io/cloudsql-docker/gce-proxy:1.19.0-alpine"
+          command = ["/cloud_sql_proxy", "-instances=$(CONNECTION_NAME)=tcp:5432"]
+          env {
+            name = "CONNECTION_NAME"
+            value_from {
+              secret_key_ref {
+                name = "cloud-sql-admin"
+                key  = "connectionName"
+              }
+            }
+          }
+          resources {
+            limits {
+              cpu    = "200m"
+              memory = "100Mi"
+            }
+          }
+          security_context {
+            run_as_non_root = true
+          }
+        }
+        restart_policy          = "Never"
+        service_account_name    = "iden-dev-cluster"
+        share_process_namespace = true
+      }
+    }
+  }
+}
