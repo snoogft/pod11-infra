@@ -130,7 +130,7 @@ resource "kubernetes_job" "create_accounts_db" {
           name    = "create-accounts-db"
           image   = "postgres:13.0-alpine"
           command = ["bash", "-c"]
-          args    = ["sleep 5 && psql -h 127.0.0.1 -p 5432 -d postgres -f /scripts/0-accountsdb-init.sql; apk add pcre-tools && sql_proxy_pid=$(/usr/bin/pgrep cloud_sql_proxy) && kill -INT $sql_proxy_pid"]
+          args    = ["sleep 20 && psql -h 127.0.0.1 -p 5432 -d postgres -f /scripts/0-accountsdb-init.sql && apk add pcre-tools && sql_proxy_pid=$(/usr/bin/pgrep cloud_sql_proxy) && kill -INT $sql_proxy_pid"]
           env {
             name = "PGUSER"
             value_from {
@@ -211,7 +211,7 @@ resource "kubernetes_job" "create_ledger_db" {
           name    = "create-ledger-db"
           image   = "postgres:13.0-alpine"
           command = ["bash", "-c"]
-          args    = ["sleep 5 && psql -h 127.0.0.1 -p 5432 -d postgres -f /scripts/0-ledgerdb-init.sql; apk add pcre-tools && sql_proxy_pid=$(/usr/bin/pgrep cloud_sql_proxy) && kill -INT $sql_proxy_pid"]
+          args    = ["sleep 30 && psql -h 127.0.0.1 -p 5432 -d postgres -f /scripts/0-ledgerdb-init.sql && apk add pcre-tools && sql_proxy_pid=$(/usr/bin/pgrep cloud_sql_proxy) && kill -INT $sql_proxy_pid"]
           env {
             name = "PGUSER"
             value_from {
