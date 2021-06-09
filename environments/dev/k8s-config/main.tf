@@ -175,7 +175,7 @@ resource "kubernetes_job" "create_accounts_db" {
             }
           }
           resources {
-            limits {
+            limits = {
               cpu    = "200m"
               memory = "100Mi"
             }
@@ -255,7 +255,7 @@ resource "kubernetes_job" "create_ledger_db" {
             }
           }
           resources {
-            limits {
+            limits = {
               cpu    = "200m"
               memory = "100Mi"
             }
