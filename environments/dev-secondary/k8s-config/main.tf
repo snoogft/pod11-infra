@@ -1,16 +1,9 @@
-resource "kubernetes_service_account" "iden-cluster" {
-  metadata {
-    name = "iden-cluster-sa"
-    namespace = "default"
-  }
-}
-
 module "workload_identity" {
   source              = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
   project_id          = var.project
   name                = "iden-cluster-sa"
   namespace           = "default"
-  use_existing_k8s_sa = true
+  use_existing_k8s_sa = false
   roles = [
     "roles/cloudtrace.agent",
     "roles/monitoring.metricWriter",
