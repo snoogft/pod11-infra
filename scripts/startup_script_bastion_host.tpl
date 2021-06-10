@@ -1,4 +1,5 @@
 #!/bin/bash
+logger "Startup script for bastion host starting..."
 # Install kubectl
 sudo yum install -y kubectl
 sudo yum install -y bash-completion
@@ -11,3 +12,4 @@ sudo bash add-logging-agent-repo.sh --also-install
 # Installing the Cloud Monitoring agent
 curl -sSO https://dl.google.com/cloudagents/add-monitoring-agent-repo.sh
 sudo bash add-monitoring-agent-repo.sh --also-install
+logger "Startup script for bastion host completed"
