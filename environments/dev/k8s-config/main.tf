@@ -98,6 +98,7 @@ resource "kubernetes_config_map" "accounts_init_config" {
 
   data = {
     "0-accountsdb-init.sql" = data.template_file.accounts_init_config_sql.rendered
+    "0-accountsdb-schema.sql" = data.template_file.accounts_schema_config_sql.rendered
   }
 }
 
@@ -108,6 +109,7 @@ resource "kubernetes_config_map" "ledger_init_config" {
 
   data = {
     "0-ledgerdb-init.sql" = data.template_file.ledger_init_config_sql.rendered
+    "0-ledgerdb-schema.sql" = data.template_file.ledger_schema_config_sql.rendered
   }
 }
 
@@ -132,7 +134,7 @@ resource "kubernetes_job" "create_accounts_db" {
           name    = "create-accounts-db"
           image   = "postgres:13.0-alpine"
           command = ["bash", "-c"]
-          args    = ["apk add pcre-tools && sleep 30 && psql -h 127.0.0.1 -p 5432 -d postgres -f /scripts/0-accountsdb-init.sql && sql_proxy_pid=$(/usr/bin/pgrep cloud_sql_proxy) && kill -INT $sql_proxy_pid"]
+          args    = ["apk add pcre-tools && sleep 30 && psql -h 127.0.0.1 -p 5432 -d postgres -f /scripts/0-accountsdb-init.sql && psql -h 127.0.0.1 -p 5432 -d accountsdb -f /scripts/0-accountsdb-schema.sql && sql_proxy_pid=$(/usr/bin/pgrep cloud_sql_proxy) && kill -INT $sql_proxy_pid"]
           env {
             name = "PGUSER"
             value_from {
@@ -214,7 +216,7 @@ resource "kubernetes_job" "create_ledger_db" {
           name    = "create-ledger-db"
           image   = "postgres:13.0-alpine"
           command = ["bash", "-c"]
-          args    = ["apk add pcre-tools && sleep 30 && psql -h 127.0.0.1 -p 5432 -d postgres -f /scripts/0-ledgerdb-init.sql && sql_proxy_pid=$(/usr/bin/pgrep cloud_sql_proxy) && kill -INT $sql_proxy_pid"]
+          args    = ["apk add pcre-tools && sleep 30 && psql -h 127.0.0.1 -p 5432 -d postgres -f /scripts/0-ledgerdb-init.sql && psql -h 127.0.0.1 -p 5432 -d ledgerdb -f /scripts/0-ledgerdb-schema.sql && sql_proxy_pid=$(/usr/bin/pgrep cloud_sql_proxy) && kill -INT $sql_proxy_pid"]
           env {
             name = "PGUSER"
             value_from {

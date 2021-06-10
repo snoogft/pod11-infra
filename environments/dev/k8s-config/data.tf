@@ -15,3 +15,17 @@ data "template_file" "ledger_init_config_sql" {
     db_password = data.terraform_remote_state.dev.outputs.ledger_db_password
   }
 }
+
+data "template_file" "accounts_schema_config_sql" {
+  template = file("../../../scripts/0-template-db-schema.tpl")
+  vars = {
+    db_user     = "accounts"
+  }
+}
+
+data "template_file" "ledger_schema_config_sql" {
+  template = file("../../../scripts/0-template-db-schema.tpl")
+  vars = {
+    db_user     = "ledger"
+  }
+}
