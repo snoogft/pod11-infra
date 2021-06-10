@@ -35,7 +35,7 @@ steps:
   - id: 'tf plan'
     name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
     entrypoint: 'sh'
-    secretEnv: ['TF_VAR_root_db_password', 'TF_VAR_accounts_db_password', 'TF_VAR_ledger_db_password']
+    secretEnv: ['TF_VAR_root_db_password']
     args:
       - '-c'
       - |
@@ -61,7 +61,7 @@ steps:
   - id: 'tf apply'
     name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
     entrypoint: 'sh'
-    secretEnv: ['TF_VAR_root_db_password', 'TF_VAR_accounts_db_password', 'TF_VAR_ledger_db_password']
+    secretEnv: ['TF_VAR_root_db_password']
     args:
       - '-c'
       - |
