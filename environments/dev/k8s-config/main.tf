@@ -97,7 +97,7 @@ resource "kubernetes_config_map" "accounts_init_config" {
   }
 
   data = {
-    "0-accountsdb-init.sql" = data.template_file.accounts_init_config_sql.rendered
+    "0-accountsdb-init.sql"   = data.template_file.accounts_init_config_sql.rendered
     "0-accountsdb-schema.sql" = data.template_file.accounts_schema_config_sql.rendered
   }
 }
@@ -108,7 +108,7 @@ resource "kubernetes_config_map" "ledger_init_config" {
   }
 
   data = {
-    "0-ledgerdb-init.sql" = data.template_file.ledger_init_config_sql.rendered
+    "0-ledgerdb-init.sql"   = data.template_file.ledger_init_config_sql.rendered
     "0-ledgerdb-schema.sql" = data.template_file.ledger_schema_config_sql.rendered
   }
 }

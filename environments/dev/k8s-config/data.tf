@@ -19,13 +19,13 @@ data "template_file" "ledger_init_config_sql" {
 data "template_file" "accounts_schema_config_sql" {
   template = file("../../../scripts/0-template-db-schema.tpl")
   vars = {
-    db_user     = "accounts"
+    db_user = "accounts"
   }
 }
 
 data "template_file" "ledger_schema_config_sql" {
   template = file("../../../scripts/0-template-db-schema.tpl")
   vars = {
-    db_user     = "ledger"
+    db_user = "ledger"
   }
 }
