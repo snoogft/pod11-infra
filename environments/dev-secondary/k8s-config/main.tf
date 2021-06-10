@@ -10,7 +10,7 @@ module "workload_identity" {
   project_id          = var.project
   name                = "boa-ksa-cluster"
   namespace           = "default"
-  use_existing_k8s_sa = true
+  use_existing_k8s_sa = false
   roles = [
     "roles/cloudtrace.agent",
     "roles/monitoring.metricWriter",
