@@ -11,6 +11,11 @@ module "workload_identity" {
   name                = "boa-ksa-cluster"
   namespace           = "default"
   use_existing_k8s_sa = true
+  roles = [
+    "roles/cloudtrace.agent",
+    "roles/monitoring.metricWriter",
+    "roles/cloudsql.client",
+  ]
 }
 
 # module "workload_identity" {
