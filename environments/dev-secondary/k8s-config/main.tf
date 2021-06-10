@@ -7,10 +7,12 @@ resource "kubernetes_service_account" "preexisting" {
 
 module "workload_identity" {
   source              = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
+  version             = "14.3.0"
   project_id          = var.project
   name                = "boa-ksa-cluster"
   namespace           = "default"
   use_existing_k8s_sa = true
+  annotate_k8s_sa     = true
   roles = [
     "roles/cloudtrace.agent",
     "roles/monitoring.metricWriter",
