@@ -62,3 +62,6 @@ variable "ledger_db_name" {
   default     = "ledgerdb"
 }
 
+variable "jwt_secret" {
+  description = "JWT secret for k8s"
+}

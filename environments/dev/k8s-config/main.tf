@@ -25,6 +25,19 @@ resource "kubernetes_secret" "cloud_sql_admin" {
   type = "Opaque"
 }
 
+resource "kubernetes_secret" "jwt_secret" {
+  metadata {
+    name = "jwt-key"
+  }
+
+  data = {
+    "jwtRS256.key"    = data.terraform_remote_state.dev.outputs.jwt_secret
+    "jwtRS256.key.pub"= var.jwt_pub
+  }
+
+  type = "Opaque"
+}
+
 resource "kubernetes_config_map" "environment_config" {
   metadata {
     name = "environment-config"
