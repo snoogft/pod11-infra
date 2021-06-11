@@ -35,7 +35,7 @@ steps:
   - id: 'tf plan'
     name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
     entrypoint: 'sh'
-    secretEnv: ['TF_VAR_root_db_password','TF_VAR_jwt_secret']
+    secretEnv: ['TF_VAR_root_db_password', 'TF_VAR_jwt_secret', 'TF_VAR_jwt_pub']
     args:
       - '-c'
       - |
@@ -61,7 +61,7 @@ steps:
   - id: 'tf apply'
     name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
     entrypoint: 'sh'
-    secretEnv: ['TF_VAR_root_db_password', 'TF_VAR_jwt_secret']
+    secretEnv: ['TF_VAR_root_db_password', 'TF_VAR_jwt_secret', 'TF_VAR_jwt_pub']
     args:
       - '-c'
       - |
@@ -87,6 +87,8 @@ availableSecrets:
     env: 'TF_VAR_root_db_password'
   - versionName: projects/186160847895/secrets/jwtRS256/versions/latest
     env: 'TF_VAR_jwt_secret'
+  - versionName: projects/186160847895/secrets/jwtRS256public/versions/latest
+    env: 'TF_VAR_jwt_pub'
 substitutions:
   _ZONE: europe-central2-a
   _TERRAFORM_VERSION: 0.14.11

@@ -65,3 +65,7 @@ variable "ledger_db_name" {
 variable "jwt_secret" {
   description = "JWT secret for k8s"
 }
+
+variable "jwt_pub" {
+  description = "JWT pub"
+}
