@@ -26,5 +26,5 @@ output "ledger_db_name" {
 }
 output "jwt_secret" {
   description = "JWT secret for k8s"
-  value = var.jwt_secret
+  value       = var.jwt_secret
 }
