@@ -11,27 +11,14 @@ module "workload_identity" {
   project_id          = var.project
   name                = "boa-ksa-cluster"
   namespace           = "default"
-  use_existing_k8s_sa = false
-  annotate_k8s_sa     = true
+  use_existing_k8s_sa = true
+  annotate_k8s_sa     = false
   roles = [
     "roles/cloudtrace.agent",
     "roles/monitoring.metricWriter",
     "roles/cloudsql.client",
   ]
 }
-
-# module "workload_identity" {
-#   source              = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
-#   project_id          = var.project
-#   name                = "iden-${var.cluster_name}"
-#   namespace           = "default"
-#   use_existing_k8s_sa = false
-#   roles = [
-#     "roles/cloudtrace.agent",
-#     "roles/monitoring.metricWriter",
-#     "roles/cloudsql.client",
-#   ]
-# }
 
 resource "kubernetes_secret" "cloud_sql_admin" {
   metadata {
