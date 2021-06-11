@@ -1,7 +1,7 @@
 resource "kubernetes_service_account" "preexisting" {
   metadata {
-    name = "boa-ksa-cluster"
-    namespace = "default"
+    name = var.k8s_sa_name
+    namespace = var.namespace
   }
 }
 
@@ -9,8 +9,8 @@ module "workload_identity" {
   source              = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
   version             = "14.3.0"
   project_id          = var.project
-  name                = "boa-ksa-cluster"
-  namespace           = "default"
+  name                = "${var.k8s_sa_name}-${var.cluster_name}"
+  namespace           = var.namespace
   use_existing_k8s_sa = true
   annotate_k8s_sa     = false
   roles = [
@@ -18,6 +18,17 @@ module "workload_identity" {
     "roles/monitoring.metricWriter",
     "roles/cloudsql.client",
   ]
+}
+
+resource "null_resource" "kubectl" {
+  provisioner "local-exec" {
+    command = "kubectl annotate serviceaccount --namespace default boa-ksa-cluster iam.gke.io/gcp-service-account=$GSA_NAME@${var.project}.iam.gserviceaccount.com"
+    interpreter = [
+      "/bin/bash",
+      "-c"]
+    environment = {
+    }
+  }
 }
 
 resource "kubernetes_secret" "cloud_sql_admin" {
