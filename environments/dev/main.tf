@@ -1,6 +1,7 @@
 locals {
   env            = "dev"
   subnet_01_name = "subnet-${local.env}-01"
+  subnet_02_name = "subnet-${local.env}-02"
 }
 
 module "vpc_network" {
@@ -14,6 +15,19 @@ module "vpc_network" {
   subnet_01_services_name     = var.subnet_01_services_name
   subnet_01_name              = local.subnet_01_name
   subnet_01_services_ip       = var.subnet_01_services_ip
+}
+
+module "vpc_secondary_network" {
+  source                      = "../../modules/network"
+  project_id                  = var.project
+  env                         = local.env
+  subnet_01_ip                = var.subnet_02_ip
+  subnet_01_secondary_01_ip   = var.subnet_02_secondary_01_ip
+  subnet_01_secondary_01_name = var.subnet_02_secondary_01_name
+  subnet_01_region            = var.secondary_region
+  subnet_01_services_name     = var.subnet_02_services_name
+  subnet_01_name              = local.subnet_02_name
+  subnet_01_services_ip       = var.subnet_02_services_ip
 }
 
 module "bastion_host" {
@@ -45,6 +59,43 @@ module "gke" {
   ip_range_services_name         = var.subnet_01_services_name
   compute_engine_service_account = var.compute_engine_service_account
   depends_on                     = [module.vpc_network]
+}
+
+module "gke_secondary" {
+  source                         = "../../modules/cluster"
+  project_id                     = var.project
+  region                         = var.secondary_region
+  zones                          = [var.secondary_zones]
+  environment                    = local.env
+  network                        = module.vpc_secondary_network.network_name
+  subnetwork                     = local.subnet_02_name
+  ip_cidr_range                  = var.subnet_02_ip
+  ip_range_pods_name             = var.subnet_02_secondary_01_name
+  ip_range_services_name         = var.subnet_02_services_name
+  compute_engine_service_account = var.compute_engine_service_account
+  depends_on                     = [module.vpc_secondary_network]
+}
+
+module "hub-primary" {
+  source                  = "terraform-google-modules/kubernetes-engine/google//modules/hub"
+  version                 = "15.0.0"
+  project_id              = data.google_client_config.current.project
+  cluster_name            = module.gke.cluster_name
+  location                = module.gke.location
+  cluster_endpoint        = module.gke.endpoint
+  gke_hub_membership_name = "primary"
+  gke_hub_sa_name         = "primary"
+}
+
+module "hub-secondary" {
+  source                  = "terraform-google-modules/kubernetes-engine/google//modules/hub"
+  version                 = "15.0.0"
+  project_id              = data.google_client_config.current.project
+  cluster_name            = module.gke_secondary.cluster_name
+  location                = module.gke_secondary.location
+  cluster_endpoint        = module.gke_secondary.endpoint
+  gke_hub_membership_name = "secondary"
+  gke_hub_sa_name         = "secondary"
 }
 
 module "cloud_router" {
