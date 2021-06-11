@@ -22,6 +22,7 @@ Additionally this module have to enable all required APIs in order to create inf
 Enable APIs
 ```
 gcloud services enable compute.googleapis.com \
+                       iam.googleapis.com \
                        cloudbuild.googleapis.com \
                        container.googleapis.com \
                        containerregistry.googleapis.com \
@@ -36,6 +37,17 @@ gcloud services enable compute.googleapis.com \
                        secretmanager.googleapis.com \
                        containeranalysis.googleapis.com \
                        artifactregistry.googleapis.com \
+                       anthos.googleapis.com \
+                       cloudtrace.googleapis.com \
+                       meshca.googleapis.com \
+                       meshtelemetry.googleapis.com \
+                       meshconfig.googleapis.com \
+                       iamcredentials.googleapis.com \
+                       gkeconnect.googleapis.com \
+                       gkehub.googleapis.com \
+                       monitoring.googleapis.com \
+                       logging.googleapis.com
+
 ```
 
 In order to use this module you have to copy example file:

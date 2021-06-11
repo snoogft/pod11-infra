@@ -33,6 +33,7 @@ resource "kubernetes_secret" "jwt_secret" {
   data = {
     "jwtRS256.key"     = data.terraform_remote_state.dev.outputs.jwt_secret
     "jwtRS256.key.pub" = data.terraform_remote_state.dev.outputs.jwt_pub
+
   }
 
   type = "Opaque"
