@@ -14,63 +14,32 @@
  * limitations under the License.
  */
 
-locals {
-  k8s_sa_gcp_derived_name = "serviceAccount:${var.project_id}.svc.id.goog[${var.namespace}/${local.output_k8s_name}]"
-  gcp_sa_email            = google_service_account.cluster_service_account.email
-
-  # This will cause terraform to block returning outputs until the service account is created
-  k8s_given_name       = var.k8s_sa_name != null ? var.k8s_sa_name : var.name
-  output_k8s_name      = var.use_existing_k8s_sa ? local.k8s_given_name : kubernetes_service_account.main[0].metadata[0].name
-  output_k8s_namespace = var.use_existing_k8s_sa ? var.namespace : kubernetes_service_account.main[0].metadata[0].namespace
+output "k8s_service_account_name" {
+  description = "Name of k8s service account."
+  value       = local.output_k8s_name
 }
 
-resource "google_service_account" "cluster_service_account" {
-  # GCP service account ids must be < 30 chars matching regex ^[a-z](?:[-a-z0-9]{4,28}[a-z0-9])$
-  # KSA do not have this naming restriction.
-  account_id   = substr(var.name, 0, 30)
-  display_name = substr("GCP SA bound to K8S SA ${local.k8s_given_name}", 0, 100)
-  project      = var.project_id
+output "k8s_service_account_namespace" {
+  description = "Namespace of k8s service account."
+  value       = local.output_k8s_namespace
 }
 
-resource "kubernetes_service_account" "main" {
-  count = var.use_existing_k8s_sa ? 0 : 1
-
-  automount_service_account_token = var.automount_service_account_token
-  metadata {
-    name      = var.name
-    namespace = var.namespace
-    annotations = {
-      "iam.gke.io/gcp-service-account" = google_service_account.cluster_service_account.email
-    }
-  }
+output "gcp_service_account_email" {
+  description = "Email address of GCP service account."
+  value       = local.gcp_sa_email
 }
 
-module "annotate-sa" {
-  source  = "terraform-google-modules/gcloud/google//modules/kubectl-wrapper"
-  version = "~> 2.1.0"
-
-  enabled                     = var.use_existing_k8s_sa && var.annotate_k8s_sa
-  skip_download               = true
-  cluster_name                = var.cluster_name
-  cluster_location            = var.location
-  project_id                  = var.project_id
-  impersonate_service_account = var.impersonate_service_account
-
-  kubectl_create_command  = "kubectl annotate --overwrite sa -n ${local.output_k8s_namespace} ${local.k8s_given_name} iam.gke.io/gcp-service-account=${local.gcp_sa_email}"
-  kubectl_destroy_command = "kubectl annotate sa -n ${local.output_k8s_namespace} ${local.k8s_given_name} iam.gke.io/gcp-service-account-"
+output "gcp_service_account_fqn" {
+  description = "FQN of GCP service account."
+  value       = "serviceAccount:${google_service_account.cluster_service_account.email}"
 }
 
-resource "google_service_account_iam_member" "main" {
-  service_account_id = google_service_account.cluster_service_account.name
-  role               = "roles/iam.workloadIdentityUser"
-  member             = local.k8s_sa_gcp_derived_name
+output "gcp_service_account_name" {
+  description = "Name of GCP service account."
+  value       = local.k8s_sa_gcp_derived_name
 }
 
-
-resource "google_project_iam_member" "workload_identity_sa_bindings" {
-  for_each = toset(var.roles)
-
-  project = var.project_id
-  role    = each.value
-  member  = "serviceAccount:${google_service_account.cluster_service_account.email}"
+output "gcp_service_account" {
+  description = "GCP service account."
+  value       = google_service_account.cluster_service_account
 }
