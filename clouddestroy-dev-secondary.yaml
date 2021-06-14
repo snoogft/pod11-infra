@@ -92,7 +92,7 @@ availableSecrets:
   - versionName: projects/186160847895/secrets/dev-secondary-postgres-ledger-db-password/versions/latest
     env: 'TF_VAR_ledger_db_password'
 substitutions:
-  _ZONE: europe-north1-a
+  _ZONE: europe-west3-a
   _TERRAFORM_VERSION: 0.14.11
   _CONTAINER_CLUSTER: ${BRANCH_NAME}-cluster
   _CLOUD_BUILD_SA: terraform-service-account@pol-pod11-dev-01.iam.gserviceaccount.com
