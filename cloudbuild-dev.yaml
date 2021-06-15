@@ -16,10 +16,6 @@ steps:
     name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
     args: ['workspace', 'select', '${BRANCH_NAME}']
     dir: '.'
-  - id: 'tf init'
-    name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
-    args: ['init -upgrade']
-    dir: '.'
 
   # [START tf-plan]
   - id: 'tf plan'
