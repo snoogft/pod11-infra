@@ -19,6 +19,15 @@ From the book `Terraform Up & Running`:
 Additionally this module have to enable all required APIs in order to create infrastructure.
 
 ## Usage
+Create workspace for every working branch.
+```
+terraform workspace new BRANCH_NAME
+
+terraform workspace new dev
+terraform workspace new dev-secondary
+terraform workspace new prod
+```
+
 Enable APIs
 ```
 gcloud services enable compute.googleapis.com \
