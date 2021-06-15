@@ -1,5 +1,5 @@
 locals {
-  subnet_01 = var.subnet-01_name
+  subnet_01 = var.subnet_01_name
 }
 
 module "vpc" {
@@ -22,8 +22,8 @@ module "subnets" {
   subnets = [
     {
       subnet_name           = "${local.subnet_01}"
-      subnet_ip             = var.subnet-01_ip
-      subnet_region         = var.subnet-01_region
+      subnet_ip             = var.subnet_01_ip
+      subnet_region         = var.subnet_01_region
       subnet_private_access = "true"
       description           = "subnet-01 for ${var.env}-vpc-network"
     }
@@ -32,12 +32,12 @@ module "subnets" {
   secondary_ranges = {
     "${local.subnet_01}" = [
       {
-        range_name    = var.subnet-01-secondary-01_name
-        ip_cidr_range = var.subnet-01-secondary-01_ip
+        range_name    = var.subnet_01_secondary_01_name
+        ip_cidr_range = var.subnet_01_secondary_01_ip
       },
       {
-        range_name    = var.subnet-01-services-name
-        ip_cidr_range = var.subnet-01-services-ip
+        range_name    = var.subnet_01_services_name
+        ip_cidr_range = var.subnet_01_services_ip
       }
     ]
   }

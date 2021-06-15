@@ -5,7 +5,7 @@ steps:
    - INSTANCE_ARGS=--image-project debian-cloud --image-family debian-10 --network=${BRANCH_NAME}-vpc-network --subnet=subnet-${BRANCH_NAME}-01 --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible --service-account=${_CLOUD_BUILD_SA}
    - ZONE=${_ZONE}
    - USERNAME=cloud-user
-   - COMMAND=chmod +x ~/workspace/scripts/* && TERRAFORM_VERSION=${_TERRAFORM_VERSION} ~/workspace/scripts/install_terraform.sh && chmod +x ~/workspace/environments/${BRANCH_NAME}/k8s-config/destroy.sh && cd ~/workspace/environments/${BRANCH_NAME}/k8s-config && ./destroy.sh
+   - COMMAND=gcloud container clusters get-credentials dev-cluster --zone=europe-central2-a && chmod +x ~/workspace/scripts/* && TERRAFORM_VERSION=${_TERRAFORM_VERSION} ~/workspace/scripts/install_terraform.sh && chmod +x ~/workspace/environments/${BRANCH_NAME}/k8s-config/destroy.sh && cd ~/workspace/environments/${BRANCH_NAME}/k8s-config && ./destroy.sh
 - id: 'branch name'
   name: 'alpine'
   entrypoint: 'sh'
@@ -42,6 +42,7 @@ steps:
 - id: 'tf plan destroy'
   name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
   entrypoint: 'sh'
+  secretEnv: ['TF_VAR_root_db_password', 'TF_VAR_jwt_secret', 'TF_VAR_jwt_pub']
   args:
   - '-c'
   - |
@@ -66,11 +67,13 @@ steps:
 - id: 'tf destroy'
   name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
   entrypoint: 'sh'
+  secretEnv: ['TF_VAR_root_db_password', 'TF_VAR_jwt_secret', 'TF_VAR_jwt_pub']
   args:
   - '-c'
   - |
       if [ -d "environments/$BRANCH_NAME/" ]; then
         cd environments/$BRANCH_NAME
+        terraform state rm module.cloud_sql.module.postgresql-db.google_sql_user.default
         terraform destroy -auto-approve
       else
         for dir in environments/*/
@@ -87,8 +90,16 @@ steps:
         done
       fi
 # [END tf destroy]
+availableSecrets:
+  secretManager:
+  - versionName: projects/186160847895/secrets/dev-root-db-password/versions/latest
+    env: 'TF_VAR_root_db_password'
+  - versionName: projects/186160847895/secrets/jwtRS256/versions/latest
+    env: 'TF_VAR_jwt_secret'
+  - versionName: projects/186160847895/secrets/jwtRS256public/versions/latest
+    env: 'TF_VAR_jwt_pub'
 substitutions:
-  _ZONE: europe-north1-a
+  _ZONE: europe-central2-a
   _TERRAFORM_VERSION: 0.14.11
   _CONTAINER_CLUSTER: ${BRANCH_NAME}-cluster
   _CLOUD_BUILD_SA: terraform-service-account@pol-pod11-dev-01.iam.gserviceaccount.com

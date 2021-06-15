@@ -43,3 +43,7 @@ variable "machine_type" {
 variable "env" {
   description = "environment type dev/prod"
 }
+
+variable "cluster_name" {
+  description = "GKE cluster name"
+}
