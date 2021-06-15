@@ -22,3 +22,10 @@ export GOOGLE_APPLICATION_CREDENTIALS="./pol-pod11-dev-01.json"
 The Golden Rule of Terraform:
 > The master branch of the live repository should be a 1:1
 > representation of what’s actually deployed in production.
+
+
+# Usage
+If you would like to connect to Kubernetes cluster use following command to get kubeconfig
+```
+gcloud container clusters get-credentials dev-cluster --zone=europe-central2-a
+```

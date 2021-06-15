@@ -69,3 +69,7 @@ variable "jwt_secret" {
 variable "jwt_pub" {
   description = "JWT pub"
 }
+
+variable "prefix" {
+  description = "This is the environment where your app is deployed."
+}

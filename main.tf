@@ -1,10 +1,10 @@
 locals {
-  env            = "prod"
+  env            = var.prefix
   subnet_01_name = "subnet-${local.env}-01"
 }
 
 module "vpc_network" {
-  source                      = "../../modules/network"
+  source                      = "./modules/network"
   project_id                  = var.project
   env                         = local.env
   subnet_01_ip                = var.subnet_01_ip
@@ -17,22 +17,23 @@ module "vpc_network" {
 }
 
 module "bastion_host" {
-  source       = "../../modules/bastion-host"
+  source       = "./modules/bastion-host"
   members      = var.members
   project      = var.project
   region       = var.region
   zone         = var.zone
   network      = module.vpc_network.network_name
   subnetwork   = local.subnet_01_name
-  depends_on   = [module.vpc_network]
+  depends_on   = [module.vpc_network, module.gke]
   instance     = "machine-${local.env}-bastion"
   vm_sa_email  = var.compute_engine_service_account
   machine_type = var.machine_type
   env          = local.env
+  cluster_name = module.gke.cluster_name
 }
 
 module "gke" {
-  source                         = "../../modules/cluster"
+  source                         = "./modules/cluster"
   project_id                     = var.project
   region                         = var.region
   zones                          = [var.zone]
@@ -61,15 +62,16 @@ module "cloud_router" {
 }
 
 module "cloud_sql" {
-  source               = "../../modules/database"
+  source               = "./modules/database"
   project              = var.project
   region               = var.region
-  db_name              = "${local.env}_db"
+  db_name              = "${local.env}-db"
   private_network      = module.vpc_network.network_self_link
   private_network_name = module.vpc_network.network_name
   machine_type         = var.machine_type_db
   name_prefix          = "${local.env}-"
   master_user_password = var.root_db_password
   master_user_name     = "root"
-  deletion_protection  = true
+  deletion_protection  = false
+  name                 = "${local.env}-db"
 }
