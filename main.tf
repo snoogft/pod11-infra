@@ -4,7 +4,7 @@ locals {
 }
 
 module "vpc_network" {
-  source                      = "../../modules/network"
+  source                      = "modules/network"
   project_id                  = var.project
   env                         = local.env
   subnet_01_ip                = var.subnet_01_ip
@@ -17,7 +17,7 @@ module "vpc_network" {
 }
 
 module "bastion_host" {
-  source       = "../../modules/bastion-host"
+  source       = "modules/bastion-host"
   members      = var.members
   project      = var.project
   region       = var.region
@@ -33,7 +33,7 @@ module "bastion_host" {
 }
 
 module "gke" {
-  source                         = "../../modules/cluster"
+  source                         = "modules/cluster"
   project_id                     = var.project
   region                         = var.region
   zones                          = [var.zone]
@@ -62,7 +62,7 @@ module "cloud_router" {
 }
 
 module "cloud_sql" {
-  source               = "../../modules/database"
+  source               = "modules/database"
   project              = var.project
   region               = var.region
   db_name              = "${local.env}-db"
