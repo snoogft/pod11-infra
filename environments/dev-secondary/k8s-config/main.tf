@@ -21,16 +21,16 @@ module "workload_identity" {
   ]
 }
 
-//resource "null_resource" "kubectl" {
-//  provisioner "local-exec" {
-//    command = "kubectl annotate serviceaccount --namespace default ${var.k8s_sa_name} iam.gke.io/gcp-service-account=${module.workload_identity.gcp_service_account_name}@${var.project}.iam.gserviceaccount.com"
-//    interpreter = [
-//      "/bin/bash",
-//      "-c"]
-//    environment = {
-//    }
-//  }
-//}
+resource "null_resource" "kubectl" {
+  provisioner "local-exec" {
+    command = "kubectl annotate serviceaccount --namespace default ${var.k8s_sa_name} iam.gke.io/gcp-service-account=${module.workload_identity.gcp_service_account_name}@${var.project}.iam.gserviceaccount.com"
+    interpreter = [
+      "/bin/bash",
+      "-c"]
+    environment = {
+    }
+  }
+}
 
 resource "kubernetes_secret" "cloud_sql_admin" {
   metadata {
