@@ -6,8 +6,8 @@ members = [
   "user:snoo@gft.com",
   "user:TZKZ@gft.com"
 ]
-region                         = "europe-north1"
-zone                           = "europe-north1-a"
+region                         = "europe-west3"
+zone                           = "europe-west3-a"
 project                        = "pol-pod11-dev-01"
 subnet_01_ip                   = "10.10.10.0/24"
 subnet_01_secondary_01_ip      = "172.20.0.0/16"
