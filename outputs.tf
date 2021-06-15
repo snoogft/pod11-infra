@@ -20,29 +20,19 @@ output "accounts_db_name" {
   value       = var.accounts_db_name
 }
 
-output "accounts_db_username" {
-  description = "Accounts database username"
-  value       = var.accounts_db_username
-}
-
-output "accounts_db_password" {
-  description = "User accounts password"
-  value       = var.accounts_db_password
-  sensitive   = true
-}
-
 output "ledger_db_name" {
   description = "Ledger database name"
   value       = var.ledger_db_name
 }
 
-output "ledger_db_username" {
-  description = "Ledger database username"
-  value       = var.ledger_db_username
+output "jwt_secret" {
+  description = "JWT secret for k8s"
+  sensitive   = true
+  value       = var.jwt_secret
 }
 
-output "ledger_db_password" {
-  description = "User ledger password"
-  value       = var.ledger_db_password
+output "jwt_pub" {
+  description = "JWT pub"
   sensitive   = true
+  value       = var.jwt_secret
 }
