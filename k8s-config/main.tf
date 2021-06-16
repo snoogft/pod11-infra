@@ -17,9 +17,9 @@ resource "kubernetes_secret" "cloud_sql_admin" {
   }
 
   data = {
-    username       = data.terraform_remote_state.dev.outputs.master_user_name
-    password       = data.terraform_remote_state.dev.outputs.master_user_password
-    connectionName = data.terraform_remote_state.dev.outputs.master_proxy_connection
+    username       = data.terraform_remote_state.workspaces.outputs.master_user_name
+    password       = data.terraform_remote_state.workspaces.outputs.master_user_password
+    connectionName = data.terraform_remote_state.workspaces.outputs.master_proxy_connection
   }
 
   type = "Opaque"
@@ -31,8 +31,8 @@ resource "kubernetes_secret" "jwt_secret" {
   }
 
   data = {
-    "jwtRS256.key"     = data.terraform_remote_state.dev.outputs.jwt_secret
-    "jwtRS256.key.pub" = data.terraform_remote_state.dev.outputs.jwt_pub
+    "jwtRS256.key"     = data.terraform_remote_state.workspaces.outputs.jwt_secret
+    "jwtRS256.key.pub" = data.terraform_remote_state.workspaces.outputs.jwt_pub
   }
 
   type = "Opaque"
@@ -81,10 +81,10 @@ resource "kubernetes_config_map" "accounts_db_config" {
   }
 
   data = {
-    POSTGRES_DB       = data.terraform_remote_state.dev.outputs.accounts_db_name
-    POSTGRES_USER     = data.terraform_remote_state.dev.outputs.master_user_name
-    POSTGRES_PASSWORD = data.terraform_remote_state.dev.outputs.master_user_password
-    ACCOUNTS_DB_URI   = format("postgresql://%s:%s@127.0.0.1:5432/%s", data.terraform_remote_state.dev.outputs.master_user_name, data.terraform_remote_state.dev.outputs.master_user_password, data.terraform_remote_state.dev.outputs.accounts_db_name)
+    POSTGRES_DB       = data.terraform_remote_state.workspaces.outputs.accounts_db_name
+    POSTGRES_USER     = data.terraform_remote_state.workspaces.outputs.master_user_name
+    POSTGRES_PASSWORD = data.terraform_remote_state.workspaces.outputs.master_user_password
+    ACCOUNTS_DB_URI   = format("postgresql://%s:%s@127.0.0.1:5432/%s", data.terraform_remote_state.workspaces.outputs.master_user_name, data.terraform_remote_state.workspaces.outputs.master_user_password, data.terraform_remote_state.workspaces.outputs.accounts_db_name)
   }
 }
 
@@ -94,13 +94,13 @@ resource "kubernetes_config_map" "ledger_db_config" {
   }
 
   data = {
-    POSTGRES_DB       = data.terraform_remote_state.dev.outputs.ledger_db_name
-    POSTGRES_USER     = data.terraform_remote_state.dev.outputs.master_user_name
-    POSTGRES_PASSWORD = data.terraform_remote_state.dev.outputs.master_user_password
+    POSTGRES_DB       = data.terraform_remote_state.workspaces.outputs.ledger_db_name
+    POSTGRES_USER     = data.terraform_remote_state.workspaces.outputs.master_user_name
+    POSTGRES_PASSWORD = data.terraform_remote_state.workspaces.outputs.master_user_password
     # Updated to use CloudSQL Proxy
-    SPRING_DATASOURCE_URL      = format("jdbc:postgresql://127.0.0.1:5432/%s", data.terraform_remote_state.dev.outputs.ledger_db_name)
-    SPRING_DATASOURCE_USERNAME = data.terraform_remote_state.dev.outputs.master_user_name     # should match POSTGRES_USER
-    SPRING_DATASOURCE_PASSWORD = data.terraform_remote_state.dev.outputs.master_user_password # should match POSTGRES_PASSWORD
+    SPRING_DATASOURCE_URL      = format("jdbc:postgresql://127.0.0.1:5432/%s", data.terraform_remote_state.workspaces.outputs.ledger_db_name)
+    SPRING_DATASOURCE_USERNAME = data.terraform_remote_state.workspaces.outputs.master_user_name     # should match POSTGRES_USER
+    SPRING_DATASOURCE_PASSWORD = data.terraform_remote_state.workspaces.outputs.master_user_password # should match POSTGRES_PASSWORD
   }
 }
 
