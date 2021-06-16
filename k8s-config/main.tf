@@ -1,6 +1,6 @@
 resource "kubernetes_service_account" "preexisting" {
   metadata {
-    name = var.k8s_sa_name
+    name      = var.k8s_sa_name
     namespace = var.namespace
   }
 }
@@ -26,7 +26,7 @@ resource "null_resource" "kubectl" {
     command = "kubectl annotate serviceaccount --namespace default ${var.k8s_sa_name} iam.gke.io/gcp-service-account=${module.workload_identity.gcp_service_account_email}@${var.project}.iam.gserviceaccount.com"
     interpreter = [
       "/bin/bash",
-      "-c"]
+    "-c"]
     environment = {
     }
   }

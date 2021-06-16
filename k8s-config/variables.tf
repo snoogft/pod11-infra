@@ -24,10 +24,10 @@ variable "workspace_env" {
 
 variable "namespace" {
   description = "GKE namespace used by workload identity"
-  default = "default"
+  default     = "default"
 }
 
 variable "k8s_sa_name" {
   description = "GKE service account name"
-  default = "boa-ksa"
+  default     = "boa-ksa"
 }
