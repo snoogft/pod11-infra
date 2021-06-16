@@ -23,7 +23,7 @@ module "workload_identity" {
 
 resource "null_resource" "kubectl" {
   provisioner "local-exec" {
-    command = "sudo apt-get install -y kubectl && kubectl annotate serviceaccount --namespace default ${var.k8s_sa_name} iam.gke.io/gcp-service-account=${module.workload_identity.gcp_service_account_email}@${var.project}.iam.gserviceaccount.com"
+    command = "sudo apt-get install -y kubectl && kubectl annotate --overwrite serviceaccount --namespace default ${var.k8s_sa_name} iam.gke.io/gcp-service-account=${module.workload_identity.gcp_service_account_email}"
     interpreter = [
       "/bin/bash",
     "-c"]
@@ -31,6 +31,7 @@ resource "null_resource" "kubectl" {
     }
   }
 }
+
 resource "kubernetes_secret" "cloud_sql_admin" {
   metadata {
     name = "cloud-sql-admin"
