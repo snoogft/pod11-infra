@@ -1,11 +1,11 @@
 steps:
-#- id: 'configure kubernetes'
-#  name: eu.gcr.io/$PROJECT_ID/remote-builder
-#  env:
-#   - INSTANCE_ARGS=--image-project debian-cloud --image-family debian-10 --network=${BRANCH_NAME}-vpc-network --subnet=subnet-${BRANCH_NAME}-01 --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible --service-account=${_CLOUD_BUILD_SA}
-#   - ZONE=${_ZONE}
-#   - USERNAME=cloud-user
-#   - COMMAND=gcloud container clusters get-credentials dev-cluster --zone=europe-central2-a && chmod +x ~/workspace/scripts/* && TERRAFORM_VERSION=${_TERRAFORM_VERSION} ~/workspace/scripts/install_terraform.sh && chmod +x ~/workspace/environments/${BRANCH_NAME}/k8s-config/destroy.sh && cd ~/workspace/environments/${BRANCH_NAME}/k8s-config && ./destroy.sh
+  - id: 'configure kubernetes'
+    name: eu.gcr.io/$PROJECT_ID/remote-builder
+    env:
+     - INSTANCE_ARGS=--image-project debian-cloud --image-family debian-10 --network=${BRANCH_NAME}-vpc-network --subnet=subnet-${BRANCH_NAME}-01 --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible --service-account=${_CLOUD_BUILD_SA}
+     - ZONE=${_ZONE}
+     - USERNAME=cloud-user
+     - COMMAND=gcloud container clusters get-credentials dev-cluster --zone=europe-central2-a && chmod +x ~/workspace/scripts/* && TERRAFORM_VERSION=${_TERRAFORM_VERSION} ~/workspace/scripts/install_terraform.sh && chmod +x ~/workspace/k8s-config/destroy.sh && cd ~/workspace/k8s-config && BRANCH_NAME=${BRANCH_NAME} ./destroy.sh
   - id: 'branch name'
     name: 'alpine'
     entrypoint: 'sh'

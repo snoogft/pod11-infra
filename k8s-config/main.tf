@@ -1,9 +1,19 @@
+resource "kubernetes_service_account" "preexisting" {
+  metadata {
+    name      = var.k8s_sa_name
+    namespace = var.namespace
+  }
+}
+
 module "workload_identity" {
-  source              = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
+  source              = "../modules/workload-identity"
   project_id          = var.project
-  name                = "iden-${var.cluster_name}"
-  namespace           = "default"
-  use_existing_k8s_sa = false
+  name                = "${var.k8s_sa_name}-${var.cluster_name}"
+  namespace           = var.namespace
+  use_existing_k8s_sa = true
+  k8s_sa_name         = var.k8s_sa_name
+  cluster_name        = var.cluster_name
+  location            = var.zone
   roles = [
     "roles/cloudtrace.agent",
     "roles/monitoring.metricWriter",
@@ -11,15 +21,25 @@ module "workload_identity" {
   ]
 }
 
+resource "null_resource" "kubectl" {
+  provisioner "local-exec" {
+    command = "kubectl annotate serviceaccount --namespace default ${var.k8s_sa_name} iam.gke.io/gcp-service-account=${module.workload_identity.gcp_service_account_email}@${var.project}.iam.gserviceaccount.com"
+    interpreter = [
+      "/bin/bash",
+    "-c"]
+    environment = {
+    }
+  }
+}
 resource "kubernetes_secret" "cloud_sql_admin" {
   metadata {
     name = "cloud-sql-admin"
   }
 
   data = {
-    username       = data.terraform_remote_state.dev.outputs.master_user_name
-    password       = data.terraform_remote_state.dev.outputs.master_user_password
-    connectionName = data.terraform_remote_state.dev.outputs.master_proxy_connection
+    username       = data.terraform_remote_state.workspaces.outputs.master_user_name
+    password       = data.terraform_remote_state.workspaces.outputs.master_user_password
+    connectionName = data.terraform_remote_state.workspaces.outputs.master_proxy_connection
   }
 
   type = "Opaque"
@@ -31,8 +51,8 @@ resource "kubernetes_secret" "jwt_secret" {
   }
 
   data = {
-    "jwtRS256.key"     = data.terraform_remote_state.dev.outputs.jwt_secret
-    "jwtRS256.key.pub" = data.terraform_remote_state.dev.outputs.jwt_pub
+    "jwtRS256.key"     = data.terraform_remote_state.workspaces.outputs.jwt_secret
+    "jwtRS256.key.pub" = data.terraform_remote_state.workspaces.outputs.jwt_pub
   }
 
   type = "Opaque"
@@ -81,10 +101,10 @@ resource "kubernetes_config_map" "accounts_db_config" {
   }
 
   data = {
-    POSTGRES_DB       = data.terraform_remote_state.dev.outputs.accounts_db_name
-    POSTGRES_USER     = data.terraform_remote_state.dev.outputs.master_user_name
-    POSTGRES_PASSWORD = data.terraform_remote_state.dev.outputs.master_user_password
-    ACCOUNTS_DB_URI   = format("postgresql://%s:%s@127.0.0.1:5432/%s", data.terraform_remote_state.dev.outputs.master_user_name, data.terraform_remote_state.dev.outputs.master_user_password, data.terraform_remote_state.dev.outputs.accounts_db_name)
+    POSTGRES_DB       = data.terraform_remote_state.workspaces.outputs.accounts_db_name
+    POSTGRES_USER     = data.terraform_remote_state.workspaces.outputs.master_user_name
+    POSTGRES_PASSWORD = data.terraform_remote_state.workspaces.outputs.master_user_password
+    ACCOUNTS_DB_URI   = format("postgresql://%s:%s@127.0.0.1:5432/%s", data.terraform_remote_state.workspaces.outputs.master_user_name, data.terraform_remote_state.workspaces.outputs.master_user_password, data.terraform_remote_state.workspaces.outputs.accounts_db_name)
   }
 }
 
@@ -94,13 +114,13 @@ resource "kubernetes_config_map" "ledger_db_config" {
   }
 
   data = {
-    POSTGRES_DB       = data.terraform_remote_state.dev.outputs.ledger_db_name
-    POSTGRES_USER     = data.terraform_remote_state.dev.outputs.master_user_name
-    POSTGRES_PASSWORD = data.terraform_remote_state.dev.outputs.master_user_password
+    POSTGRES_DB       = data.terraform_remote_state.workspaces.outputs.ledger_db_name
+    POSTGRES_USER     = data.terraform_remote_state.workspaces.outputs.master_user_name
+    POSTGRES_PASSWORD = data.terraform_remote_state.workspaces.outputs.master_user_password
     # Updated to use CloudSQL Proxy
-    SPRING_DATASOURCE_URL      = format("jdbc:postgresql://127.0.0.1:5432/%s", data.terraform_remote_state.dev.outputs.ledger_db_name)
-    SPRING_DATASOURCE_USERNAME = data.terraform_remote_state.dev.outputs.master_user_name     # should match POSTGRES_USER
-    SPRING_DATASOURCE_PASSWORD = data.terraform_remote_state.dev.outputs.master_user_password # should match POSTGRES_PASSWORD
+    SPRING_DATASOURCE_URL      = format("jdbc:postgresql://127.0.0.1:5432/%s", data.terraform_remote_state.workspaces.outputs.ledger_db_name)
+    SPRING_DATASOURCE_USERNAME = data.terraform_remote_state.workspaces.outputs.master_user_name     # should match POSTGRES_USER
+    SPRING_DATASOURCE_PASSWORD = data.terraform_remote_state.workspaces.outputs.master_user_password # should match POSTGRES_PASSWORD
   }
 }
 
