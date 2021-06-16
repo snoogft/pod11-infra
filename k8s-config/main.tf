@@ -2,6 +2,9 @@ resource "kubernetes_service_account" "preexisting" {
   metadata {
     name      = var.k8s_sa_name
     namespace = var.namespace
+    annotations = {
+      "iam.gke.io/gcp-service-account" = module.workload_identity.gcp_service_account_email
+    }
   }
 }
 
@@ -19,17 +22,6 @@ module "workload_identity" {
     "roles/monitoring.metricWriter",
     "roles/cloudsql.client",
   ]
-}
-
-resource "null_resource" "kubectl" {
-  provisioner "local-exec" {
-    command = "sudo apt-get install -y kubectl && kubectl annotate --overwrite serviceaccount --namespace default ${var.k8s_sa_name} iam.gke.io/gcp-service-account=${module.workload_identity.gcp_service_account_email}"
-    interpreter = [
-      "/bin/bash",
-    "-c"]
-    environment = {
-    }
-  }
 }
 
 resource "kubernetes_secret" "cloud_sql_admin" {
