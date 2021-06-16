@@ -1,6 +1,7 @@
 locals {
   env            = var.prefix
   subnet_01_name = "subnet-${local.env}-01"
+  subnet_02_name = "subnet-${local.env}-02"
 }
 
 module "vpc_network" {
@@ -32,6 +33,22 @@ module "bastion_host" {
   cluster_name = module.gke.cluster_name
 }
 
+module "bastion_host_2" {
+  source       = "./modules/bastion-host"
+  members      = var.members
+  project      = var.project
+  region       = var.region
+  zone         = var.zone
+  network      = module.vpc_network.network_name
+  subnetwork   = local.subnet_02_name
+  depends_on   = [module.vpc_network, module.gke_2]
+  instance     = "machine-${local.env}-bastion_2"
+  vm_sa_email  = var.compute_engine_service_account
+  machine_type = var.machine_type
+  env          = local.env
+  cluster_name = module.gke_2.cluster_2_name
+}
+
 module "gke" {
   source                         = "./modules/cluster"
   project_id                     = var.project
@@ -43,6 +60,21 @@ module "gke" {
   ip_cidr_range                  = var.subnet_01_ip
   ip_range_pods_name             = var.subnet_01_secondary_01_name
   ip_range_services_name         = var.subnet_01_services_name
+  compute_engine_service_account = var.compute_engine_service_account
+  depends_on                     = [module.vpc_network]
+}
+
+module "gke_2" {
+  source                         = "./modules/cluster"
+  project_id                     = var.project
+  region                         = var.region
+  zones                          = [var.zone]
+  environment                    = local.env
+  network                        = module.vpc_network.network_name
+  subnetwork                     = local.subnet_02_name
+  ip_cidr_range                  = var.subnet_02_ip
+  ip_range_pods_name             = var.subnet_02_secondary_01_name
+  ip_range_services_name         = var.subnet_02_services_name
   compute_engine_service_account = var.compute_engine_service_account
   depends_on                     = [module.vpc_network]
 }

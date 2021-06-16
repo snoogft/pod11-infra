@@ -1,5 +1,6 @@
 locals {
   subnet_01 = var.subnet_01_name
+  subnet_02 = var.subnet_02_name
 }
 
 module "vpc" {
@@ -26,6 +27,13 @@ module "subnets" {
       subnet_region         = var.subnet_01_region
       subnet_private_access = "true"
       description           = "subnet-01 for ${var.env}-vpc-network"
+    },
+    {
+      subnet_name           = "${local.subnet_02}"
+      subnet_ip             = var.subnet_02_ip
+      subnet_region         = var.subnet_02_region
+      subnet_private_access = "true"
+      description           = "subnet-02 for ${var.env}-vpc-network"
     }
   ]
 

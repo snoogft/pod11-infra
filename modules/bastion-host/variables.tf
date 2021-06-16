@@ -47,3 +47,7 @@ variable "env" {
 variable "cluster_name" {
   description = "GKE cluster name"
 }
+
+variable "cluster_2_name" {
+  description = "GKE cluster_2 name"
+}

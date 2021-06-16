@@ -23,6 +23,11 @@ data "google_container_cluster" "my_cluster" {
   location = var.zone
 }
 
+data "google_container_cluster" "my_cluster" {
+  name     = var.cluster_2_name
+  location = var.zone
+}
+
 provider "kubernetes" {
   config_path = "~/.kube/config"
 }
