@@ -221,7 +221,7 @@ resource "kubernetes_job" "create_accounts_db" {
           }
         }
         restart_policy          = "Never"
-        service_account_name    = "iden-dev-cluster"
+        service_account_name    = "boa-ksa"
         share_process_namespace = true
       }
     }
@@ -303,7 +303,7 @@ resource "kubernetes_job" "create_ledger_db" {
           }
         }
         restart_policy          = "Never"
-        service_account_name    = "iden-dev-cluster"
+        service_account_name    = "boa-ksa"
         share_process_namespace = true
       }
     }
