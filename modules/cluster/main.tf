@@ -25,7 +25,7 @@ module "gke" {
   ]
   node_pools = [
     {
-      name        = var.node_pools_name
+      name        = "default-node-pool"
       autoscaling = var.autoscaling
       node_count  = var.node_count
       min_count   = var.min_count
@@ -62,7 +62,7 @@ module "gke_2" {
   ]
   node_pools = [
     {
-      name        = var.node_pools_name
+      name        = "default-node-pool"
       autoscaling = var.autoscaling
       node_count  = var.node_count
       min_count   = var.min_count

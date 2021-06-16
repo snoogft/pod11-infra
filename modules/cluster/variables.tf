@@ -48,7 +48,6 @@ variable "default_max_pods_per_node"{
 variable "node_pools_name" {
   description = "Name for node pools value"
   type = string
-  default = default-node-pool
 }
 
 variable "autoscaling" {
