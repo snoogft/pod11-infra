@@ -75,3 +75,14 @@ module "cloud_sql" {
   deletion_protection  = false
   name                 = "${local.env}-db"
 }
+
+module "hub-primary" {
+  source                  = "terraform-google-modules/kubernetes-engine/google//modules/hub"
+  version                 = "v15.0.0"
+  project_id              = var.project
+  cluster_name            = module.gke.cluster_name
+  location                = module.gke.location
+  cluster_endpoint        = module.gke.endpoint
+  gke_hub_membership_name = "primary"
+  gke_hub_sa_name         = "primary"
+}
