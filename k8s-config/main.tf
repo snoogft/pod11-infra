@@ -1,9 +1,19 @@
+resource "kubernetes_service_account" "preexisting" {
+  metadata {
+    name = var.k8s_sa_name
+    namespace = var.namespace
+  }
+}
+
 module "workload_identity" {
-  source              = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
+  source              = "../../../modules/workload-identity"
   project_id          = var.project
-  name                = "iden-${var.cluster_name}"
-  namespace           = "default"
-  use_existing_k8s_sa = false
+  name                = "${var.k8s_sa_name}-${var.cluster_name}"
+  namespace           = var.namespace
+  use_existing_k8s_sa = true
+  k8s_sa_name         = var.k8s_sa_name
+  cluster_name        = var.cluster_name
+  location            = var.zone
   roles = [
     "roles/cloudtrace.agent",
     "roles/monitoring.metricWriter",
@@ -11,6 +21,16 @@ module "workload_identity" {
   ]
 }
 
+resource "null_resource" "kubectl" {
+  provisioner "local-exec" {
+    command = "kubectl annotate serviceaccount --namespace default ${var.k8s_sa_name} iam.gke.io/gcp-service-account=${module.workload_identity.gcp_service_account_email}@${var.project}.iam.gserviceaccount.com"
+    interpreter = [
+      "/bin/bash",
+      "-c"]
+    environment = {
+    }
+  }
+}
 resource "kubernetes_secret" "cloud_sql_admin" {
   metadata {
     name = "cloud-sql-admin"

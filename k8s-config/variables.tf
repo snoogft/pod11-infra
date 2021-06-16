@@ -21,3 +21,13 @@ variable "jwt_pub" {
 variable "workspace_env" {
   description = "Used workspace env"
 }
+
+variable "namespace" {
+  description = "GKE namespace used by workload identity"
+  default = "default"
+}
+
+variable "k8s_sa_name" {
+  description = "GKE service account name"
+  default = "boa-ksa"
+}
