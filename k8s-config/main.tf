@@ -21,9 +21,20 @@ module "workload_identity" {
   ]
 }
 
+module "kubectl" {
+  source                  = "terraform-google-modules/gcloud/google//modules/kubectl-wrapper"
+  version                 = "v3.0.0"
+  depends_on              = [null_resource.kubectl]
+  project_id              = var.project_id
+  cluster_name            = var.cluster_name
+  cluster_location        = var.zone
+  kubectl_create_command  = "kubectl annotate --overwrite serviceaccount --namespace default ${var.k8s_sa_name} iam.gke.io/gcp-service-account=${module.workload_identity.gcp_service_account_email}"
+  kubectl_destroy_command = "kubectl annotate serviceaccount --namespace default ${var.k8s_sa_name} iam.gke.io/gcp-service-account=${module.workload_identity.gcp_service_account_email}"
+}
+
 resource "null_resource" "kubectl" {
   provisioner "local-exec" {
-    command = "sudo apt-get install -y kubectl && kubectl annotate serviceaccount --namespace default ${var.k8s_sa_name} iam.gke.io/gcp-service-account=${module.workload_identity.gcp_service_account_email}@${var.project}.iam.gserviceaccount.com"
+    command = "sudo apt-get install -y kubectl"
     interpreter = [
       "/bin/bash",
     "-c"]
@@ -31,6 +42,7 @@ resource "null_resource" "kubectl" {
     }
   }
 }
+
 resource "kubernetes_secret" "cloud_sql_admin" {
   metadata {
     name = "cloud-sql-admin"
