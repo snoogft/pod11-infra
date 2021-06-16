@@ -302,3 +302,14 @@ resource "kubernetes_job" "create_ledger_db" {
     }
   }
 }
+
+module "hub-primary" {
+  source                  = "terraform-google-modules/kubernetes-engine/google//modules/hub"
+  version                 = "v15.0.0"
+  project_id              = var.project
+  cluster_name            = data.terraform_remote_state.workspaces.outputs.gke_cluster_name
+  location                = data.terraform_remote_state.workspaces.outputs.gke_location
+  cluster_endpoint        = data.terraform_remote_state.workspaces.outputs.gke_cluster_endpoint
+  gke_hub_membership_name = "primary"
+  gke_hub_sa_name         = "primary"
+}
