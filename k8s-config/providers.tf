@@ -9,12 +9,12 @@ data "google_client_config" "default" {
 }
 
 data "terraform_remote_state" "workspaces" {
-  backend = "gcs"
+  backend   = "gcs"
   workspace = var.workspace_env
 
   config = {
-    bucket    = "pol-pod11-dev-01-tfstate"
-    prefix    = "workspaces"
+    bucket = "pol-pod11-dev-01-tfstate"
+    prefix = "workspaces"
   }
 }
 
