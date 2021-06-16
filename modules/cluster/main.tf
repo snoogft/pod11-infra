@@ -25,11 +25,11 @@ module "gke" {
   ]
   node_pools = [
     {
-      name        = "default-node-pool"
-      autoscaling = true
-      node_count  = 10
-      min_count   = 10
-      max_count   = 20
+      name         = "default-node-pool"
+      autoscaling  = true
+      max_count    = 20
+      node_count   = 4
+      machine_type = "e2-standard-4"
     }
   ]
 }
