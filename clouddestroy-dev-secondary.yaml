@@ -1,17 +1,17 @@
 steps:
-  #- id: 'configure kubernetes'
-  #  name: eu.gcr.io/$PROJECT_ID/remote-builder
-  #  env:
-  #   - INSTANCE_ARGS=--image-project debian-cloud --image-family debian-10 --network=${BRANCH_NAME}-vpc-network --subnet=subnet-${BRANCH_NAME}-01 --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible --service-account=${_CLOUD_BUILD_SA}
-  #   - ZONE=${_ZONE}
-  #   - USERNAME=cloud-user
-  #   - COMMAND=gcloud container clusters get-credentials dev-cluster --zone=europe-central2-a && chmod +x ~/workspace/scripts/* && TERRAFORM_VERSION=${_TERRAFORM_VERSION} ~/workspace/scripts/install_terraform.sh && chmod +x ~/workspace/environments/${BRANCH_NAME}/k8s-config/destroy.sh && cd ~/workspace/environments/${BRANCH_NAME}/k8s-config && ./destroy.sh
+  - id: 'configure kubernetes'
+    name: eu.gcr.io/$PROJECT_ID/remote-builder
+    env:
+     - INSTANCE_ARGS=--image-project debian-cloud --image-family debian-10 --network=${BRANCH_NAME}-vpc-network --subnet=subnet-${BRANCH_NAME}-01 --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible --service-account=${_CLOUD_BUILD_SA}
+     - ZONE=${_ZONE}
+     - USERNAME=cloud-user
+     - COMMAND=gcloud container clusters get-credentials ${_CONTAINER_CLUSTER} --zone=${_ZONE} && chmod +x ~/workspace/scripts/* && TERRAFORM_VERSION=${_TERRAFORM_VERSION} ~/workspace/scripts/install_terraform.sh && chmod +x ~/workspace/k8s-config/destroy.sh && cd ~/workspace/k8s-config && BRANCH_NAME=${BRANCH_NAME} ./destroy.sh
   - id: 'branch name'
     name: 'alpine'
     entrypoint: 'sh'
     args:
-      - '-c'
-      - |
+    - '-c'
+    - |
         echo "***********************"
         echo "$BRANCH_NAME"
         echo "***********************"
@@ -19,30 +19,25 @@ steps:
     name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
     args: ['init', '-upgrade']
     dir: '.'
-
   - id: 'tf select workspace'
     name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
     args: ['workspace', 'select', '${BRANCH_NAME}']
     dir: '.'
-
   - id: 'tf plan'
     name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
     secretEnv: ['TF_VAR_root_db_password', 'TF_VAR_jwt_secret', 'TF_VAR_jwt_pub']
     args: ['plan', '-var-file=${BRANCH_NAME}.tfvars', '-destroy']
     dir: '.'
-
   - id: 'tf state rm'
     name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
     secretEnv: ['TF_VAR_root_db_password', 'TF_VAR_jwt_secret', 'TF_VAR_jwt_pub']
     args: ['state', 'rm', 'module.cloud_sql.module.postgresql-db.google_sql_user.default']
     dir: '.'
-
   - id: 'tf destroy'
     name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
     secretEnv: ['TF_VAR_root_db_password', 'TF_VAR_jwt_secret', 'TF_VAR_jwt_pub']
     args: ['destroy', '-var-file=${BRANCH_NAME}.tfvars', '-auto-approve']
     dir: '.'
-
 availableSecrets:
   secretManager:
   - versionName: projects/186160847895/secrets/dev-secondary-root-db-password/versions/latest
