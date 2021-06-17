@@ -29,7 +29,7 @@ steps:
   - id: 'rm .terraform'
     name: 'alpine'
     entrypoint: 'rm'
-    args: ['-rf', '.terraform']
+    args: ['--force', '--recursive', '--verbose', '.terraform']
     dir: '.'
   - id: 'configure kubernetes'
     name: eu.gcr.io/$PROJECT_ID/remote-builder
