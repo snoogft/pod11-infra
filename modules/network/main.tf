@@ -74,11 +74,11 @@ module "subnets_vpc_2" {
   secondary_ranges = {
     "${local.subnet_01_vpc_2}" = [
       {
-        range_name    = var.subnet_01_secondary_01_name
+        range_name    = "subnet-01-secondary-vpc-2-name"
         ip_cidr_range = var.subnet_01_secondary_01_ip
       },
       {
-        range_name    = var.subnet_01_services_name
+        range_name    = "subnet-01-vpc-2-services-name"
         ip_cidr_range = var.subnet_01_services_ip
       }
     ]
