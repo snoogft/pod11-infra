@@ -28,7 +28,7 @@ steps:
     dir: '.'
   - id: 'rm .terraform'
     name: 'alpine'
-    entrypoint: ['rm']
+    entrypoint: 'rm'
     args: ['-rf', '.terraform']
     dir: '.'
   - id: 'configure kubernetes'
