@@ -1,7 +1,6 @@
 locals {
   env            = var.prefix
   subnet_01_name = "subnet-${local.env}-01"
-  subnet_01_vpc_2_name = "subnet-${local.env}-01_vpc_2"
 }
 
 module "vpc_network" {
