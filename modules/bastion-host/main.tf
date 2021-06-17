@@ -7,6 +7,8 @@ module "instance_template" {
   project_id   = var.project
   machine_type = var.machine_type
   subnetwork   = var.subnetwork
+  source_image_family = "debian-10"
+  source_image_project = "debian-cloud"
   service_account = {
     email  = var.vm_sa_email
     scopes = ["cloud-platform"]
