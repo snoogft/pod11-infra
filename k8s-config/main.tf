@@ -21,7 +21,7 @@ module "workload_identity" {
   ]
 }
 
-module "workload_identity" {
+module "workload_identity_2" {
   source              = "../modules/workload-identity"
   project_id          = var.project
   name                = "${var.k8s_sa_name}-${var.cluster_2_name}"
