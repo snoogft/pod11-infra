@@ -1,8 +1,8 @@
 #!/bin/bash
 logger "Startup script for bastion host starting..."
 # Install kubectl
-sudo yum install -y kubectl
-sudo yum install -y bash-completion
+sudo apt install -y kubectl
+sudo apt install -y bash-completion
 # Get credential for container
 echo "gcloud container clusters get-credentials ${cluster_name} --zone=${zone}" >> /etc/bashrc
 echo "source <(kubectl completion bash)" >> /etc/bashrc
