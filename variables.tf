@@ -6,9 +6,9 @@ variable "subnet_01_ip" {
   description = "Ip address for a subnet-01"
 }
 
-//variable "subnet_01_vpc_2_ip" {
-//  description = "Ip address for a subnet-01 VPC_2"
-//}
+variable "subnet_01_ip_vpc_2" {
+  description = "Ip address for a subnet-01 VPC_2"
+}
 
 variable "subnet_01_secondary_01_ip" {
   description = "Ip address for a subnet-01 secondary range"

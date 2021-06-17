@@ -64,7 +64,7 @@ module "subnets_vpc_2" {
   subnets = [
     {
       subnet_name           = "${local.subnet_01_vpc_2}"
-      subnet_ip             = var.subnet_01_ip
+      subnet_ip             = var.subnet_01_ip_vpc_2
       subnet_region         = var.subnet_01_region
       subnet_private_access = "true"
       description           = "subnet-01 for ${var.env}-vpc-2-network"

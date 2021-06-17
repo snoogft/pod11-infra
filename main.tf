@@ -21,7 +21,7 @@ module "vpc_2_network" {
   source                      = "./modules/network"
   project_id                  = var.project
   env                         = local.env
-  subnet_01_ip                = var.subnet_01_ip
+  subnet_01_ip                = var.subnet_01_ip_vpc_2
   subnet_01_secondary_01_ip   = var.subnet_01_secondary_01_ip
   subnet_01_secondary_01_name = var.subnet_01_secondary_01_name
   subnet_01_region            = var.region
@@ -92,7 +92,7 @@ module "gke_2" {
   environment                    = local.env
   network                        = module.vpc_network.network_2_name
   subnetwork                     = local.subnet_01_vpc_2_name
-  ip_cidr_range                  = var.subnet_01_ip
+  ip_cidr_range                  = var.subnet_01_ip_vpc_2
   ip_range_pods_name             = var.subnet_01_secondary_01_name
   ip_range_services_name         = var.subnet_01_services_name
   compute_engine_service_account = var.compute_engine_service_account
