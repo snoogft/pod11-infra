@@ -28,6 +28,7 @@ module "gke" {
       name         = "default-node-pool"
       autoscaling  = true
       max_count    = 20
+      min_count    = 4
       node_count   = 4
       machine_type = "e2-standard-4"
     }
