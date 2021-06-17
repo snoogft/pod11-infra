@@ -1,6 +1,6 @@
 locals {
   subnet_01 = var.subnet_01_name
-  subnet_01_vpc_2 = var.subnet_01_vpc_2_name
+  subnet_01_vpc_2 = "subnet-dev-01-vpc-2"
 }
 
 module "vpc" {
