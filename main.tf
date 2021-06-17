@@ -1,7 +1,7 @@
 locals {
   env            = var.prefix
   subnet_01_name = "subnet-${local.env}-01"
-  subnet_02_name = "subnet-${local.env}-02"
+  subnet_01_vpc_2_name = "subnet-${local.env}-01_vpc_2"
 }
 
 module "vpc_network" {
@@ -9,6 +9,19 @@ module "vpc_network" {
   project_id                  = var.project
   env                         = local.env
   subnet_01_ip                = var.subnet_01_ip
+  subnet_01_secondary_01_ip   = var.subnet_01_secondary_01_ip
+  subnet_01_secondary_01_name = var.subnet_01_secondary_01_name
+  subnet_01_region            = var.region
+  subnet_01_services_name     = var.subnet_01_services_name
+  subnet_01_name              = local.subnet_01_name
+  subnet_01_services_ip       = var.subnet_01_services_ip
+}
+
+module "vpc_2_network" {
+  source                      = "./modules/network"
+  project_id                  = var.project
+  env                         = local.env
+  subnet_01_ip                = var.subnet_01_vpc_2_ip
   subnet_01_secondary_01_ip   = var.subnet_01_secondary_01_ip
   subnet_01_secondary_01_name = var.subnet_01_secondary_01_name
   subnet_01_region            = var.region
@@ -39,14 +52,14 @@ module "bastion_host_2" {
   project      = var.project
   region       = var.region
   zone         = var.zone
-  network      = module.vpc_network.network_name
-  subnetwork   = local.subnet_02_name
+  network      = module.vpc_network.network_2_name
+  subnetwork   = local.subnet_01_name
   depends_on   = [module.vpc_network, module.gke_2]
   instance     = "machine-${local.env}-bastion_2"
   vm_sa_email  = var.compute_engine_service_account
   machine_type = var.machine_type
   env          = local.env
-  cluster_name = module.gke_2.cluster_2_name
+  cluster_name = module.gke_2.cluster_name
 }
 
 module "gke" {
@@ -70,11 +83,11 @@ module "gke_2" {
   region                         = var.region
   zones                          = [var.zone]
   environment                    = local.env
-  network                        = module.vpc_network.network_name
-  subnetwork                     = local.subnet_02_name
-  ip_cidr_range                  = var.subnet_02_ip
-  ip_range_pods_name             = var.subnet_02_secondary_01_name
-  ip_range_services_name         = var.subnet_02_services_name
+  network                        = module.vpc_network.network_2_name
+  subnetwork                     = local.subnet_01_name
+  ip_cidr_range                  = var.subnet_01_ip
+  ip_range_pods_name             = var.subnet_01_secondary_01_name
+  ip_range_services_name         = var.subnet_01_services_name
   compute_engine_service_account = var.compute_engine_service_account
   depends_on                     = [module.vpc_network]
 }
@@ -87,6 +100,20 @@ module "cloud_router" {
   project = var.project
   region  = var.region
   network = module.vpc_network.network_name
+
+  nats = [{
+    name = format("%s-nat", local.env)
+  }]
+}
+
+module "cloud_router_2" {
+  source  = "terraform-google-modules/cloud-router/google"
+  version = "~> 1.0.0"
+
+  name    = format("%s-router-2", local.env)
+  project = var.project
+  region  = var.region
+  network = module.vpc_network.network_2_name
 
   nats = [{
     name = format("%s-nat", local.env)
