@@ -80,7 +80,7 @@ module "gke" {
   max_count = var.max_count
   min_count = var.min_count
   node_count = var.node_count
-  node_pools_name = var.node_pools_name
+  node_pools_name = "default-node-pool"
 }
 
 module "gke_2" {
@@ -102,7 +102,7 @@ module "gke_2" {
   max_count = var.max_count
   min_count = var.min_count
   node_count = var.node_count
-  node_pools_name = var.node_pools_name
+  node_pools_name = "default-node-pool"
 }
 
 module "cloud_router" {
