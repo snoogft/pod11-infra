@@ -43,6 +43,7 @@ variable "environment" {
 
 variable "default_max_pods_per_node"{
   description = "Default maximum pods count per node for cluster"
+  type = string
 }
 
 variable "node_pools_name" {
@@ -52,18 +53,22 @@ variable "node_pools_name" {
 
 variable "autoscaling" {
   description = "Cluster autoscaling option"
+  type = bool
 }
 
 variable "node_count" {
   description = "Node count for cluster"
+  type = string
 }
 
 variable "min_count" {
   description = "Minimum node count for cluster"
+  type = string
 }
 
 variable "max_count" {
   description = "Maximum node count for cluster"
+  type = string
 }
 
 variable "machine_type_gke" {
