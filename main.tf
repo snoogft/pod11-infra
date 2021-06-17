@@ -21,7 +21,7 @@ module "vpc_2_network" {
   source                      = "./modules/network"
   project_id                  = var.project
   env                         = local.env
-  subnet_01_ip                = var.subnet_01_vpc_2_ip
+  subnet_01_ip                = var.subnet_01_ip
   subnet_01_secondary_01_ip   = var.subnet_01_secondary_01_ip
   subnet_01_secondary_01_name = var.subnet_01_secondary_01_name
   subnet_01_region            = var.region
