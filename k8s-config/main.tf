@@ -21,21 +21,21 @@ module "workload_identity" {
   ]
 }
 
-module "workload_identity_2" {
-  source              = "../modules/workload-identity"
-  project_id          = var.project
-  name                = "${var.k8s_sa_name}-${var.cluster_2_name}"
-  namespace           = var.namespace
-  use_existing_k8s_sa = true
-  k8s_sa_name         = var.k8s_sa_name
-  cluster_name        = var.cluster_2_name
-  location            = var.zone
-  roles = [
-    "roles/cloudtrace.agent",
-    "roles/monitoring.metricWriter",
-    "roles/cloudsql.client",
-  ]
-}
+//module "workload_identity_2" {
+//  source              = "../modules/workload-identity"
+//  project_id          = var.project
+//  name                = "${var.k8s_sa_name}-${var.cluster_2_name}"
+//  namespace           = var.namespace
+//  use_existing_k8s_sa = true
+//  k8s_sa_name         = var.k8s_sa_name
+//  cluster_name        = var.cluster_2_name
+//  location            = var.zone
+//  roles = [
+//    "roles/cloudtrace.agent",
+//    "roles/monitoring.metricWriter",
+//    "roles/cloudsql.client",
+//  ]
+//}
 
 resource "null_resource" "kubectl" {
   provisioner "local-exec" {
