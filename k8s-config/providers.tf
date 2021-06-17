@@ -23,7 +23,7 @@ data "google_container_cluster" "my_cluster" {
   location = var.zone
 }
 
-data "google_container_cluster" "my_cluster" {
+data "google_container_cluster" "my_cluster_2" {
   name     = var.cluster_2_name
   location = var.zone
 }
