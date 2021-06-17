@@ -46,7 +46,7 @@ module "bastion_host_2" {
   vm_sa_email  = var.compute_engine_service_account
   machine_type = var.machine_type
   env          = local.env
-  cluster_name = module.gke_2.cluster_2_name
+  cluster_2_name = module.gke_2.cluster_2_name
 }
 
 module "gke" {
