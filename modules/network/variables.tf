@@ -34,30 +34,30 @@ variable "subnet_01_secondary_01_name" {
   description = "Name for a subnet-01 secondary range"
 }
 
-variable "subnet_01_vpc_2_secondary_01_name" {
-  description = "Name for a subnet-01 VPC_2 secondary range"
-}
+//variable "subnet_01_vpc_2_secondary_01_name" {
+//  description = "Name for a subnet-01 VPC_2 secondary range"
+//}
 
 variable "subnet_01_region" {
   description = "Region for a subnet-01"
 }
 
-variable "subnet_01_vpc_2_region" {
-  description = "Region for a subnet-01 VPC_2"
-}
+//variable "subnet_01_vpc_2_region" {
+//  description = "Region for a subnet-01 VPC_2"
+//}
 
 variable "subnet_01_services_ip" {
   description = "IP for subnet-01"
 }
 
-variable "subnet_01_vpc_2_services_ip" {
-  description = "IP for subnet-01 VPC_2"
-}
+//variable "subnet_01_vpc_2_services_ip" {
+//  description = "IP for subnet-01 VPC_2"
+//}
 
 variable "subnet_01_services_name" {
   description = "Name for subnet-01"
 }
 
-variable "subnet_01_vpc_2_services_name" {
-  description = "Name for subnet-01 VPC_2"
-}
+//variable "subnet_01_vpc_2_services_name" {
+//  description = "Name for subnet-01 VPC_2"
+//}
