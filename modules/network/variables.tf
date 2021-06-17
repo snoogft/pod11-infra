@@ -10,9 +10,9 @@ variable "subnet_01_name" {
   description = "Name for a subnet-01"
 }
 
-//variable "subnet_01_vpc_2_name" {
-//  description = "Name for a subnet-01 VPC_2"
-//}
+variable "subnet_01_vpc_2_name" {
+  description = "Name for a subnet-01 VPC_2"
+}
 
 variable "subnet_01_ip" {
   description = "Ip address for a subnet-01"
