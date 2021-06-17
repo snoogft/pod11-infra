@@ -15,6 +15,7 @@ module "vpc_network" {
   subnet_01_services_name     = var.subnet_01_services_name
   subnet_01_name              = local.subnet_01_name
   subnet_01_services_ip       = var.subnet_01_services_ip
+  subnet_01_ip_vpc_2          = var.subnet_01_ip_vpc_2
 }
 
 module "vpc_2_network" {
@@ -28,6 +29,7 @@ module "vpc_2_network" {
   subnet_01_services_name     = var.subnet_01_services_name
   subnet_01_name              = local.subnet_01_vpc_2_name
   subnet_01_services_ip       = var.subnet_01_services_ip
+  subnet_01_ip_vpc_2          = var.subnet_01_ip_vpc_2
 }
 
 module "bastion_host" {
