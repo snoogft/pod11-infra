@@ -63,23 +63,23 @@ module "subnets_vpc_2" {
 
   subnets = [
     {
-      subnet_name           = "${local.subnet_01_vpc_2}"
-      subnet_ip             = var.subnet_01_vpc_2_ip
-      subnet_region         = var.subnet_01_vpc_2_region
+      subnet_name           = "${local.subnet_01}"
+      subnet_ip             = var.subnet_01_ip
+      subnet_region         = var.subnet_01_region
       subnet_private_access = "true"
-      description           = "subnet-01 for ${var.env}-vpc-2-network"
+      description           = "subnet-01 for ${var.env}-vpc-network"
     }
   ]
 
   secondary_ranges = {
-    "${local.subnet_01_vpc_2}" = [
+    "${local.subnet_01}" = [
       {
-        range_name    = var.subnet_01_vpc_2_secondary_01_name
-        ip_cidr_range = var.subnet_01_vpc_2_secondary_01_ip
+        range_name    = var.subnet_01_secondary_01_name
+        ip_cidr_range = var.subnet_01_secondary_01_ip
       },
       {
-        range_name    = var.subnet_01_vpc_2_services_name
-        ip_cidr_range = var.subnet_01_vpc_2_services_ip
+        range_name    = var.subnet_01_services_name
+        ip_cidr_range = var.subnet_01_services_ip
       }
     ]
   }

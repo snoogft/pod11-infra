@@ -75,6 +75,13 @@ module "gke" {
   ip_range_services_name         = var.subnet_01_services_name
   compute_engine_service_account = var.compute_engine_service_account
   depends_on                     = [module.vpc_network]
+  autoscaling = false
+  default_max_pods_per_node = var.default_max_pods_per_node
+  machine_type_gke = var.machine_type_gke
+  max_count = var.max_count
+  min_count = var.min_count
+  node_count = var.node_count
+  node_pools_name = var.node_pools_name
 }
 
 module "gke_2" {
@@ -90,6 +97,13 @@ module "gke_2" {
   ip_range_services_name         = var.subnet_01_services_name
   compute_engine_service_account = var.compute_engine_service_account
   depends_on                     = [module.vpc_network]
+  autoscaling = false
+  default_max_pods_per_node = var.default_max_pods_per_node
+  machine_type_gke = var.machine_type_gke
+  max_count = var.max_count
+  min_count = var.min_count
+  node_count = var.node_count
+  node_pools_name = var.node_pools_name
 }
 
 module "cloud_router" {

@@ -6,41 +6,41 @@ variable "subnet_01_ip" {
   description = "Ip address for a subnet-01"
 }
 
-variable "subnet_01_vpc_2_ip" {
-  description = "Ip address for a subnet-01 VPC_2"
-}
+//variable "subnet_01_vpc_2_ip" {
+//  description = "Ip address for a subnet-01 VPC_2"
+//}
 
 variable "subnet_01_secondary_01_ip" {
   description = "Ip address for a subnet-01 secondary range"
 }
 
-variable "subnet_01_vpc_2_secondary_01_ip" {
-  description = "Ip address for a subnet-01 VPC_2 secondary range"
-}
+//variable "subnet_01_vpc_2_secondary_01_ip" {
+//  description = "Ip address for a subnet-01 VPC_2 secondary range"
+//}
 
 variable "subnet_01_secondary_01_name" {
   description = "Name for a subnet-01 secondary range"
 }
 
-variable "subnet_01_vpc_2_secondary_01_name" {
-  description = "Name for a subnet-01 VPC_2 secondary range"
-}
+//variable "subnet_01_vpc_2_secondary_01_name" {
+//  description = "Name for a subnet-01 VPC_2 secondary range"
+//}
 
 variable "subnet_01_services_ip" {
   description = "Ip address for a subnet-01 services"
 }
 
-variable "subnet_01_vpc_2_services_ip" {
-  description = "Ip address for a subnet-01 VPC_2 services"
-}
+//variable "subnet_01_vpc_2_services_ip" {
+//  description = "Ip address for a subnet-01 VPC_2 services"
+//}
 
 variable "subnet_01_services_name" {
   description = "Name for subnet-01"
 }
 
-variable "subnet_01_vpc_2_services_name" {
-  description = "Name for subnet-01 VPC_2"
-}
+//variable "subnet_01_vpc_2_services_name" {
+//  description = "Name for subnet-01 VPC_2"
+//}
 
 variable "region" {
   description = "Region for a subnet-01"
@@ -92,4 +92,38 @@ variable "jwt_pub" {
 
 variable "prefix" {
   description = "This is the environment where your app is deployed."
+}
+
+variable "default_max_pods_per_node"{
+  description = "Default maximum pods count per node for cluster"
+  type = string
+}
+
+variable "node_pools_name" {
+  description = "Name for node pools value"
+  type = string
+}
+
+variable "autoscaling" {
+  description = "Cluster autoscaling option"
+  type = bool
+}
+
+variable "node_count" {
+  description = "Node count for cluster"
+  type = string
+}
+
+variable "min_count" {
+  description = "Minimum node count for cluster"
+  type = string
+}
+
+variable "max_count" {
+  description = "Maximum node count for cluster"
+  type = string
+}
+
+variable "machine_type_gke" {
+  description = " Machine type for gke node"
 }
