@@ -30,11 +30,3 @@ In order to give the possibility to human members for editing roles owner must g
 | Secret Manager Secret Accessor | roles/secretmanager.secretAccessor | Allows accessing the payload of secrets. |
 | Service Management Administrator | roles/servicemanagement.admin | Full control of Google Service Management resources. |
 | Storage Admin | roles/storage.admin | Full control of GCS resources. |
-
-## Roles for packer member
-
-| Role name | ID | Description |
-|------| ------|:--------:|
-| Compute OS Admin Login | roles/compute.osAdminLogin | Access to log in to a Compute Engine instance as an administrator user.|
-| Service Account User | roles/iam.serviceAccountUser | Run operations as the service account. |
-| IAP-secured Tunnel User | roles/iap.tunnelResourceAccessor | Access Tunnel resources which use Identity-Aware Proxy |

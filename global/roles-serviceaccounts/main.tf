@@ -83,33 +83,3 @@ resource "google_project_iam_member" "cloud_sql_admin" {
   role    = "roles/cloudsql.admin"
   member  = var.cloud_build_member_name
 }
-
-resource "google_service_account" "packer_service_account" {
-  account_id   = "packer-service-account"
-  display_name = "Packer Service Account"
-  description  = "Packer Service Account"
-}
-
-resource "google_project_iam_binding" "packer_compute_instance_admin" {
-  project = var.project
-  role    = "roles/compute.instanceAdmin.v1"
-  members = [
-    "serviceAccount:${google_service_account.packer_service_account.email}",
-  ]
-}
-
-resource "google_project_iam_binding" "packer_service_account_user" {
-  project = var.project
-  role    = "roles/iam.serviceAccountUser"
-  members = [
-    "serviceAccount:${google_service_account.packer_service_account.email}",
-  ]
-}
-
-resource "google_project_iam_binding" "packer_tunnel_resource_accessor" {
-  project = var.project
-  role    = "roles/iap.tunnelResourceAccessor"
-  members = [
-    "serviceAccount:${google_service_account.packer_service_account.email}",
-  ]
-}
