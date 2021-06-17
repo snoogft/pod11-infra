@@ -1,5 +1,6 @@
 locals {
   subnet_01 = var.subnet_01_name
+  subnet_01_vpc_2 = var.subnet_01_vpc_2_name
 }
 
 module "vpc" {
@@ -62,16 +63,16 @@ module "subnets_vpc_2" {
 
   subnets = [
     {
-      subnet_name           = "${local.subnet_01}"
+      subnet_name           = "${local.subnet_01_vpc_2}"
       subnet_ip             = var.subnet_01_ip
       subnet_region         = var.subnet_01_region
       subnet_private_access = "true"
-      description           = "subnet-01 for ${var.env}-vpc-network"
+      description           = "subnet-01 for ${var.env}-vpc-2-network"
     }
   ]
 
   secondary_ranges = {
-    "${local.subnet_01}" = [
+    "${local.subnet_01_vpc_2}" = [
       {
         range_name    = var.subnet_01_secondary_01_name
         ip_cidr_range = var.subnet_01_secondary_01_ip
@@ -140,7 +141,7 @@ module "firewall_rules_vpc_2" {
 
   rules = [
     {
-      name                    = "allow-ssh-${var.env}"
+      name                    = "allow-ssh-${var.env}-vpc-2"
       description             = null
       direction               = "INGRESS"
       priority                = null
@@ -159,7 +160,7 @@ module "firewall_rules_vpc_2" {
       }
     },
     {
-      name                    = "allow-http-https-${var.env}"
+      name                    = "allow-http-https-${var.env}-vpc-2"
       description             = null
       direction               = "INGRESS"
       priority                = null
