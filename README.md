@@ -41,3 +41,8 @@ If you would like to add cluster as the Multi-cluster ingress config cluster you
 gcloud alpha container hub ingress enable \
   --config-membership=projects/pol-pod11-dev-01/locations/global/memberships/${CLUSTER_1_NAME}
 ```
+
+In order to disable ingress config cluster you have to run following command:
+```
+gcloud alpha container hub ingress disable
+```
