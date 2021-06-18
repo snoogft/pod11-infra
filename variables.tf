@@ -127,3 +127,8 @@ variable "max_count" {
 variable "machine_type_gke" {
   description = " Machine type for gke node"
 }
+
+variable "subnet_name" {
+   description = "Name for subnet"
+   type = string
+}

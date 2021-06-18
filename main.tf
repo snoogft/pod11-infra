@@ -1,11 +1,13 @@
 locals {
   env            = var.prefix
-  subnet_01_name = "subnet-${local.env}-01"
-  subnet_01_vpc_2_name = "subnet-${local.env}-01-vpc-2"
+  # subnet_01_name = "subnet-${local.env}-01"
+  # subnet_01_vpc_2_name = "subnet-${local.env}-01-vpc-2"
 }
 
 module "vpc_network" {
   source                      = "./modules/network"
+  network_name = "${var.prefix}-${var.network_name}"
+  subnet_name = "${var.subnet_name}-vpc"
   project_id                  = var.project
   env                         = local.env
   subnet_01_ip                = var.subnet_01_ip
@@ -13,13 +15,14 @@ module "vpc_network" {
   subnet_01_secondary_01_name = var.subnet_01_secondary_01_name
   subnet_01_region            = var.region
   subnet_01_services_name     = var.subnet_01_services_name
-  subnet_01_name              = local.subnet_01_name
+  # subnet_01_name              = local.subnet_01_name
   subnet_01_services_ip       = var.subnet_01_services_ip
-  subnet_01_ip_vpc_2          = var.subnet_01_ip_vpc_2
 }
 
 module "vpc_2_network" {
   source                      = "./modules/network"
+  network_name = "${var.prefix}-${var.network_name}-2"
+  subnet_name = "${var.subnet_name}-vpc-2"
   project_id                  = var.project
   env                         = local.env
   subnet_01_ip                = var.subnet_01_ip_vpc_2
@@ -27,9 +30,8 @@ module "vpc_2_network" {
   subnet_01_secondary_01_name = var.subnet_01_secondary_01_name
   subnet_01_region            = var.region
   subnet_01_services_name     = var.subnet_01_services_name
-  subnet_01_name              = local.subnet_01_vpc_2_name
+  # subnet_01_name              = local.subnet_01_name
   subnet_01_services_ip       = var.subnet_01_services_ip
-  subnet_01_ip_vpc_2          = var.subnet_01_ip_vpc_2
 }
 
 module "bastion_host" {

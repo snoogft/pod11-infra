@@ -61,3 +61,14 @@ variable "subnet_01_services_name" {
 //variable "subnet_01_vpc_2_services_name" {
 //  description = "Name for subnet-01 VPC_2"
 //}
+
+
+variable "subnet_name" {
+   description = "Name for subnet"
+   type = string
+}
+
+variable "network_name" {
+   description = "Name for network"
+   type = string
+}

@@ -1,14 +1,14 @@
-locals {
-  subnet_01 = var.subnet_01_name
-  subnet_01_vpc_2 = "subnet-dev-01-vpc-2"
-}
+# locals {
+#   subnet_01 = var.subnet_01_name
+#   # subnet_01_vpc_2 = "subnet-dev-01-vpc-2"
+# }
 
 module "vpc" {
   source  = "terraform-google-modules/network/google//modules/vpc"
   version = "~> 3.2.2"
 
   project_id   = var.project_id
-  network_name = "${var.env}-vpc-network"
+  network_name = var.network_name  //"${var.env}-vpc-network"
 
   shared_vpc_host = false
 }
@@ -22,16 +22,16 @@ module "subnets" {
 
   subnets = [
     {
-      subnet_name           = "${local.subnet_01}"
+      subnet_name           = var.subnet_name   //"${local.subnet_01}"
       subnet_ip             = var.subnet_01_ip
       subnet_region         = var.subnet_01_region
       subnet_private_access = "true"
-      description           = "subnet-01 for ${var.env}-vpc-network"
+      description           = "subnet-01 for ${var.env}-vpc-network for subnet name ${var.subnet_name}"
     }
   ]
 
   secondary_ranges = {
-    "${local.subnet_01}" = [
+    var.subnet_name = [
       {
         range_name    = var.subnet_01_secondary_01_name
         ip_cidr_range = var.subnet_01_secondary_01_ip
