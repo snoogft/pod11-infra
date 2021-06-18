@@ -29,3 +29,15 @@ If you would like to connect to Kubernetes cluster use following command to get 
 ```
 gcloud container clusters get-credentials dev-cluster --zone=europe-central2-a
 ```
+
+# Anthos multi-cluster ingress config
+After setting up cluster through Terraform you can check registered cluster using:
+```
+gcloud container hub memberships list
+```
+
+If you would like to add cluster as the Multi-cluster ingress config cluster you have to run following command:
+```
+gcloud alpha container hub ingress enable \
+  --config-membership=projects/pol-pod11-dev-01/locations/global/memberships/${CLUSTER_1_NAME}
+```
