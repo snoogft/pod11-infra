@@ -6,9 +6,9 @@ variable "env" {
   description = "environment type dev/prod"
 }
 
-variable "subnet_01_name" {
-  description = "Name for a subnet-01"
-}
+# variable "subnet_01_name" {
+#   description = "Name for a subnet-01"
+# }
 
 //variable "subnet_01_vpc_2_name" {
 //  description = "Name for a subnet-01 VPC_2"
