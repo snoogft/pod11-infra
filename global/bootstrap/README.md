@@ -56,6 +56,7 @@ gcloud services enable compute.googleapis.com \
                        gkehub.googleapis.com \
                        monitoring.googleapis.com \
                        logging.googleapis.com \
+                       multiclusteringress.googleapis.com
 ```
 
 In order to use this module you have to copy example file:
