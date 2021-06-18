@@ -1,11 +1,11 @@
 steps:
-  # - id: 'configure kubernetes'
-  #   name: eu.gcr.io/$PROJECT_ID/remote-builder
-  #   env:
-  #    - INSTANCE_ARGS=--image-family remote-builder --network=${BRANCH_NAME}-vpc-network --subnet=subnet-${BRANCH_NAME}-01 --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible --service-account=${_CLOUD_BUILD_SA} --boot-disk-type=pd-ssd
-  #    - ZONE=${_ZONE}
-  #    - USERNAME=cloud-user
-  #    - COMMAND=gcloud container clusters get-credentials ${_CONTAINER_CLUSTER} --zone=${_ZONE} && chmod +x ~/workspace/k8s-config/destroy.sh && cd ~/workspace/k8s-config && BRANCH_NAME=${BRANCH_NAME} ./destroy.sh
+  - id: 'configure kubernetes'
+    name: eu.gcr.io/$PROJECT_ID/remote-builder
+    env:
+     - INSTANCE_ARGS=--image-family remote-builder --network=${BRANCH_NAME}-vpc-network --subnet=subnet-${BRANCH_NAME}-01 --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible --service-account=${_CLOUD_BUILD_SA} --boot-disk-type=pd-ssd
+     - ZONE=${_ZONE}
+     - USERNAME=cloud-user
+     - COMMAND=gcloud container clusters get-credentials ${_CONTAINER_CLUSTER} --zone=${_ZONE} && chmod +x ~/workspace/k8s-config/destroy.sh && cd ~/workspace/k8s-config && BRANCH_NAME=${BRANCH_NAME} ./destroy.sh
   - id: 'branch name'
     name: 'alpine'
     entrypoint: 'sh'
@@ -28,11 +28,11 @@ steps:
     secretEnv: ['TF_VAR_root_db_password', 'TF_VAR_jwt_secret', 'TF_VAR_jwt_pub']
     args: ['plan', '-var-file=${BRANCH_NAME}.tfvars', '-destroy']
     dir: '.'
-  # - id: 'tf state rm'
-  #   name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
-  #   secretEnv: ['TF_VAR_root_db_password', 'TF_VAR_jwt_secret', 'TF_VAR_jwt_pub']
-  #   args: ['state', 'rm', 'module.cloud_sql.module.postgresql-db.google_sql_user.default']
-  #   dir: '.'
+  - id: 'tf state rm'
+    name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
+    secretEnv: ['TF_VAR_root_db_password', 'TF_VAR_jwt_secret', 'TF_VAR_jwt_pub']
+    args: ['state', 'rm', 'module.cloud_sql.module.postgresql-db.google_sql_user.default']
+    dir: '.'
   - id: 'tf destroy'
     name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
     secretEnv: ['TF_VAR_root_db_password', 'TF_VAR_jwt_secret', 'TF_VAR_jwt_pub']
