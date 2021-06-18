@@ -25,7 +25,7 @@ module "vpc_2_network" {
   subnet_name = "${var.subnet_name}-vpc-2"
   project_id                  = var.project
   env                         = local.env
-  subnet_01_ip                = var.subnet_01_ip_vpc_2
+  subnet_01_ip                = var.subnet_01_ip
   subnet_01_secondary_01_ip   = var.subnet_01_secondary_01_ip
   subnet_01_secondary_01_name = var.subnet_01_secondary_01_name
   subnet_01_region            = var.region
