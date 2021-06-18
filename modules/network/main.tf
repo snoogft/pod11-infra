@@ -18,7 +18,7 @@ module "subnets" {
   version = "~> 3.2.2"
 
   project_id   = var.project_id
-  network_name = module.vpc.network_name
+  network_name = var.network_name
 
   subnets = [
     {
@@ -48,7 +48,7 @@ module "firewall_rules" {
   source       = "terraform-google-modules/network/google//modules/firewall-rules"
   version      = "~> 3.2.2"
   project_id   = var.project_id
-  network_name = module.vpc.network_name
+  network_name = var.network_name
 
   rules = [
     {

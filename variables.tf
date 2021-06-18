@@ -142,3 +142,8 @@ variable "cluster_number" {
   description = "Number of the cluster"
   type = string
 }
+
+variable "master_ipv4_cidr_block" {
+  description = "master_ipv4_cidr_block address"
+  type = string
+}

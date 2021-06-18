@@ -89,6 +89,7 @@ module "gke" {
   node_count = var.node_count
   node_pools_name = "default-node-pool"
   cluster_number = "1"
+  master_ipv4_cidr_block = "172.16.0.0/28"
 }
 
 module "gke_2" {
@@ -112,6 +113,7 @@ module "gke_2" {
   node_count = var.node_count
   node_pools_name = "default-node-pool"
   cluster_number = "2"
+  master_ipv4_cidr_block = "172.17.0.0/28"
 }
 
 
@@ -123,7 +125,7 @@ module "cloud_router" {
   name    = format("%s-router", local.env)
   project = var.project
   region  = var.region
-  network = module.vpc_network.network_name
+  network = "${var.prefix}-${var.network_name}"
 
   nats = [{
     name = format("%s-nat", local.env)
@@ -140,7 +142,7 @@ module "cloud_router_2" {
   network = "${var.prefix}-${var.network_name}-2"
 
   nats = [{
-    name = format("%s-nat", local.env)
+    name = format("%s-nat-2", local.env)
   }]
 }
 
