@@ -28,11 +28,11 @@ steps:
     secretEnv: ['TF_VAR_root_db_password', 'TF_VAR_jwt_secret', 'TF_VAR_jwt_pub']
     args: ['plan', '-var-file=${BRANCH_NAME}.tfvars', '-destroy']
     dir: '.'
-  - id: 'tf state rm'
-    name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
-    secretEnv: ['TF_VAR_root_db_password', 'TF_VAR_jwt_secret', 'TF_VAR_jwt_pub']
-    args: ['state', 'rm', 'module.cloud_sql.module.postgresql-db.google_sql_user.default']
-    dir: '.'
+  # - id: 'tf state rm'
+  #   name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
+  #   secretEnv: ['TF_VAR_root_db_password', 'TF_VAR_jwt_secret', 'TF_VAR_jwt_pub']
+  #   args: ['state', 'rm', 'module.cloud_sql.module.postgresql-db.google_sql_user.default']
+  #   dir: '.'
   - id: 'tf destroy'
     name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
     secretEnv: ['TF_VAR_root_db_password', 'TF_VAR_jwt_secret', 'TF_VAR_jwt_pub']
