@@ -40,14 +40,14 @@ module "bastion_host" {
   project      = var.project
   region       = var.region
   zone         = var.zone
-  network      = module.vpc_network.network_name
-  subnetwork   = local.subnet_01_name
+  network      = "${var.prefix}-${var.network_name}"
+  subnetwork   = "${var.subnet_name}-vpc"
   depends_on   = [module.vpc_network, module.gke]
   instance     = "machine-${local.env}-bastion"
   vm_sa_email  = var.compute_engine_service_account
   machine_type = var.machine_type
   env          = local.env
-  cluster_name = module.gke.cluster_name
+  cluster_name = "${var.env}-cluster-1"
 }
 
 module "bastion_host_2" {
@@ -56,14 +56,14 @@ module "bastion_host_2" {
   project      = var.project
   region       = var.region
   zone         = var.zone
-  network      = module.vpc_network.network_2_name
-  subnetwork   = local.subnet_01_vpc_2_name
-  depends_on   = [module.vpc_network, module.gke_2]
-  instance     = "machine-${local.env}-bastion_2"
+  network      = "${var.prefix}-${var.network_name}-2"
+  subnetwork   = "${var.subnet_name}-vpc-2"
+  depends_on   = [module.vpc_network, module.gke]
+  instance     = "machine-${local.env}-bastion-2"
   vm_sa_email  = var.compute_engine_service_account
   machine_type = var.machine_type
   env          = local.env
-  cluster_name = module.gke_2.cluster_name
+  cluster_name = "${var.env}-cluster-2"
 }
 
 module "gke" {
