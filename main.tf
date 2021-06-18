@@ -131,7 +131,7 @@ module "cloud_router_2" {
   name    = format("%s-router-2", local.env)
   project = var.project
   region  = var.region
-  network = module.vpc_network.network_2_name
+  network = "${var.prefix}-${var.network_name}-2"
 
   nats = [{
     name = format("%s-nat", local.env)
