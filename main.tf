@@ -72,8 +72,8 @@ module "gke" {
   region                         = var.region
   zones                          = [var.zone]
   environment                    = local.env
-  network                        = module.vpc_network.network_name
-  subnetwork                     = local.subnet_01_name
+  network                        = "${var.prefix}-${var.network_name}"
+  subnetwork                     = "${var.subnet_name}-vpc"
   ip_cidr_range                  = var.subnet_01_ip
   ip_range_pods_name             = var.subnet_01_secondary_01_name
   ip_range_services_name         = var.subnet_01_services_name
@@ -89,14 +89,14 @@ module "gke" {
   cluster_number = "1"
 }
 
-module "gke" {
+module "gke_2" {
   source                         = "./modules/cluster"
   project_id                     = var.project
   region                         = var.region
   zones                          = [var.zone]
   environment                    = local.env
-  network                        = module.vpc_network.network_name
-  subnetwork                     = local.subnet_01_name
+  network                        = "${var.prefix}-${var.network_name}-2"
+  subnetwork                     = "${var.subnet_name}-vpc-2"
   ip_cidr_range                  = var.subnet_01_ip
   ip_range_pods_name             = var.subnet_01_secondary_01_name
   ip_range_services_name         = var.subnet_01_services_name
