@@ -48,6 +48,7 @@ module "bastion_host" {
   machine_type = var.machine_type
   env          = local.env
   cluster_name = "${local.env}-cluster-1"
+  cluster_number= "1"
 }
 
 module "bastion_host_2" {
@@ -64,6 +65,7 @@ module "bastion_host_2" {
   machine_type = var.machine_type
   env          = local.env
   cluster_name = "${local.env}-cluster-2"
+  cluster_number= "2"
 }
 
 module "gke" {
