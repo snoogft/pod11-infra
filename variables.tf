@@ -137,3 +137,8 @@ variable "network_name" {
    description = "Name for network"
    type = string
 }
+
+variable "cluster_number" {
+  description = "Number of the cluster"
+  type = string
+}

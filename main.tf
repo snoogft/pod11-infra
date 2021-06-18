@@ -86,17 +86,18 @@ module "gke" {
   min_count = var.min_count
   node_count = var.node_count
   node_pools_name = "default-node-pool"
+  cluster_number = "1"
 }
 
-module "gke_2" {
+module "gke" {
   source                         = "./modules/cluster"
   project_id                     = var.project
   region                         = var.region
   zones                          = [var.zone]
   environment                    = local.env
-  network                        = module.vpc_network.network_2_name
-  subnetwork                     = local.subnet_01_vpc_2_name
-  ip_cidr_range                  = var.subnet_01_ip_vpc_2
+  network                        = module.vpc_network.network_name
+  subnetwork                     = local.subnet_01_name
+  ip_cidr_range                  = var.subnet_01_ip
   ip_range_pods_name             = var.subnet_01_secondary_01_name
   ip_range_services_name         = var.subnet_01_services_name
   compute_engine_service_account = var.compute_engine_service_account
@@ -108,7 +109,10 @@ module "gke_2" {
   min_count = var.min_count
   node_count = var.node_count
   node_pools_name = "default-node-pool"
+  cluster_number = "2"
 }
+
+
 
 module "cloud_router" {
   source  = "terraform-google-modules/cloud-router/google"

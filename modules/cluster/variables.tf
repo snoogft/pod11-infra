@@ -74,3 +74,8 @@ variable "max_count" {
 variable "machine_type_gke" {
   description = " Machine type for gke node"
 }
+
+variable "cluster_number" {
+  description = "Number of the cluster"
+  type = string
+}
