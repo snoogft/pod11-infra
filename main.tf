@@ -61,7 +61,7 @@ module "bastion_host_2" {
   zone         = var.zone
   network      = "${var.prefix}-${var.network_name}-2"
   subnetwork   = "${var.subnet_name}-vpc-2"
-  depends_on   = [module.vpc_network, module.gke]
+  depends_on   = [module.vpc_2_network, module.gke_2]
   instance     = "machine-${local.env}-bastion-2"
   vm_sa_email  = var.compute_engine_service_account
   machine_type = var.machine_type
@@ -106,7 +106,7 @@ module "gke_2" {
   ip_range_pods_name             = var.subnet_01_secondary_01_name
   ip_range_services_name         = var.subnet_01_services_name
   compute_engine_service_account = var.compute_engine_service_account
-  depends_on                     = [module.vpc_network]
+  depends_on                     = [module.vpc_2_network]
   autoscaling = false
   default_max_pods_per_node = var.default_max_pods_per_node
   machine_type_gke = var.machine_type_gke
