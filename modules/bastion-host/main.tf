@@ -24,6 +24,15 @@ data "template_file" "bastion_host_startup_script" {
   }
 }
 
+data "template_file" "bastion_2_host_startup_script" {
+  template = file("${path.module}/scripts/startup_script_bastion_host.tpl")
+  vars = {
+    cluster_name = "dev-cluster-2"
+    zone         = var.zone
+  }
+}
+
+
 resource "google_compute_instance_from_template" "vm" {
   name                    = var.instance
   project                 = var.project
