@@ -17,7 +17,7 @@ variable "name" {
 variable "location" {
   description = "Name of the bucket for Terraform state"
   type        = string
-  default     = "europe-central2"
+  default     = "europe-west4"
 }
 
 variable "iam_member" {
