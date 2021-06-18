@@ -17,6 +17,7 @@ module "vpc_network" {
   subnet_01_services_name     = var.subnet_01_services_name
   # subnet_01_name              = local.subnet_01_name
   subnet_01_services_ip       = var.subnet_01_services_ip
+  cluster_number = "1"
 }
 
 module "vpc_2_network" {
@@ -32,6 +33,7 @@ module "vpc_2_network" {
   subnet_01_services_name     = var.subnet_01_services_name
   # subnet_01_name              = local.subnet_01_name
   subnet_01_services_ip       = var.subnet_01_services_ip
+  cluster_number = "2"
 }
 
 module "bastion_host" {
@@ -89,7 +91,7 @@ module "gke" {
   node_count = var.node_count
   node_pools_name = "default-node-pool"
   cluster_number = "1"
-  master_ipv4_cidr_block = "172.16.0.0/28"
+  master_ipv4_cidr_block = "172.8.0.0/28"
 }
 
 module "gke_2" {

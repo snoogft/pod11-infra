@@ -52,7 +52,7 @@ module "firewall_rules" {
 
   rules = [
     {
-      name                    = "allow-ssh-${var.env}"
+      name                    = "allow-ssh-${var.env}-${var.cluster_number}"
       description             = null
       direction               = "INGRESS"
       priority                = null
@@ -71,7 +71,7 @@ module "firewall_rules" {
       }
     },
     {
-      name                    = "allow-http-https-${var.env}"
+      name                    = "allow-http-https-${var.env}-${var.cluster_number}"
       description             = null
       direction               = "INGRESS"
       priority                = null

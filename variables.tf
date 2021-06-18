@@ -147,3 +147,4 @@ variable "master_ipv4_cidr_block" {
   description = "master_ipv4_cidr_block address"
   type = string
 }
+
