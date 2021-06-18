@@ -12,7 +12,7 @@ to allow communication between them.
 This module creates a [Google Cloud SQL](https://cloud.google.com/sql/) cluster.
 The cluster is managed by Google, automating backups, replication, patches, and updates.
 
-This module helps you run [MySQL](https://cloud.google.com/sql/docs/mysql/) and [PostgreSQL](https://cloud.google.com/sql/docs/postgres/) databases in [Google Cloud](https://cloud.google.com/).
+This module helps you run [PostgreSQL](https://cloud.google.com/sql/docs/postgres/) databases in [Google Cloud](https://cloud.google.com/).
 
 ## Cloud SQL Architecture
 
@@ -21,7 +21,7 @@ This module helps you run [MySQL](https://cloud.google.com/sql/docs/mysql/) and 
 ## Features
 
 - Deploy a fully-managed relational database
-- Supports MySQL and PostgreSQL
+- Supports PostgreSQL
 - Optional failover instances
 - Optional read replicas
 
@@ -68,3 +68,42 @@ takes the following parameters, in order:
 The cloudbuild takes requires from secret menager:
 * USER_PASSWORD - the password to login to the Postgres instance
 
+
+## Inputs
+| Name | Description | Type |
+|------|-------------|:------:|
+| project | 	The project ID to host the cluster in (required) | `string` |
+| name | 	The name of the database (required) | `string` |
+| region | 	The region to host the database in (optional if zonal db / required if regional) | `string` |
+| network | 	The VPC network to host the database in (required) | `string` |
+| private_network | 	The private network to host the database in (required) | `string` |
+| reserved_peering_range | 	The name of the networks that can connect to a given VPC network using VPC Network Peering. | `string` |
+| engine | 	The PosgreSQl version | `string` |
+| machine_type| 	The type of VM | `bool` |
+| master_user_password | 	The password for database user | `string` |
+| master_user_name | 	The name of the database user | `bool` |
+| master_user_host | 	The host of master user| `bool` |
+| dependencies | 	List of master authorized networks. If none are provided, disallow external access (except the cluster node IPs, which GKE automatically whitelists). | `list(object({ cidr_block = string, display_name = string }))` |
+
+## Outputs
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| master_instance_name | The name of the database instance | `any` | n/a | yes |
+| master_ip_addresses | All IP addresses of the instance as list of maps, see https://www.terraform.io/docs/providers/google/r/sql_database_instance.html#ip_address-0-ip_address | `list(string)` | n/a | yes |
+| master_private_ip | The private IPv4 address of the master instance| `any` | n/a | yes |
+| master_instance | Self link to the master instance | `string` | `"us-west1"` | no |
+| master_proxy_connection | Instance path for connecting with Cloud SQL Proxy. Read more at https://cloud.google.com/sql/docs/mysql/sql-proxy | `string` | `"us-west1-a"` | no |
+| master_instance | Self link to the master instance | `string` | `"us-west1"` | no |
+| db_name| Name of the default database | `string` | `"us-west1"` | no |
+| db | Self link to the default database | `string` | `"us-west1"` | no |
+| master_user_name | The username part for the default user credentials, i.e. 'master_user_name'@'master_user_host' IDENTIFIED BY 'master_user_password'. This should typically be set as the environment variable TF_VAR_master_user_name so you don't check it into source control.| `string` | `"us-west1"` | no |
+| master_user_password | The password part for the default user credentials, i.e. 'master_user_name'@'master_user_host' IDENTIFIED BY 'master_user_password'. This should typically be set as the environment variable TF_VAR_master_user_password so you don't check it into source control. | `string` | `"us-west1"` | no |
+
+
+### Resolution
+
+You cannot reuse an instance name for up to a week after you have deleted an
+instance.
+https://cloud.google.com/sql/docs/mysql/delete-instance
+
+**This is not an officially supported Google product**
