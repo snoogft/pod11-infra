@@ -26,6 +26,11 @@ steps:
     secretEnv: ['TF_VAR_root_db_password', 'TF_VAR_jwt_secret', 'TF_VAR_jwt_pub']
     args: ['apply', '-var-file=${BRANCH_NAME}.tfvars', '-auto-approve']
     dir: '.'
+  - id: 'rm -rf .terraform'
+    name: 'alpine'
+    entrypoint: 'rm'
+    args: [ '-rf', '.terraform' ]
+    dir: '.'
   - id: 'configure kubernetes'
     name: eu.gcr.io/$PROJECT_ID/remote-builder
     env:
@@ -54,4 +59,4 @@ substitutions:
   _CONTAINER_CLUSTER: ${BRANCH_NAME}-cluster-1
   _CONTAINER_CLUSTER_2: ${BRANCH_NAME}-cluster-2
   _CLOUD_BUILD_SA: terraform-service-account@pol-pod11-dev-01.iam.gserviceaccount.com
-timeout: 2700s
+timeout: 3600s
