@@ -32,6 +32,7 @@ module "gke" {
       min_count    = 4
       node_count   = 4
       machine_type = "e2-standard-4"
+      auto_upgrade = true
     }
   ]
 }
