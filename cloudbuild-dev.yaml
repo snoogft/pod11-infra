@@ -26,20 +26,20 @@ steps:
     secretEnv: ['TF_VAR_root_db_password', 'TF_VAR_jwt_secret', 'TF_VAR_jwt_pub']
     args: ['apply', '-var-file=${BRANCH_NAME}.tfvars', '-auto-approve']
     dir: '.'
-#  - id: 'configure kubernetes'
-#    name: eu.gcr.io/$PROJECT_ID/remote-builder
-#    env:
-#     - INSTANCE_ARGS=--image-project debian-cloud --image-family debian-10 --network=${BRANCH_NAME}-vpc-network --subnet=subnet-vpc --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible --service-account=${_CLOUD_BUILD_SA}
-#     - ZONE=${_ZONE}
-#     - USERNAME=cloud-user
-#     - COMMAND=gcloud container clusters get-credentials ${_CONTAINER_CLUSTER} --zone=${_ZONE} && chmod +x ~/workspace/scripts/* && TERRAFORM_VERSION=${_TERRAFORM_VERSION} ~/workspace/scripts/install_terraform.sh && chmod +x ~/workspace/k8s-config/run.sh && cd ~/workspace/k8s-config && BRANCH_NAME=${BRANCH_NAME} ./run.sh
-#  - id: 'configure kubernetes cluster 2'
-#    name: eu.gcr.io/$PROJECT_ID/remote-builder
-#    env:
-#      - INSTANCE_ARGS=--image-project debian-cloud --image-family debian-10 --network=${BRANCH_NAME}-vpc-network-2 --subnet=subnet-vpc-02 --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible --service-account=${_CLOUD_BUILD_SA}
-#      - ZONE=${_ZONE}
-#      - USERNAME=cloud-user
-#      - COMMAND=gcloud container clusters get-credentials ${_CONTAINER_CLUSTER_2} --zone=${_ZONE} && chmod +x ~/workspace/scripts/* && TERRAFORM_VERSION=${_TERRAFORM_VERSION} ~/workspace/scripts/install_terraform.sh && chmod +x ~/workspace/k8s-config/run.sh && cd ~/workspace/k8s-config && BRANCH_NAME=${BRANCH_NAME} ./run.sh
+  - id: 'configure kubernetes'
+    name: eu.gcr.io/$PROJECT_ID/remote-builder
+    env:
+     - INSTANCE_ARGS=--image-project debian-cloud --image-family debian-10 --network=${BRANCH_NAME}-vpc-network --subnet=subnet-vpc --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible --service-account=${_CLOUD_BUILD_SA}
+     - ZONE=${_ZONE}
+     - USERNAME=cloud-user
+     - COMMAND=gcloud container clusters get-credentials ${_CONTAINER_CLUSTER} --zone=${_ZONE} && chmod +x ~/workspace/scripts/* && TERRAFORM_VERSION=${_TERRAFORM_VERSION} ~/workspace/scripts/install_terraform.sh && chmod +x ~/workspace/k8s-config/run.sh && cd ~/workspace/k8s-config && BRANCH_NAME=${BRANCH_NAME} ./run.sh
+  - id: 'configure kubernetes cluster 2'
+    name: eu.gcr.io/$PROJECT_ID/remote-builder
+    env:
+      - INSTANCE_ARGS=--image-project debian-cloud --image-family debian-10 --network=${BRANCH_NAME}-vpc-network-2 --subnet=subnet-vpc-02 --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible --service-account=${_CLOUD_BUILD_SA}
+      - ZONE=${_ZONE}
+      - USERNAME=cloud-user
+      - COMMAND=gcloud container clusters get-credentials ${_CONTAINER_CLUSTER_2} --zone=${_ZONE} && chmod +x ~/workspace/scripts/* && TERRAFORM_VERSION=${_TERRAFORM_VERSION} ~/workspace/scripts/install_terraform.sh && chmod +x ~/workspace/k8s-config/run.sh && cd ~/workspace/k8s-config && BRANCH_NAME=${BRANCH_NAME} ./run.sh
 availableSecrets:
   secretManager:
   - versionName: projects/186160847895/secrets/dev-root-db-password/versions/latest
