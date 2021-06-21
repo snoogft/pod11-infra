@@ -148,3 +148,8 @@ variable "master_ipv4_cidr_block" {
   type = string
 }
 
+variable "fw_name_allow_ssh_from_iap" {
+  description = "fw_name_allow_ssh_from_iap value"
+  type = string
+}
+

@@ -51,3 +51,7 @@ variable "cluster_name" {
 variable "cluster_number" {
   description = "GKE cluster number"
 }
+
+variable "fw_name_allow_ssh_from_iap" {
+  description = "fw_name_allow_ssh_from_iap value"
+}

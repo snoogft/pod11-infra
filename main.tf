@@ -51,6 +51,8 @@ module "bastion_host" {
   env          = local.env
   cluster_name = "${local.env}-cluster-1"
   cluster_number= "1"
+  fw_name_allow_ssh_from_iap = "test-allow-ssh-from-iap-to-tunnel-${var.prefix}"
+
 }
 
 module "bastion_host_2" {
@@ -68,6 +70,7 @@ module "bastion_host_2" {
   env          = local.env
   cluster_name = "${local.env}-cluster-2"
   cluster_number= "2"
+  fw_name_allow_ssh_from_iap = "test-allow-ssh-from-iap-to-tunnel-${var.prefix}-2"
 }
 
 module "gke" {
