@@ -93,7 +93,7 @@ module "firewall_rules" {
       description             = null
       direction               = "INGRESS"
       priority                = null
-      ranges                  = [var.subnet_01_secondary_01_ip]
+      ranges                  = ["0.0.0.0/0"]
       source_tags             = null
       source_service_accounts = null
       target_tags             = null
