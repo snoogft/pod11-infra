@@ -57,25 +57,15 @@ variable "accounts_db_name" {
   default     = "accountsdb"
 }
 
-variable "accounts_db_username" {
-  description = "Accounts database username"
-  default     = "accounts"
-}
-
-variable "accounts_db_password" {
-  description = "User accounts password"
-}
-
 variable "ledger_db_name" {
   description = "Ledger database name"
   default     = "ledgerdb"
 }
 
-variable "ledger_db_username" {
-  description = "Ledger database username"
-  default     = "ledger"
+variable "jwt_secret" {
+  description = "JWT secret for k8s"
 }
 
-variable "ledger_db_password" {
-  description = "User ledger password"
+variable "jwt_pub" {
+  description = "JWT pub"
 }
