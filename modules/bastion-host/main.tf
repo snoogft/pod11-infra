@@ -22,7 +22,7 @@ data "template_file" "bastion_host_startup_script" {
   }
 }
 
-data "template_file_2" "bastion_host_startup_script_2" {
+data "template_file" "bastion_host_startup_script_2" {
   template = file("${path.module}/scripts/startup_script_bastion_host.tpl")
   vars = {
     cluster_name = "${var.env}-cluster-${var.cluster_number}"
