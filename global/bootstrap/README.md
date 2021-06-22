@@ -58,7 +58,8 @@ gcloud services enable compute.googleapis.com \
                        logging.googleapis.com \
                        multiclusteringress.googleapis.com \
                        cloudresourcemanager.googleapis.com \
-                       multiclusterservicediscovery.googleapis.com
+                       multiclusterservicediscovery.googleapis.com \
+                       cloudkms.googleapis.com
 ```
 
 In order to use this module you have to copy example file:
