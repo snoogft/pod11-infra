@@ -141,3 +141,6 @@ variable "fw_name_allow_ssh_from_iap" {
   type = string
 }
 
+variable "metadata_startup_script" {
+  description = "Path to startup script template for bastion host 1 or bastion host 2"
+}

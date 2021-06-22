@@ -9,12 +9,10 @@ variable "project" {
 
 variable "region" {
   description = "Region to create the subnet and example VM."
-  default     = "us-west1"
 }
 
 variable "zone" {
   description = "Zone of the example VM instance to create and allow SSH from IAP."
-  default     = "us-west1-a"
 }
 
 variable "network" {
@@ -54,4 +52,8 @@ variable "cluster_number" {
 
 variable "fw_name_allow_ssh_from_iap" {
   description = "fw_name_allow_ssh_from_iap value"
+}
+
+variable "metadata_startup_script" {
+  description = "Path to startup script template for bastion host 1 or bastion host 2"
 }
