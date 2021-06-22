@@ -29,7 +29,7 @@ module "vpc_2_network" {
   subnet_01_ip                = var.subnet_01_ip
   subnet_01_secondary_01_ip   = var.subnet_01_secondary_01_ip
   subnet_01_secondary_01_name = var.subnet_01_secondary_01_name
-  subnet_01_region            = var.region
+  subnet_01_region            = var.region_2
   subnet_01_services_name     = var.subnet_01_services_name
   # subnet_01_name              = local.subnet_01_name
   subnet_01_services_ip       = var.subnet_01_services_ip
@@ -59,8 +59,8 @@ module "bastion_host_2" {
   source       = "./modules/bastion-host"
   members      = var.members
   project      = var.project
-  region       = var.region
-  zone         = var.zone
+  region       = var.region_2
+  zone         = var.zone_2
   network      = "${var.prefix}-${var.network_name}-2"
   subnetwork   = "${var.subnet_name}-vpc-2"
   depends_on   = [module.vpc_2_network, module.gke_2]
@@ -100,8 +100,8 @@ module "gke" {
 module "gke_2" {
   source                         = "./modules/cluster"
   project_id                     = var.project
-  region                         = var.region_cluster_2
-  zones                          = [var.zone_cluster_2]
+  region                         = var.region_2
+  zones                          = [var.zone_2]
   environment                    = local.env
   network                        = "${var.prefix}-${var.network_name}-2"
   subnetwork                     = "${var.subnet_name}-vpc-2"
@@ -143,7 +143,7 @@ module "cloud_router_2" {
 
   name    = format("%s-router-2", local.env)
   project = var.project
-  region  = var.region
+  region  = var.region_2
   network = "${var.prefix}-${var.network_name}-2"
 
   nats = [{
