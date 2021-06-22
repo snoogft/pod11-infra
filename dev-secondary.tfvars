@@ -7,7 +7,9 @@ members = [
   "user:TZKZ@gft.com"
 ]
 region                         = "europe-west3"
+region_2                       = "europe-west1"
 zone                           = "europe-west3-a"
+zone_2                         = "europe-west1-b"
 project                        = "pol-pod11-dev-01"
 subnet_01_ip                   = "10.10.10.0/24"
 subnet_01_secondary_01_ip      = "172.20.0.0/16"
