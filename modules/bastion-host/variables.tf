@@ -53,8 +53,3 @@ variable "cluster_number" {
 variable "fw_name_allow_ssh_from_iap" {
   description = "fw_name_allow_ssh_from_iap value"
 }
-
-variable "metadata_startup_script" {
-  description = "Path to startup script template for bastion host 1 or bastion host 2"
-  default = "data.template_file.bastion_host_startup_script.rendered"
-}
