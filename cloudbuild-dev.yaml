@@ -59,7 +59,7 @@ availableSecrets:
     env: 'TF_VAR_jwt_pub'
 substitutions:
   _ZONE: europe-west4-a
-  _ZONE_2: europe-west4-a
+  _ZONE_2: europe-west6-a
   _TERRAFORM_VERSION: 0.14.11
   _CONTAINER_CLUSTER: ${BRANCH_NAME}-cluster-1
   _CONTAINER_CLUSTER_2: ${BRANCH_NAME}-cluster-2
