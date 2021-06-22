@@ -1,7 +1,5 @@
 locals {
   env            = var.prefix
-  # subnet_01_name = "subnet-${local.env}-01"
-  # subnet_01_vpc_2_name = "subnet-${local.env}-01-vpc-2"
 }
 
 module "vpc_network" {
@@ -15,7 +13,6 @@ module "vpc_network" {
   subnet_01_secondary_01_name = var.subnet_01_secondary_01_name
   subnet_01_region            = var.region
   subnet_01_services_name     = var.subnet_01_services_name
-  # subnet_01_name              = local.subnet_01_name
   subnet_01_services_ip       = var.subnet_01_services_ip
   cluster_number = "1"
 }
@@ -31,7 +28,6 @@ module "vpc_2_network" {
   subnet_01_secondary_01_name = var.subnet_01_secondary_01_name
   subnet_01_region            = var.region_2
   subnet_01_services_name     = var.subnet_01_services_name
-  # subnet_01_name              = local.subnet_01_name
   subnet_01_services_ip       = var.subnet_01_services_ip
   cluster_number = "2"
 }
