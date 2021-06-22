@@ -26,11 +26,6 @@ steps:
     secretEnv: ['TF_VAR_root_db_password', 'TF_VAR_jwt_secret', 'TF_VAR_jwt_pub']
     args: ['apply', '-var-file=${BRANCH_NAME}.tfvars', '-auto-approve']
     dir: '.'
-  - id: 'rm -rf .terraform'
-    name: 'alpine'
-    entrypoint: 'rm'
-    args: [ '-rf', '.terraform' ]
-    dir: '.'
   - id: 'configure kubernetes'
     name: eu.gcr.io/$PROJECT_ID/remote-builder
     env:
