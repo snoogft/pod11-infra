@@ -26,8 +26,16 @@ variable "region" {
   description = "Region for a subnet-01"
 }
 
+variable "region_cluster_2" {
+  description = "Region for a custer_2"
+}
+
 variable "zone" {
   description = "Zone for a subnet-01"
+}
+
+variable "zone_cluster_2" {
+  description = "Zone for cluster_2"
 }
 
 variable "members" {

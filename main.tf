@@ -100,8 +100,8 @@ module "gke" {
 module "gke_2" {
   source                         = "./modules/cluster"
   project_id                     = var.project
-  region                         = var.region
-  zones                          = [var.zone]
+  region                         = var.region_cluster_2
+  zones                          = [var.zone_cluster_2]
   environment                    = local.env
   network                        = "${var.prefix}-${var.network_name}-2"
   subnetwork                     = "${var.subnet_name}-vpc-2"
