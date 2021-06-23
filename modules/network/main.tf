@@ -7,7 +7,7 @@ module "vpc" {
   version = "~> 3.2.2"
 
   project_id   = var.project_id
-  network_name = var.network_name  //"${var.env}-vpc-network"
+  network_name = var.network_name //"${var.env}-vpc-network"
   # depends_on = [module.firewall_rules]
 
   shared_vpc_host = false

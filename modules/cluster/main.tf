@@ -14,7 +14,7 @@ module "gke" {
   enable_private_endpoint       = true
   enable_private_nodes          = true
   default_max_pods_per_node     = var.default_max_pods_per_node
-  master_ipv4_cidr_block        = var.master_ipv4_cidr_block  //"172.16.0.0/28"
+  master_ipv4_cidr_block        = var.master_ipv4_cidr_block //"172.16.0.0/28"
   deploy_using_private_endpoint = true
   release_channel               = "REGULAR"
 
@@ -26,11 +26,11 @@ module "gke" {
   ]
   node_pools = [
     {
-      name        = "default-node-pool"
-      autoscaling = true
-      node_count  = 4
-      min_count   = 4
-      max_count   = 6
+      name         = "default-node-pool"
+      autoscaling  = true
+      node_count   = 4
+      min_count    = 4
+      max_count    = 6
       machine_type = "e2-standard-4"
       auto_upgrade = true
     }

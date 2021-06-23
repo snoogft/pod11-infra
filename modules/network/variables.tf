@@ -31,16 +31,16 @@ variable "subnet_01_services_name" {
 }
 
 variable "subnet_name" {
-   description = "Name for subnet"
-   type = string
+  description = "Name for subnet"
+  type        = string
 }
 
 variable "network_name" {
-   description = "Name for network"
-   type = string
+  description = "Name for network"
+  type        = string
 }
 
 variable "cluster_number" {
-   description = "number of cluster"
-   type = string
+  description = "number of cluster"
+  type        = string
 }
