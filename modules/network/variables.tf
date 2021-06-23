@@ -6,10 +6,6 @@ variable "env" {
   description = "environment type dev/prod"
 }
 
-variable "subnet_01_name" {
-  description = "Name for a subnet-01"
-}
-
 variable "subnet_01_ip" {
   description = "Ip address for a subnet-01"
 }
@@ -32,4 +28,19 @@ variable "subnet_01_services_ip" {
 
 variable "subnet_01_services_name" {
   description = "Name for subnet-01"
+}
+
+variable "subnet_name" {
+   description = "Name for subnet"
+   type = string
+}
+
+variable "network_name" {
+   description = "Name for network"
+   type = string
+}
+
+variable "cluster_number" {
+   description = "number of cluster"
+   type = string
 }

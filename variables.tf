@@ -26,8 +26,16 @@ variable "region" {
   description = "Region for a subnet-01"
 }
 
+variable "region_2" {
+  description = "Region for a custer_2"
+}
+
 variable "zone" {
   description = "Zone for a subnet-01"
+}
+
+variable "zone_2" {
+  description = "Zone for cluster_2"
 }
 
 variable "members" {
@@ -72,4 +80,63 @@ variable "jwt_pub" {
 
 variable "prefix" {
   description = "This is the environment where your app is deployed."
+}
+
+variable "default_max_pods_per_node"{
+  description = "Default maximum pods count per node for cluster"
+  type = string
+}
+
+variable "node_pools_name" {
+  description = "Name for node pools value"
+  type = string
+}
+
+variable "autoscaling" {
+  description = "Cluster autoscaling option"
+  type = bool
+}
+
+variable "node_count" {
+  description = "Node count for cluster"
+  type = string
+}
+
+variable "min_count" {
+  description = "Minimum node count for cluster"
+  type = string
+}
+
+variable "max_count" {
+  description = "Maximum node count for cluster"
+  type = string
+}
+
+variable "machine_type_gke" {
+  description = " Machine type for gke node"
+}
+
+variable "subnet_name" {
+   description = "Name for subnet"
+   type = string
+}
+
+variable "network_name" {
+   description = "Name for network"
+   type = string
+}
+
+variable "cluster_number" {
+  description = "Number of the cluster"
+  type = string
+}
+
+variable "master_ipv4_cidr_block" {
+  description = "master_ipv4_cidr_block address"
+  type = string
+}
+
+variable "fw_name_allow_ssh_from_iap" {
+  description = "fw_name_allow_ssh_from_iap value"
+  type = string
 }

@@ -1,5 +1,5 @@
 locals {
-  subnet_01 = var.subnet_01_name
+  subnet_01 = var.subnet_name
 }
 
 module "vpc" {
@@ -7,7 +7,8 @@ module "vpc" {
   version = "~> 3.2.2"
 
   project_id   = var.project_id
-  network_name = "${var.env}-vpc-network"
+  network_name = var.network_name  //"${var.env}-vpc-network"
+  # depends_on = [module.firewall_rules]
 
   shared_vpc_host = false
 }
@@ -17,15 +18,15 @@ module "subnets" {
   version = "~> 3.2.2"
 
   project_id   = var.project_id
-  network_name = module.vpc.network_name
+  network_name = var.network_name
 
   subnets = [
     {
-      subnet_name           = "${local.subnet_01}"
+      subnet_name           = local.subnet_01
       subnet_ip             = var.subnet_01_ip
       subnet_region         = var.subnet_01_region
       subnet_private_access = "true"
-      description           = "subnet-01 for ${var.env}-vpc-network"
+      description           = "subnet-01 for ${var.env}-vpc-network for subnet name ${var.subnet_name}"
     }
   ]
 
@@ -47,11 +48,11 @@ module "firewall_rules" {
   source       = "terraform-google-modules/network/google//modules/firewall-rules"
   version      = "~> 3.2.2"
   project_id   = var.project_id
-  network_name = module.vpc.network_name
+  network_name = var.network_name
 
   rules = [
     {
-      name                    = "allow-ssh-${var.env}"
+      name                    = "allow-ssh-${var.env}-${var.cluster_number}"
       description             = null
       direction               = "INGRESS"
       priority                = null
@@ -70,7 +71,7 @@ module "firewall_rules" {
       }
     },
     {
-      name                    = "allow-http-https-${var.env}"
+      name                    = "allow-http-https-${var.env}-${var.cluster_number}"
       description             = null
       direction               = "INGRESS"
       priority                = null
