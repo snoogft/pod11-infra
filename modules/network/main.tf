@@ -90,7 +90,7 @@ module "firewall_rules" {
       }
     },
     {
-      name                    = "allow-istio-sidecar-injection-${var.env}"
+      name                    = "allow-istio-sidecar-injection-${var.env}-${var.cluster_number}"
       description             = null
       direction               = "INGRESS"
       priority                = null
