@@ -37,14 +37,14 @@ steps:
      - INSTANCE_ARGS=--image-family remote-builder --network=${BRANCH_NAME}-vpc-network --subnet=subnet-vpc --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible --service-account=${_CLOUD_BUILD_SA} --boot-disk-type=pd-ssd
      - ZONE=${_ZONE}
      - USERNAME=cloud-user
-     - COMMAND=export TF_VAR_cluster_name=${_CONTAINER_CLUSTER} && export TF_VAR_zone=${_ZONE} && gcloud container clusters get-credentials ${_CONTAINER_CLUSTER} --zone=${_ZONE} && chmod +x ~/workspace/k8s-config/run.sh && cd ~/workspace/k8s-config && BRANCH_NAME=${BRANCH_NAME} ./run.sh
+     - COMMAND=gcloud container clusters get-credentials ${_CONTAINER_CLUSTER} --zone=${_ZONE} && chmod +x ~/workspace/k8s-config/run.sh && cd ~/workspace/k8s-config && BRANCH_NAME=${BRANCH_NAME} ./run.sh ${_CONTAINER_CLUSTER} ${_ZONE}
   - id: 'configure kubernetes cluster 2'
     name: eu.gcr.io/$PROJECT_ID/remote-builder
     env:
       - INSTANCE_ARGS=--image-family remote-builder --network=${BRANCH_NAME}-vpc-network-2 --subnet=subnet-vpc-2 --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible --service-account=${_CLOUD_BUILD_SA} --boot-disk-type=pd-ssd
       - ZONE=${_ZONE_2}
       - USERNAME=cloud-user
-      - COMMAND=export TF_VAR_cluster_name=${_CONTAINER_CLUSTER_2} && export TF_VAR_zone=${_ZONE_2} && gcloud container clusters get-credentials ${_CONTAINER_CLUSTER_2} --zone=${_ZONE_2} && chmod +x ~/workspace/k8s-config/run.sh && cd ~/workspace/k8s-config && BRANCH_NAME=${BRANCH_NAME} ./run.sh
+      - COMMAND=gcloud container clusters get-credentials ${_CONTAINER_CLUSTER_2} --zone=${_ZONE_2} && chmod +x ~/workspace/k8s-config/run.sh && cd ~/workspace/k8s-config && BRANCH_NAME=${BRANCH_NAME} ./run.sh ${_CONTAINER_CLUSTER_2} ${_ZONE_2}
 availableSecrets:
   secretManager:
   - versionName: projects/186160847895/secrets/dev-root-db-password/versions/latest
