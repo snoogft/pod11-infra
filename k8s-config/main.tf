@@ -11,7 +11,7 @@ resource "kubernetes_service_account" "preexisting" {
 module "workload_identity" {
   source              = "../modules/workload-identity"
   project_id          = var.project
-  name                = "${var.k8s_sa_name}-${var.cluster_name}-1"
+  name                = "${var.k8s_sa_name}-${var.cluster_name}"
   namespace           = var.namespace
   use_existing_k8s_sa = true
   k8s_sa_name         = var.k8s_sa_name
