@@ -87,11 +87,6 @@ variable "default_max_pods_per_node" {
   type        = string
 }
 
-variable "node_pools_name" {
-  description = "Name for node pools value"
-  type        = string
-}
-
 variable "autoscaling" {
   description = "Cluster autoscaling option"
   type        = bool
@@ -126,17 +121,3 @@ variable "network_name" {
   type        = string
 }
 
-variable "cluster_number" {
-  description = "Number of the cluster"
-  type        = string
-}
-
-variable "master_ipv4_cidr_block" {
-  description = "master_ipv4_cidr_block address"
-  type        = string
-}
-
-variable "fw_name_allow_ssh_from_iap" {
-  description = "fw_name_allow_ssh_from_iap value"
-  type        = string
-}
