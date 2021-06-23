@@ -24,22 +24,6 @@ module "workload_identity" {
   ]
 }
 
-module "workload_identity_2" {
-  source              = "../modules/workload-identity"
-  project_id          = var.project
-  name                = "${var.k8s_sa_name}-${var.cluster_name_2}-2"
-  namespace           = var.namespace
-  use_existing_k8s_sa = true
-  k8s_sa_name         = var.k8s_sa_name
-  cluster_name        = var.cluster_name_2
-  location            = var.zone_2
-  roles = [
-    "roles/cloudtrace.agent",
-    "roles/monitoring.metricWriter",
-    "roles/cloudsql.client",
-  ]
-}
-
 resource "kubernetes_secret" "cloud_sql_admin" {
   metadata {
     name = "cloud-sql-admin"
