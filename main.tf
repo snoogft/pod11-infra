@@ -87,7 +87,6 @@ module "gke" {
   max_count                      = var.max_count
   min_count                      = var.min_count
   node_count                     = var.node_count
-  node_pools_name                = "default-node-pool"
   cluster_number                 = "1"
   master_ipv4_cidr_block         = "172.8.0.0/28"
 }
@@ -111,7 +110,6 @@ module "gke_2" {
   max_count                      = var.max_count
   min_count                      = var.min_count
   node_count                     = var.node_count
-  node_pools_name                = "default-node-pool"
   cluster_number                 = "2"
   master_ipv4_cidr_block         = "172.17.0.0/28"
 }
