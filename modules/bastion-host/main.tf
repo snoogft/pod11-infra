@@ -1,7 +1,7 @@
 # A testing VM to allow OS Login + IAP tunneling.
 module "instance_template" {
   source               = "terraform-google-modules/vm/google//modules/instance_template"
-  version              = "1.1.0"
+  version              = "6.5.0"
   project_id           = var.project
   machine_type         = var.machine_type
   subnetwork           = var.subnetwork
