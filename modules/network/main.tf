@@ -19,7 +19,7 @@ module "subnets" {
 
   project_id   = var.project_id
   network_name = var.network_name
-  depends_on = [module.vpc]
+  depends_on   = [module.vpc]
 
   subnets = [
     {
@@ -50,7 +50,7 @@ module "firewall_rules" {
   version      = "~> 3.2.2"
   project_id   = var.project_id
   network_name = var.network_name
-  depends_on = [module.subnets, module.vpc]
+  depends_on   = [module.subnets, module.vpc]
 
   rules = [
     {
