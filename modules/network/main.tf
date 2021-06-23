@@ -88,6 +88,25 @@ module "firewall_rules" {
       log_config = {
         metadata = "INCLUDE_ALL_METADATA"
       }
+    },
+    {
+      name                    = "allow-istio-sidecar-injection-${var.env}"
+      description             = null
+      direction               = "INGRESS"
+      priority                = null
+      ranges                  = ["0.0.0.0/0"]
+      source_tags             = null
+      source_service_accounts = null
+      target_tags             = null
+      target_service_accounts = null
+      allow = [{
+        protocol = "tcp"
+        ports    = ["10250", "15017"]
+      }]
+      deny = []
+      log_config = {
+        metadata = "INCLUDE_ALL_METADATA"
+      }
     }
   ]
 }

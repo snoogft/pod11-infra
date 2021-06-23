@@ -83,4 +83,3 @@ resource "google_project_iam_member" "cloud_sql_admin" {
   role    = "roles/cloudsql.admin"
   member  = var.cloud_build_member_name
 }
-

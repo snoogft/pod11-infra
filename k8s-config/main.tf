@@ -2,6 +2,9 @@ resource "kubernetes_service_account" "preexisting" {
   metadata {
     name      = var.k8s_sa_name
     namespace = var.namespace
+    annotations = {
+      "iam.gke.io/gcp-service-account" = module.workload_identity.gcp_service_account_email
+    }
   }
 }
 
@@ -21,17 +24,6 @@ module "workload_identity" {
   ]
 }
 
-resource "null_resource" "kubectl" {
-  provisioner "local-exec" {
-    command = "sudo apt-get install -y kubectl && kubectl annotate --overwrite serviceaccount --namespace default ${var.k8s_sa_name} iam.gke.io/gcp-service-account=${module.workload_identity.gcp_service_account_email}"
-    interpreter = [
-      "/bin/bash",
-    "-c"]
-    environment = {
-    }
-  }
-}
-
 resource "kubernetes_secret" "cloud_sql_admin" {
   metadata {
     name = "cloud-sql-admin"
@@ -41,19 +33,6 @@ resource "kubernetes_secret" "cloud_sql_admin" {
     username       = data.terraform_remote_state.workspaces.outputs.master_user_name
     password       = data.terraform_remote_state.workspaces.outputs.master_user_password
     connectionName = data.terraform_remote_state.workspaces.outputs.master_proxy_connection
-  }
-
-  type = "Opaque"
-}
-
-resource "kubernetes_secret" "jwt_secret" {
-  metadata {
-    name = "jwt-key"
-  }
-
-  data = {
-    "jwtRS256.key"     = data.terraform_remote_state.workspaces.outputs.jwt_secret
-    "jwtRS256.key.pub" = data.terraform_remote_state.workspaces.outputs.jwt_pub
   }
 
   type = "Opaque"
@@ -309,4 +288,15 @@ resource "kubernetes_job" "create_ledger_db" {
       }
     }
   }
+}
+
+module "hub-primary" {
+  source                  = "terraform-google-modules/kubernetes-engine/google//modules/hub"
+  version                 = "v15.0.0"
+  project_id              = var.project
+  cluster_name            = data.terraform_remote_state.workspaces.outputs.gke_cluster_name
+  location                = data.terraform_remote_state.workspaces.outputs.gke_location
+  cluster_endpoint        = data.terraform_remote_state.workspaces.outputs.gke_cluster_endpoint
+  gke_hub_membership_name = "primary"
+  gke_hub_sa_name         = "primary"
 }

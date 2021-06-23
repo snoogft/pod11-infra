@@ -36,3 +36,21 @@ output "jwt_pub" {
   sensitive   = true
   value       = var.jwt_secret
 }
+
+output "gke_cluster_name" {
+  value       = module.gke.cluster_name
+  description = "GKE cluster name"
+  sensitive   = true
+}
+
+output "gke_location" {
+  value       = module.gke.location
+  description = "GKE location"
+  sensitive   = true
+}
+
+output "gke_cluster_endpoint" {
+  value       = module.gke.endpoint
+  description = "GKE cluster endpoint"
+  sensitive   = true
+}

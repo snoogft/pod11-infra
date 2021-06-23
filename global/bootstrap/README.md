@@ -45,6 +45,21 @@ gcloud services enable compute.googleapis.com \
                        secretmanager.googleapis.com \
                        containeranalysis.googleapis.com \
                        artifactregistry.googleapis.com \
+                       iam.googleapis.com \
+                       anthos.googleapis.com \
+                       cloudtrace.googleapis.com \
+                       meshca.googleapis.com \
+                       meshtelemetry.googleapis.com \
+                       meshconfig.googleapis.com \
+                       iamcredentials.googleapis.com \
+                       gkeconnect.googleapis.com \
+                       gkehub.googleapis.com \
+                       monitoring.googleapis.com \
+                       logging.googleapis.com \
+                       multiclusteringress.googleapis.com \
+                       cloudresourcemanager.googleapis.com \
+                       multiclusterservicediscovery.googleapis.com \
+                       cloudkms.googleapis.com
 ```
 
 In order to use this module you have to copy example file:

@@ -16,6 +16,7 @@ module "gke" {
   default_max_pods_per_node     = var.default_max_pods_per_node
   master_ipv4_cidr_block        = var.master_ipv4_cidr_block  //"172.16.0.0/28"
   deploy_using_private_endpoint = true
+  release_channel               = "REGULAR"
 
   master_authorized_networks = [
     {
@@ -31,6 +32,7 @@ module "gke" {
       min_count   = 4
       max_count   = 6
       machine_type = "e2-standard-4"
+      auto_upgrade = true
     }
   ]
 }
