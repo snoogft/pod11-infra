@@ -2,11 +2,13 @@
 
 # A testing VM to allow OS Login + IAP tunneling.
 module "instance_template" {
-  source       = "terraform-google-modules/vm/google//modules/instance_template"
-  version      = "1.1.0"
-  project_id   = var.project
-  machine_type = var.machine_type
-  subnetwork   = var.subnetwork
+  source               = "terraform-google-modules/vm/google//modules/instance_template"
+  version              = "1.1.0"
+  project_id           = var.project
+  machine_type         = var.machine_type
+  subnetwork           = var.subnetwork
+  source_image_family  = "debian-10"
+  source_image_project = "debian-cloud"
   service_account = {
     email  = var.vm_sa_email
     scopes = ["cloud-platform"]
@@ -17,7 +19,7 @@ module "instance_template" {
 }
 
 data "template_file" "bastion_host_startup_script" {
-  template = file("../../scripts/startup_script_bastion_host.tpl")
+  template = file("${path.module}/scripts/startup_script_bastion_host.tpl")
   vars = {
     cluster_name = var.cluster_name
     zone         = var.zone

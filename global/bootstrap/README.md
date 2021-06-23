@@ -19,6 +19,15 @@ From the book `Terraform Up & Running`:
 Additionally this module have to enable all required APIs in order to create infrastructure.
 
 ## Usage
+Create workspace for every working branch.
+```
+terraform workspace new BRANCH_NAME
+
+terraform workspace new dev
+terraform workspace new dev-secondary
+terraform workspace new prod
+```
+
 Enable APIs
 ```
 gcloud services enable compute.googleapis.com \
@@ -36,6 +45,21 @@ gcloud services enable compute.googleapis.com \
                        secretmanager.googleapis.com \
                        containeranalysis.googleapis.com \
                        artifactregistry.googleapis.com \
+                       iam.googleapis.com \
+                       anthos.googleapis.com \
+                       cloudtrace.googleapis.com \
+                       meshca.googleapis.com \
+                       meshtelemetry.googleapis.com \
+                       meshconfig.googleapis.com \
+                       iamcredentials.googleapis.com \
+                       gkeconnect.googleapis.com \
+                       gkehub.googleapis.com \
+                       monitoring.googleapis.com \
+                       logging.googleapis.com \
+                       multiclusteringress.googleapis.com \
+                       cloudresourcemanager.googleapis.com \
+                       multiclusterservicediscovery.googleapis.com \
+                       cloudkms.googleapis.com
 ```
 
 In order to use this module you have to copy example file:

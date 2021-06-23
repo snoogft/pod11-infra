@@ -1,11 +1,11 @@
 #!/bin/bash
 logger "Startup script for bastion host starting..."
 # Install kubectl
-sudo apt install -y kubectl
-sudo apt install -y bash-completion
+sudo apt-get install -y kubectl
+sudo apt-get install -y bash-completion
 # Get credential for container
-echo "gcloud container clusters get-credentials ${cluster_name} --zone=${zone}" >> /etc/bashrc
-echo "source <(kubectl completion bash)" >> /etc/bashrc
+echo "gcloud container clusters get-credentials ${cluster_name} --zone=${zone}" >> /etc/bash.bashrc
+echo "source <(kubectl completion bash)" >> /etc/bash.bashrc
 # Installing the Cloud Logging agent 
 curl -sSO https://dl.google.com/cloudagents/add-logging-agent-repo.sh
 sudo bash add-logging-agent-repo.sh --also-install
