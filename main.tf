@@ -51,7 +51,7 @@ module "bastion_host" {
 }
 
 module "bastion_host_2" {
-  source       = "./modules/bastion-host"
+  source       = "./modules/bastion-host/bastion-cluster-2"
   members      = var.members
   project      = var.project
   region       = var.region_2
