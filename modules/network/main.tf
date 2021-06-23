@@ -22,7 +22,7 @@ module "subnets" {
 
   subnets = [
     {
-      subnet_name           = "${local.subnet_01}"
+      subnet_name           = local.subnet_01
       subnet_ip             = var.subnet_01_ip
       subnet_region         = var.subnet_01_region
       subnet_private_access = "true"
