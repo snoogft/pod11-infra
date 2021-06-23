@@ -123,7 +123,7 @@ module "cloud_router" {
   name    = format("%s-router", local.env)
   project = var.project
   region  = var.region
-  network = "${var.prefix}-${var.network_name}"
+  network = module.vpc_network.network_name
 
   nats = [{
     name = format("%s-nat", local.env)
@@ -137,7 +137,7 @@ module "cloud_router_2" {
   name    = format("%s-router-2", local.env)
   project = var.project
   region  = var.region_2
-  network = "${var.prefix}-${var.network_name}-2"
+  network = module.vpc_2_network.network_name
 
   nats = [{
     name = format("%s-nat-2", local.env)
