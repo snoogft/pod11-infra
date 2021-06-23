@@ -11,12 +11,28 @@ resource "kubernetes_service_account" "preexisting" {
 module "workload_identity" {
   source              = "../modules/workload-identity"
   project_id          = var.project
-  name                = "${var.k8s_sa_name}-${var.cluster_name}"
+  name                = "${var.k8s_sa_name}-${var.cluster_name}-1"
   namespace           = var.namespace
   use_existing_k8s_sa = true
   k8s_sa_name         = var.k8s_sa_name
   cluster_name        = var.cluster_name
   location            = var.zone
+  roles = [
+    "roles/cloudtrace.agent",
+    "roles/monitoring.metricWriter",
+    "roles/cloudsql.client",
+  ]
+}
+
+module "workload_identity_2" {
+  source              = "../modules/workload-identity"
+  project_id          = var.project
+  name                = "${var.k8s_sa_name}-${var.cluster_name_2}-2"
+  namespace           = var.namespace
+  use_existing_k8s_sa = true
+  k8s_sa_name         = var.k8s_sa_name
+  cluster_name        = var.cluster_name_2
+  location            = var.zone_2
   roles = [
     "roles/cloudtrace.agent",
     "roles/monitoring.metricWriter",

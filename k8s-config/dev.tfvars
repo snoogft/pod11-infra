@@ -1,6 +1,7 @@
 region         = "europe-west4"
 zone           = "europe-west4-a"
+zone_2         = "europe-west6-a"
 project        = "pol-pod11-dev-01"
 cluster_name   = "dev-cluster-1"
-cluster_2_name = "dev-cluster-2"
+cluster_name_2 = "dev-cluster-2"
 workspace_env  = "dev"

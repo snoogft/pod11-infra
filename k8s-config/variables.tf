@@ -10,11 +10,15 @@ variable "zone" {
   description = "Zone for a subnet-01"
 }
 
+variable "zone_2" {
+  description = "Zone_2 for a subnet-01"
+}
+
 variable "cluster_name" {
   description = "GKE cluster name"
 }
 
-variable "cluster_2_name" {
+variable "cluster_name_2" {
   description = "GKE cluster_2 name"
 }
 
