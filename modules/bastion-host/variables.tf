@@ -53,7 +53,3 @@ variable "cluster_number" {
 variable "fw_name_allow_ssh_from_iap" {
   description = "fw_name_allow_ssh_from_iap value"
 }
-
-variable "region" {
-  description = "Region name"
-}
