@@ -298,4 +298,5 @@ module "hub" {
   location                = data.google_container_cluster.my_cluster.location
   cluster_endpoint        = data.google_container_cluster.my_cluster.endpoint
   gke_hub_membership_name = "membership-name-${var.cluster_name}"
+  gke_hub_sa_name         = "gke-hub-sa-${var.cluster_name}"
 }
