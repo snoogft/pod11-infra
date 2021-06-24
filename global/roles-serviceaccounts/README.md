@@ -30,3 +30,4 @@ In order to give the possibility to human members for editing roles owner must g
 | Secret Manager Secret Accessor | roles/secretmanager.secretAccessor | Allows accessing the payload of secrets. |
 | Service Management Administrator | roles/servicemanagement.admin | Full control of Google Service Management resources. |
 | Storage Admin | roles/storage.admin | Full control of GCS resources. |
+| GKE Hub Admin | roles/gkehub.admin | Full access to GKE Hub resources. |
