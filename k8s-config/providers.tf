@@ -5,7 +5,6 @@ provider "google" {
 }
 
 data "google_client_config" "default" {
-
 }
 
 data "terraform_remote_state" "workspaces" {

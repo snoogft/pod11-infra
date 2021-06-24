@@ -7,7 +7,9 @@ members = [
   "user:TZKZ@gft.com"
 ]
 region                         = "europe-west3"
+region_2                       = "europe-west1"
 zone                           = "europe-west3-a"
+zone_2                         = "europe-west1-b"
 project                        = "pol-pod11-dev-01"
 subnet_01_ip                   = "10.10.10.0/24"
 subnet_01_secondary_01_ip      = "172.20.0.0/16"
@@ -18,3 +20,9 @@ compute_engine_service_account = "186160847895-compute@developer.gserviceaccount
 machine_type                   = "f1-micro"
 machine_type_db                = "db-g1-small"
 prefix                         = "dev-secondary"
+autoscaling                    = true
+node_count                     = 4
+min_count                      = 4
+max_count                      = 6
+default_max_pods_per_node      = 55
+machine_type_gke               = "e2-standard-4"
