@@ -1,4 +1,20 @@
 steps:
+  - id: 'delete forwarding-rules'
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: 'gcloud'
+    args: ['compute', 'forwarding-rules', 'delete', 'gkemcs-${PROJECT_ID}-${_NETWORK_NAME}', '--quiet']
+  - id: 'delete target-http-proxies'
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: 'gcloud'
+    args: ['compute', 'target-http-proxies', 'delete', 'gkemcs-${PROJECT_ID}-${_NETWORK_NAME}', '--quiet']
+  - id: 'delete url-maps'
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: 'gcloud'
+    args: ['compute', 'url-maps', 'delete', 'gkemcs-${PROJECT_ID}-${_NETWORK_NAME}', '--quiet']
+  - id: 'delete backend-services'
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: 'gcloud'
+    args: ['compute', 'backend-services', 'delete', 'gkemcs-default-404', '--global', '--quiet']
   - id: 'configure kubernetes'
     name: eu.gcr.io/$PROJECT_ID/remote-builder
     env:
@@ -59,4 +75,5 @@ substitutions:
   _TERRAFORM_VERSION: 0.14.11
   _CONTAINER_CLUSTER: ${BRANCH_NAME}-cluster
   _CLOUD_BUILD_SA: terraform-service-account@pol-pod11-dev-01.iam.gserviceaccount.com
+  _NETWORK_NAME: ${BRANCH_NAME}-network-vpc
 timeout: 2700s
