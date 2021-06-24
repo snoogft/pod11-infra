@@ -14,7 +14,7 @@ steps:
   - id: 'delete backend-services'
     name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: 'gcloud'
-    args: ['compute', 'backend-services', 'delete' 'gkemcs-default-404' '--global', '--quiet']
+    args: ['compute', 'backend-services', 'delete', 'gkemcs-default-404', '--global', '--quiet']
   - id: 'configure kubernetes'
     name: eu.gcr.io/$PROJECT_ID/remote-builder
     env:
