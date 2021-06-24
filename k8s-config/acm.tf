@@ -6,6 +6,6 @@ module "acm" {
   location         = data.google_container_cluster.my_cluster.location
   cluster_endpoint = data.google_container_cluster.my_cluster.endpoint
 
-  sync_repo        = "https://github.com/Katmar-creator/boa-management-config"
-  sync_branch      = "main"
+  sync_repo   = "https://github.com/Katmar-creator/boa-management-config"
+  sync_branch = "main"
 }
