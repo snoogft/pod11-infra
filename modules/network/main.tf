@@ -7,7 +7,7 @@ module "vpc" {
   version = "~> 3.2.2"
 
   project_id   = var.project_id
-  network_name = var.network_name  //"${var.env}-vpc-network"
+  network_name = var.network_name //"${var.env}-vpc-network"
   # depends_on = [module.firewall_rules]
 
   shared_vpc_host = false
@@ -19,6 +19,7 @@ module "subnets" {
 
   project_id   = var.project_id
   network_name = var.network_name
+  depends_on   = [module.vpc]
 
   subnets = [
     {
@@ -49,6 +50,7 @@ module "firewall_rules" {
   version      = "~> 3.2.2"
   project_id   = var.project_id
   network_name = var.network_name
+  depends_on   = [module.subnets, module.vpc]
 
   rules = [
     {
@@ -90,7 +92,7 @@ module "firewall_rules" {
       }
     },
     {
-      name                    = "allow-istio-sidecar-injection-${var.env}"
+      name                    = "allow-istio-sidecar-injection-${var.env}-${var.cluster_number}"
       description             = null
       direction               = "INGRESS"
       priority                = null

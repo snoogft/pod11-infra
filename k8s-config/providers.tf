@@ -5,7 +5,6 @@ provider "google" {
 }
 
 data "google_client_config" "default" {
-
 }
 
 data "terraform_remote_state" "workspaces" {
@@ -20,11 +19,6 @@ data "terraform_remote_state" "workspaces" {
 
 data "google_container_cluster" "my_cluster" {
   name     = var.cluster_name
-  location = var.zone
-}
-
-data "google_container_cluster" "my_cluster_2" {
-  name     = var.cluster_2_name
   location = var.zone
 }
 
