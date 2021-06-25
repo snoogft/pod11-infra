@@ -9,8 +9,8 @@ module "asm" {
 }
 
 module "kubectl" {
-  source = "terraform-google-modules/gcloud/google//modules/kubectl-wrapper"
-
+  source                  = "terraform-google-modules/gcloud/google//modules/kubectl-wrapper"
+  version                 = "3.0.0"
   project_id              = var.project
   cluster_name            = data.google_container_cluster.my_cluster.name
   cluster_location        = data.google_container_cluster.my_cluster.location
