@@ -56,7 +56,7 @@ steps:
     name: eu.gcr.io/$PROJECT_ID/remote-builder
     env:
      - INSTANCE_ARGS=--image-family remote-builder --network=${BRANCH_NAME}-vpc-network-2 --subnet=subnet-vpc-2 --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible --service-account=${_CLOUD_BUILD_SA} --boot-disk-type=pd-ssd
-     - ZONE=${_ZONE}
+     - ZONE=${_ZONE_2}
      - USERNAME=cloud-user
      - COMMAND=gcloud container clusters get-credentials ${_CONTAINER_CLUSTER_2} --zone=${_ZONE_2} && chmod +x ~/workspace/acm-config/run.sh && cd ~/workspace/acm-config && BRANCH_NAME=${BRANCH_NAME} ./run.sh ${_CONTAINER_CLUSTER_2} ${_ZONE_2}
 availableSecrets:
