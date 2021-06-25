@@ -3,18 +3,22 @@ steps:
     name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: 'gcloud compute'
     args: ['forwarding-rules', 'delete', 'gkemcs-${PROJECT_ID}-${_NETWORK_NAME}']
+    allow_failure: true
   - id: 'delete target-http-proxies'
     name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: 'gcloud compute'
     args: ['target-http-proxies', 'delete', 'gkemcs-${PROJECT_ID}-${_NETWORK_NAME}']
+    allow_failure: true
   - id: 'delete url-maps'
     name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: 'gcloud compute'
     args: ['url-maps', 'delete', 'gkemcs-${PROJECT_ID}-${_NETWORK_NAME}']
+    allow_failure: true
   - id: 'delete backend-services'
     name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: 'gcloud compute'
-    args: ['backend-services', 'delete' 'gkemcs-default-404' '--global']
+    args: ['backend-services', 'delete', 'gkemcs-default-404', '--global']
+    allow_failure: true
   - id: 'configure kubernetes'
     name: eu.gcr.io/$PROJECT_ID/remote-builder
     env:
