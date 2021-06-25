@@ -1,3 +1,11 @@
+resource "null_resource" "previous" {}
+
+resource "time_sleep" "wait_120_seconds" {
+  depends_on = [null_resource.previous]
+
+  create_duration = "120s"
+}
+
 module "acm" {
   source           = "terraform-google-modules/kubernetes-engine/google//modules/acm"
   version          = "15.0.0"
@@ -8,5 +16,5 @@ module "acm" {
   operator_path    = "config-management-operator/config-management-operator.yaml"
   sync_repo        = "https://github.com/Katmar-creator/boa-management-config"
   sync_branch      = "main"
-  depends_on       = [module.asm]
+  depends_on       = [time_sleep.wait_120_seconds]
 }
