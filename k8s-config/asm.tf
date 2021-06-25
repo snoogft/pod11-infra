@@ -6,7 +6,7 @@ module "asm" {
   location              = data.google_container_cluster.my_cluster.location
   enable_cluster_labels = true
   cluster_endpoint      = data.google_container_cluster.my_cluster.endpoint
-  depends_on            = module.hub
+  depends_on            = [module.hub]
 }
 
 module "kubectl" {
