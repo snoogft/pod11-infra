@@ -38,6 +38,7 @@ resource "google_compute_instance_from_template" "vm" {
 
 module "iap_tunneling" {
   source                     = "terraform-google-modules/bastion-host/google//modules/iap-tunneling"
+  version                    = "3.2.0"
   fw_name_allow_ssh_from_iap = var.fw_name_allow_ssh_from_iap
   project                    = var.project
   network                    = var.network
