@@ -34,6 +34,16 @@ steps:
     entrypoint: 'gcloud'
     args: ['compute', 'backend-services', 'delete', 'gkemcs-default-404', '--global', '--quiet']
     allow_failure: true
+  - id: 'delete firewall-rule vpc_1'
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: 'gcloud'
+    args: ['compute', 'firewall-rules', 'delete', 'mci-o3mrlc-${_NETWORK_NAME}-l7', '--quiet']
+    allow_failure: true
+  - id: 'delete firewall-rule vpc_2'
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: 'gcloud'
+    args: ['compute', 'firewall-rules', 'delete', 'mci-o3mrlc-${_NETWORK_NAME_2}-l7', '--quiet']
+    allow_failure: true
   - id: 'configure kubernetes'
     name: eu.gcr.io/$PROJECT_ID/remote-builder
     env:
