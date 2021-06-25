@@ -76,8 +76,10 @@ availableSecrets:
     env: 'TF_VAR_jwt_pub'
 substitutions:
   _ZONE: europe-west3-a
+  _ZONE_2: europe-west1-b
   _TERRAFORM_VERSION: 0.14.11
-  _CONTAINER_CLUSTER: ${BRANCH_NAME}-cluster
+  _CONTAINER_CLUSTER: ${BRANCH_NAME}-cluster-1
+  _CONTAINER_CLUSTER_2: ${BRANCH_NAME}-cluster-2
   _CLOUD_BUILD_SA: terraform-service-account@pol-pod11-dev-01.iam.gserviceaccount.com
-  _NETWORK_NAME: ${BRANCH_NAME}-network-vpc
+  _NETWORK_NAME: ${BRANCH_NAME}-vpc-network
 timeout: 2700s
