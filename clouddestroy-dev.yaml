@@ -43,7 +43,7 @@ steps:
     name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: 'gcloud'
     args: ['compute', 'firewall-rules', 'delete', 'mci-o3mrlc-${_NETWORK_NAME_2}-l7', '--quiet']
-    allow_failure: 
+    allow_failure: true
   - id: 'configure acm for cluster 1'
     name: eu.gcr.io/$PROJECT_ID/remote-builder
     env:
