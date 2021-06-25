@@ -8,4 +8,5 @@ module "acm" {
   operator_path    = "config-management-operator/config-management-operator.yaml"
   sync_repo        = "https://github.com/Katmar-creator/boa-management-config"
   sync_branch      = "main"
+  depends_on       = module.asm
 }
