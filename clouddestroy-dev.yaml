@@ -9,7 +9,7 @@ steps:
     entrypoint: 'gcloud'
     args: ['compute', 'forwarding-rules', 'delete', 'gkemcs-${PROJECT_ID}-${_NETWORK_NAME_2}', '--global', '--quiet']
     allow_failure: true
-  - id: 'delete target-http-proxies'
+  - id: 'delete target-http-proxies vpc_1'
     name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: 'gcloud'
     args: ['compute', 'target-http-proxies', 'delete', 'gkemcs-${PROJECT_ID}-${_NETWORK_NAME}', '--quiet']
@@ -19,7 +19,7 @@ steps:
     entrypoint: 'gcloud'
     args: ['compute', 'target-http-proxies', 'delete', 'gkemcs-${PROJECT_ID}-${_NETWORK_NAME_2}', '--quiet']
     allow_failure: true
-  - id: 'delete url-maps'
+  - id: 'delete url-maps vpc_1'
     name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: 'gcloud'
     args: ['compute', 'url-maps', 'delete', 'gkemcs-${PROJECT_ID}-${_NETWORK_NAME}', '--quiet']
