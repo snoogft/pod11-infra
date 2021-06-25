@@ -1,4 +1,49 @@
 steps:
+  - id: 'delete forwarding-rules vpc_1'
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: 'gcloud'
+    args: ['compute', 'forwarding-rules', 'delete', 'gkemcs-${PROJECT_ID}-${_NETWORK_NAME}', '--global', '--quiet']
+    allow_failure: true
+  - id: 'delete forwarding-rules vpc_2'
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: 'gcloud'
+    args: ['compute', 'forwarding-rules', 'delete', 'gkemcs-${PROJECT_ID}-${_NETWORK_NAME_2}', '--global', '--quiet']
+    allow_failure: true
+  - id: 'delete target-http-proxies vpc_1'
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: 'gcloud'
+    args: ['compute', 'target-http-proxies', 'delete', 'gkemcs-${PROJECT_ID}-${_NETWORK_NAME}', '--quiet']
+    allow_failure: true
+  - id: 'delete target-http-proxies vpc_2'
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: 'gcloud'
+    args: ['compute', 'target-http-proxies', 'delete', 'gkemcs-${PROJECT_ID}-${_NETWORK_NAME_2}', '--quiet']
+    allow_failure: true
+  - id: 'delete url-maps vpc_1'
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: 'gcloud'
+    args: ['compute', 'url-maps', 'delete', 'gkemcs-${PROJECT_ID}-${_NETWORK_NAME}', '--quiet']
+    allow_failure: true
+  - id: 'delete url-maps vpc_2'
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: 'gcloud'
+    args: ['compute', 'url-maps', 'delete', 'gkemcs-${PROJECT_ID}-${_NETWORK_NAME_2}', '--quiet']
+    allow_failure: true
+  - id: 'delete backend-services'
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: 'gcloud'
+    args: ['compute', 'backend-services', 'delete', 'gkemcs-default-404', '--global', '--quiet']
+    allow_failure: true
+  - id: 'delete firewall-rule vpc_1'
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: 'gcloud'
+    args: ['compute', 'firewall-rules', 'delete', 'mci-o3mrlc-${_NETWORK_NAME}-l7', '--quiet']
+    allow_failure: true
+  - id: 'delete firewall-rule vpc_2'
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: 'gcloud'
+    args: ['compute', 'firewall-rules', 'delete', 'mci-o3mrlc-${_NETWORK_NAME_2}-l7', '--quiet']
+    allow_failure: true
   - id: 'configure kubernetes'
     name: eu.gcr.io/$PROJECT_ID/remote-builder
     env:
@@ -62,4 +107,5 @@ substitutions:
   _CONTAINER_CLUSTER_2: ${BRANCH_NAME}-cluster-2
   _CLOUD_BUILD_SA: terraform-service-account@pol-pod11-dev-01.iam.gserviceaccount.com
   _NETWORK_NAME: ${BRANCH_NAME}-vpc-network
+  _NETWORK_NAME_2: ${BRANCH_NAME}-vpc-network-2
 timeout: 2700s
