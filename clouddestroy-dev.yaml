@@ -65,6 +65,7 @@ steps:
       - ZONE=${_ZONE_2}
       - USERNAME=cloud-user
       - COMMAND=gcloud container clusters get-credentials ${_CONTAINER_CLUSTER_2} --zone=${_ZONE_2} && chmod +x ~/workspace/acm-config/destroy.sh && cd ~/workspace/acm-config && BRANCH_NAME=${BRANCH_NAME} ./destroy.sh ${_CONTAINER_CLUSTER_2} ${_ZONE_2}
+    allow_failure: true
   - id: 'configure kubernetes cluster 2'
     name: eu.gcr.io/$PROJECT_ID/remote-builder
     env:
