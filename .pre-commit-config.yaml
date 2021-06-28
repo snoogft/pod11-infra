@@ -3,4 +3,3 @@ repos:
     rev: v0.1.12
     hooks:
       - id: terraform-fmt
-      - id: terraform-validate
