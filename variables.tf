@@ -70,14 +70,6 @@ variable "ledger_db_name" {
   default     = "ledgerdb"
 }
 
-variable "jwt_secret" {
-  description = "JWT secret for k8s"
-}
-
-variable "jwt_pub" {
-  description = "JWT pub"
-}
-
 variable "prefix" {
   description = "This is the environment where your app is deployed."
 }
