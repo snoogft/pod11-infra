@@ -1,4 +1,4 @@
-# A testing VM to allow OS Login + IAP tunneling.
+#VM to allow OS Login + IAP tunneling.
 module "instance_template" {
   source               = "terraform-google-modules/vm/google//modules/instance_template"
   version              = "6.5.0"

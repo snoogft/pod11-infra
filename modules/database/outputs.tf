@@ -1,7 +1,3 @@
-# ------------------------------------------------------------------------------
-# MASTER OUTPUTS
-# ------------------------------------------------------------------------------
-
 output "master_instance_name" {
   description = "The name of the database instance"
   value       = module.postgresql-db.master_instance_name
