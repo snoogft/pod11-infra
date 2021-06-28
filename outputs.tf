@@ -25,18 +25,6 @@ output "ledger_db_name" {
   value       = var.ledger_db_name
 }
 
-output "jwt_secret" {
-  description = "JWT secret for k8s"
-  sensitive   = true
-  value       = var.jwt_secret
-}
-
-output "jwt_pub" {
-  description = "JWT pub"
-  sensitive   = true
-  value       = var.jwt_secret
-}
-
 output "gke_cluster_name" {
   value       = module.gke.cluster_name
   description = "GKE cluster name"
