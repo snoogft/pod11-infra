@@ -11,7 +11,7 @@ resource "kubernetes_service_account" "preexisting" {
 module "workload_identity" {
   source              = "../modules/workload-identity"
   project_id          = var.project
-  name                = "${var.k8s_sa_name}-${var.cluster_name}"
+  name                = "boa-${var.cluster_name}"
   namespace           = var.namespace
   use_existing_k8s_sa = true
   k8s_sa_name         = var.k8s_sa_name
@@ -298,5 +298,5 @@ module "hub" {
   location                = data.google_container_cluster.my_cluster.location
   cluster_endpoint        = data.google_container_cluster.my_cluster.endpoint
   gke_hub_membership_name = "membership-name-${var.cluster_name}"
-  gke_hub_sa_name         = "gke-hub-sa-${var.cluster_name}"
+  gke_hub_sa_name         = "gke-${var.cluster_name}"
 }
