@@ -1,11 +1,71 @@
 steps:
-  - id: 'configure kubernetes'
+  - id: 'delete forwarding-rules vpc_1'
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: 'gcloud'
+    args: ['compute', 'forwarding-rules', 'delete', 'gkemcs-${PROJECT_ID}-${_NETWORK_NAME}', '--global', '--quiet']
+    allow_failure: true
+  - id: 'delete forwarding-rules vpc_2'
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: 'gcloud'
+    args: ['compute', 'forwarding-rules', 'delete', 'gkemcs-${PROJECT_ID}-${_NETWORK_NAME_2}', '--global', '--quiet']
+    allow_failure: true
+  - id: 'delete target-http-proxies vpc_1'
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: 'gcloud'
+    args: ['compute', 'target-http-proxies', 'delete', 'gkemcs-${PROJECT_ID}-${_NETWORK_NAME}', '--quiet']
+    allow_failure: true
+  - id: 'delete target-http-proxies vpc_2'
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: 'gcloud'
+    args: ['compute', 'target-http-proxies', 'delete', 'gkemcs-${PROJECT_ID}-${_NETWORK_NAME_2}', '--quiet']
+    allow_failure: true
+  - id: 'delete url-maps vpc_1'
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: 'gcloud'
+    args: ['compute', 'url-maps', 'delete', 'gkemcs-${PROJECT_ID}-${_NETWORK_NAME}', '--quiet']
+    allow_failure: true
+  - id: 'delete url-maps vpc_2'
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: 'gcloud'
+    args: ['compute', 'url-maps', 'delete', 'gkemcs-${PROJECT_ID}-${_NETWORK_NAME_2}', '--quiet']
+    allow_failure: true
+  - id: 'delete backend-services'
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: 'gcloud'
+    args: ['compute', 'backend-services', 'delete', 'gkemcs-default-404', '--global', '--quiet']
+    allow_failure: true
+  - id: 'delete firewall-rule vpc_1'
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: 'gcloud'
+    args: ['compute', 'firewall-rules', 'delete', 'mci-o3mrlc-${_NETWORK_NAME}-l7', '--quiet']
+    allow_failure: true
+  - id: 'delete firewall-rule vpc_2'
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: 'gcloud'
+    args: ['compute', 'firewall-rules', 'delete', 'mci-o3mrlc-${_NETWORK_NAME_2}-l7', '--quiet']
+    allow_failure: true
+  - id: 'configure acm for cluster 1'
+    name: eu.gcr.io/$PROJECT_ID/remote-builder
+    env:
+      - INSTANCE_ARGS=--image-family remote-builder --network=${BRANCH_NAME}-vpc-network --subnet=subnet-vpc --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible --service-account=${_CLOUD_BUILD_SA} --boot-disk-type=pd-ssd
+      - ZONE=${_ZONE}
+      - USERNAME=cloud-user
+      - COMMAND=gcloud container clusters get-credentials ${_CONTAINER_CLUSTER} --zone=${_ZONE} && chmod +x ~/workspace/acm-config/destroy.sh && cd ~/workspace/acm-config && BRANCH_NAME=${BRANCH_NAME} ./destroy.sh ${_CONTAINER_CLUSTER} ${_ZONE}
+  - id: 'configure kubernetes cluster 1'
     name: eu.gcr.io/$PROJECT_ID/remote-builder
     env:
      - INSTANCE_ARGS=--image-family remote-builder --network=${BRANCH_NAME}-vpc-network --subnet=subnet-vpc --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible --service-account=${_CLOUD_BUILD_SA} --boot-disk-type=pd-ssd
      - ZONE=${_ZONE}
      - USERNAME=cloud-user
      - COMMAND=gcloud container clusters get-credentials ${_CONTAINER_CLUSTER} --zone=${_ZONE} && chmod +x ~/workspace/k8s-config/destroy.sh && cd ~/workspace/k8s-config && BRANCH_NAME=${BRANCH_NAME} ./destroy.sh  ${_CONTAINER_CLUSTER} ${_ZONE}
+  - id: 'configure acm for cluster 2'
+    name: eu.gcr.io/$PROJECT_ID/remote-builder
+    env:
+      - INSTANCE_ARGS=--image-family remote-builder --network=${BRANCH_NAME}-vpc-network-2 --subnet=subnet-vpc-2 --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible --service-account=${_CLOUD_BUILD_SA} --boot-disk-type=pd-ssd
+      - ZONE=${_ZONE_2}
+      - USERNAME=cloud-user
+      - COMMAND=gcloud container clusters get-credentials ${_CONTAINER_CLUSTER_2} --zone=${_ZONE_2} && chmod +x ~/workspace/acm-config/destroy.sh && cd ~/workspace/acm-config && BRANCH_NAME=${BRANCH_NAME} ./destroy.sh ${_CONTAINER_CLUSTER_2} ${_ZONE_2}
+    allow_failure: true
   - id: 'configure kubernetes cluster 2'
     name: eu.gcr.io/$PROJECT_ID/remote-builder
     env:
@@ -52,8 +112,11 @@ availableSecrets:
     env: 'TF_VAR_root_db_password'
 substitutions:
   _ZONE: europe-west3-a
+  _ZONE_2: europe-west1-b
   _TERRAFORM_VERSION: 0.14.11
-  _CONTAINER_CLUSTER: ${BRANCH_NAME}-cluster
+  _CONTAINER_CLUSTER: ${BRANCH_NAME}-cluster-1
+  _CONTAINER_CLUSTER_2: ${BRANCH_NAME}-cluster-2
   _CLOUD_BUILD_SA: terraform-service-account@pol-pod11-dev-01.iam.gserviceaccount.com
   _NETWORK_NAME: ${BRANCH_NAME}-vpc-network
+  _NETWORK_NAME_2: ${BRANCH_NAME}-vpc-network-2
 timeout: 2700s

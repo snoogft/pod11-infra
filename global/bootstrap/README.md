@@ -59,7 +59,8 @@ gcloud services enable compute.googleapis.com \
                        multiclusteringress.googleapis.com \
                        cloudresourcemanager.googleapis.com \
                        multiclusterservicediscovery.googleapis.com \
-                       cloudkms.googleapis.com
+                       cloudkms.googleapis.com \
+                       anthosconfigmanagement.googleapis.com
 ```
 
 In order to use this module you have to copy example file:
