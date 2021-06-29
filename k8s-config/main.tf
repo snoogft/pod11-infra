@@ -135,7 +135,11 @@ resource "kubernetes_job" "create_accounts_db" {
   spec {
     backoff_limit = 4
     template {
-      metadata {}
+      metadata {
+        labels = {
+          "sidecar.istio.io/inject" : "false"
+        }
+      }
       spec {
         volume {
           name = "scripts"
@@ -217,7 +221,11 @@ resource "kubernetes_job" "create_ledger_db" {
   spec {
     backoff_limit = 4
     template {
-      metadata {}
+      metadata {
+        labels = {
+          "sidecar.istio.io/inject" : "false"
+        }
+      }
       spec {
         volume {
           name = "scripts"
