@@ -126,9 +126,15 @@ resource "kubernetes_config_map" "ledger_init_config" {
   }
 }
 
+resource "time_sleep" "wait_60_seconds" {
+  depends_on = [kubernetes_config_map.accounts_init_config, kubernetes_secret.cloud_sql_admin, module.workload_identity]
+
+  create_duration = "60s"
+}
+
 resource "kubernetes_job" "create_accounts_db" {
   wait_for_completion = false
-  depends_on          = [kubernetes_config_map.accounts_init_config, kubernetes_secret.cloud_sql_admin, module.workload_identity]
+  depends_on          = [time_sleep.wait_60_seconds]
   metadata {
     name = "create-accounts-db"
   }
@@ -214,7 +220,7 @@ resource "kubernetes_job" "create_accounts_db" {
 
 resource "kubernetes_job" "create_ledger_db" {
   wait_for_completion = false
-  depends_on          = [kubernetes_config_map.ledger_init_config, kubernetes_secret.cloud_sql_admin, module.workload_identity]
+  depends_on          = [time_sleep.wait_60_seconds]
   metadata {
     name = "create-ledger-db"
   }
