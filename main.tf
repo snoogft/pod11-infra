@@ -163,7 +163,7 @@ module "cloud_sql" {
     ipv4_enabled        = true
     private_network     = null
     require_ssl         = true
-    authorized_networks = var.authorized_networks
+    authorized_networks = []
   }
 
   database_flags = [
