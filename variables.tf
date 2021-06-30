@@ -113,3 +113,9 @@ variable "network_name" {
   type        = string
 }
 
+variable "postgres_version" {
+  description = "The engine version of the database, e.g. `POSTGRES_9_6`. See https://cloud.google.com/sql/docs/db-versions for supported versions."
+  type        = string
+  default     = "POSTGRES_13"
+}
+
