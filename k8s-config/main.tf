@@ -21,6 +21,7 @@ module "workload_identity" {
     "roles/cloudtrace.agent",
     "roles/monitoring.metricWriter",
     "roles/cloudsql.client",
+    "roles/cloudsql.instanceUser",
   ]
 }
 
