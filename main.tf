@@ -171,6 +171,10 @@ module "cloud_sql" {
       name  = "cloudsql.iam_authentication"
       value = "On"
     },
+    {
+      name  = "max_connections"
+      value = "10000"
+    },
   ]
 
   user_name     = "root"
