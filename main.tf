@@ -1,5 +1,7 @@
 locals {
-  env = var.prefix
+  env                 = var.prefix
+  db_name             = "${local.env}-db"
+  deletion_protection = false
 }
 
 module "vpc_network" {
@@ -145,16 +147,32 @@ module "cloud_router_2" {
 }
 
 module "cloud_sql" {
-  source               = "./modules/database"
-  project              = var.project
+  source               = "GoogleCloudPlatform/sql-db/google//modules/postgresql"
+  version              = "5.1.1"
+  name                 = local.db_name
+  random_instance_name = true
+  database_version     = var.postgres_version
+  project_id           = var.project
+  zone                 = var.zone
   region               = var.region
-  db_name              = "${local.env}-db"
-  private_network      = module.vpc_network.network_self_link
-  private_network_name = module.vpc_network.network_name
-  machine_type         = var.machine_type_db
-  name_prefix          = "${local.env}-"
-  master_user_password = var.root_db_password
-  master_user_name     = "root"
-  deletion_protection  = false
-  name                 = "${local.env}-db"
+  tier                 = var.machine_type_db
+
+  deletion_protection = local.deletion_protection
+
+  ip_configuration = {
+    ipv4_enabled        = true
+    private_network     = null
+    require_ssl         = true
+    authorized_networks = var.authorized_networks
+  }
+
+  database_flags = [
+    {
+      name  = "cloudsql.iam_authentication"
+      value = "On"
+    },
+  ]
+
+  user_name     = "root"
+  user_password = var.root_db_password
 }
