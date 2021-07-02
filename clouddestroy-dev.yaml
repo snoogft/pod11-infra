@@ -99,7 +99,7 @@ steps:
     name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
     secretEnv: ['TF_VAR_root_db_password']
     entrypoint: 'sh'
-    args: ['-c', 'terraform state rm module.cloud_sql.google_sql_database_instance.default || exit 0']
+    args: ['-c', 'terraform state rm module.cloud_sql.google_sql_user.default || exit 0']
     dir: '.'
   - id: 'tf destroy'
     name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
