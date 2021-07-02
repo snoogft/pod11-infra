@@ -4,6 +4,7 @@ resource "google_cloud_scheduler_job" "job" {
   schedule         = var.schedule
   time_zone        = var.time_zone
   attempt_deadline = "320s"
+  region           = var.region
 
   retry_config {
     retry_count = 1

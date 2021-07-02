@@ -22,3 +22,8 @@ variable "uri" {
   description = "The uri for http_target"
   type = string
 }
+
+variable "region" {
+  description = "The region"
+  type = string
+}
