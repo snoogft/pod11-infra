@@ -15,19 +15,4 @@ resource "google_cloudbuild_trigger" "build-trigger" {
       branch = var.branch_name
     }
   }
-
-  build {
-    step {
-      name    = "gcr.io/cloud-builders/gsutil"
-      timeout = "120s"
-    }
-    source {
-      storage_source {
-        bucket = "pol-pod11-dev-01-tfstate"
-        object = "source_code.tar.gz"
-      }
-    }
-    tags      = ["build"]
-    queue_ttl = "20s"
-  }
 }
