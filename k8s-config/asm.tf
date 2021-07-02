@@ -14,6 +14,6 @@ module "kubectl" {
   project_id              = var.project
   cluster_name            = data.google_container_cluster.my_cluster.name
   cluster_location        = data.google_container_cluster.my_cluster.location
-  kubectl_create_command  = "kubectl label namespace default istio.io/rev=asm-196-1 --overwrite"
+  kubectl_create_command  = "kubectl label namespace default istio.io/rev=asm-196-2 --overwrite"
   kubectl_destroy_command = "kubectl label namespaces default istio.io/rev-"
 }
