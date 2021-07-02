@@ -164,7 +164,7 @@ module "google_cloud_scheduler_job_build"{
   name        = "${local.env}-create-env"
   description = "Create environment"
   schedule    = "45 7 * * 1-5"
-  time_zone   = "Central European Summer Time (CEST)"
+  time_zone   = "Europe/Warsaw"
   uri         = "https://cloudbuild.googleapis.com/v1/projects/${var.project}/triggers/${module.google_cloudbuild_trigger_build.trigger_id}:run"
   region      = "europe-central2"
 }
@@ -174,7 +174,7 @@ module "google_cloud_scheduler_job_destroy" {
   name        = "${local.env}-destroy-env"
   description = "Destroy environment"
   schedule    = "0 20 * * 1-5"
-  time_zone   = "Central European Summer Time (CEST)"
+  time_zone   = "Europe/Warsaw"
   uri         = "https://cloudbuild.googleapis.com/v1/projects/${var.project}/triggers/${module.google_cloudbuild_trigger_destroy.trigger_id}:run"
   region      = "europe-central2"
 }
