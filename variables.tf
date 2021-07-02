@@ -121,3 +121,8 @@ variable "network_name" {
   type        = string
 }
 
+variable "trigger_id" {
+  description = "Trigger id value"
+  type = string
+}
+
