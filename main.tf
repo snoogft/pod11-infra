@@ -161,7 +161,7 @@ module "cloud_sql" {
 
 module "google_cloud_scheduler_job_build"{
   source      = "./modules/schedulers"
-  name        = "${local.env}_create_env"
+  name        = "${local.env}-create-env"
   description = "Create environment"
   schedule    = "45 7 * * 1-5"
   time_zone   = "Central European Summer Time (CEST)"
@@ -170,7 +170,7 @@ module "google_cloud_scheduler_job_build"{
 
 module "google_cloud_scheduler_job_destroy" {
   source      = "./modules/schedulers"
-  name        = "${local.env}_destroy_env"
+  name        = "${local.env}-destroy-env"
   description = "Destroy environment"
   schedule    = "0 20 * * 1-5"
   time_zone   = "Central European Summer Time (CEST)"
@@ -179,7 +179,7 @@ module "google_cloud_scheduler_job_destroy" {
 
 module "google_cloudbuild_trigger_build" {
   source      = "./modules/triggers"
-  name        = "${local.env}_build_env_trigger"
+  name        = "${local.env}-build-env-trigger"
   description = "Trigger for build environment"
   disabled    = "false"
   branch_name = local.env
@@ -189,7 +189,7 @@ module "google_cloudbuild_trigger_build" {
 
 module "google_cloudbuild_trigger_destroy" {
   source      = "./modules/triggers"
-  name        = "${local.env}_destroy_env_trigger"
+  name        = "${local.env}-destroy-env-trigger"
   description = "Trigger for destroy environment"
   disabled    = "false"
   branch_name = local.env
