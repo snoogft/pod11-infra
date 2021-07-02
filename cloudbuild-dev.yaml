@@ -34,28 +34,28 @@ steps:
   - id: 'configure kubernetes'
     name: eu.gcr.io/$PROJECT_ID/remote-builder
     env:
-     - INSTANCE_ARGS=--image-family remote-builder --network=${BRANCH_NAME}-vpc-network --subnet=subnet-vpc --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible --service-account=${_CLOUD_BUILD_SA} --boot-disk-type=pd-ssd
+     - INSTANCE_ARGS=--image-family remote-builder --network=${BRANCH_NAME}-vpc-network --subnet=subnet-vpc --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible --service-account=${_CLOUD_BUILD_SA} --boot-disk-type=pd-ssd --machine-type=f1-micro
      - ZONE=${_ZONE}
      - USERNAME=cloud-user
      - COMMAND=gcloud container clusters get-credentials ${_CONTAINER_CLUSTER} --zone=${_ZONE} && chmod +x ~/workspace/k8s-config/run.sh && cd ~/workspace/k8s-config && BRANCH_NAME=${BRANCH_NAME} ./run.sh ${_CONTAINER_CLUSTER} ${_ZONE}
   - id: 'configure acm for cluster 1'
     name: eu.gcr.io/$PROJECT_ID/remote-builder
     env:
-      - INSTANCE_ARGS=--image-family remote-builder --network=${BRANCH_NAME}-vpc-network --subnet=subnet-vpc --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible --service-account=${_CLOUD_BUILD_SA} --boot-disk-type=pd-ssd
+      - INSTANCE_ARGS=--image-family remote-builder --network=${BRANCH_NAME}-vpc-network --subnet=subnet-vpc --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible --service-account=${_CLOUD_BUILD_SA} --boot-disk-type=pd-ssd --machine-type=f1-micro
       - ZONE=${_ZONE}
       - USERNAME=cloud-user
       - COMMAND=gcloud container clusters get-credentials ${_CONTAINER_CLUSTER} --zone=${_ZONE} && chmod +x ~/workspace/acm-config/run.sh && cd ~/workspace/acm-config && BRANCH_NAME=${BRANCH_NAME} ./run.sh ${_CONTAINER_CLUSTER} ${_ZONE}
   - id: 'configure kubernetes cluster 2'
     name: eu.gcr.io/$PROJECT_ID/remote-builder
     env:
-      - INSTANCE_ARGS=--image-family remote-builder --network=${BRANCH_NAME}-vpc-network-2 --subnet=subnet-vpc-2 --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible --service-account=${_CLOUD_BUILD_SA} --boot-disk-type=pd-ssd
+      - INSTANCE_ARGS=--image-family remote-builder --network=${BRANCH_NAME}-vpc-network-2 --subnet=subnet-vpc-2 --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible --service-account=${_CLOUD_BUILD_SA} --boot-disk-type=pd-ssd --machine-type=f1-micro
       - ZONE=${_ZONE_2}
       - USERNAME=cloud-user
       - COMMAND=gcloud container clusters get-credentials ${_CONTAINER_CLUSTER_2} --zone=${_ZONE_2} && chmod +x ~/workspace/k8s-config/run.sh && cd ~/workspace/k8s-config && BRANCH_NAME=${BRANCH_NAME} ./run.sh ${_CONTAINER_CLUSTER_2} ${_ZONE_2}
   - id: 'configure acm for cluster 2'
     name: eu.gcr.io/$PROJECT_ID/remote-builder
     env:
-      - INSTANCE_ARGS=--image-family remote-builder --network=${BRANCH_NAME}-vpc-network-2 --subnet=subnet-vpc-2 --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible --service-account=${_CLOUD_BUILD_SA} --boot-disk-type=pd-ssd
+      - INSTANCE_ARGS=--image-family remote-builder --network=${BRANCH_NAME}-vpc-network-2 --subnet=subnet-vpc-2 --scopes=https://www.googleapis.com/auth/cloud-platform --preemptible --service-account=${_CLOUD_BUILD_SA} --boot-disk-type=pd-ssd --machine-type=f1-micro
       - ZONE=${_ZONE_2}
       - USERNAME=cloud-user
       - COMMAND=gcloud container clusters get-credentials ${_CONTAINER_CLUSTER_2} --zone=${_ZONE_2} && chmod +x ~/workspace/acm-config/run.sh && cd ~/workspace/acm-config && BRANCH_NAME=${BRANCH_NAME} ./run.sh ${_CONTAINER_CLUSTER_2} ${_ZONE_2}
@@ -74,4 +74,5 @@ substitutions:
   _CONTAINER_CLUSTER: ${BRANCH_NAME}-cluster-1
   _CONTAINER_CLUSTER_2: ${BRANCH_NAME}-cluster-2
   _CLOUD_BUILD_SA: terraform-service-account@pol-pod11-dev-01.iam.gserviceaccount.com
+  _MACHINE_TYPE:
 timeout: 3600s
