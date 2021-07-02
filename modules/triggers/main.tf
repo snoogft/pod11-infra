@@ -8,11 +8,4 @@ resource "google_cloudbuild_trigger" "build-trigger" {
     branch_name = var.branch_name
     repo_name   = var.repo_name
   }
-
-  github {
-    name = var.name
-    push {
-      branch = var.branch_name
-    }
-  }
 }
