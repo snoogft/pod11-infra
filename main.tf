@@ -158,3 +158,41 @@ module "cloud_sql" {
   deletion_protection  = false
   name                 = "${local.env}-db"
 }
+
+module "google_cloud_scheduler_job"{
+  source      = "./modules/schedulers"
+  name        = "${local.env}_create_env"
+  description = "Create environment"
+  schedule    = "45 7 * * 1-5"
+  time_zone   = "Central European Summer Time (CEST)"
+  uri         = "https://cloudscheduler.googleapis.com/v1/projects/${var.project}/locations/${var.region}/jobs"
+}
+
+module "google_cloud_scheduler_job" {
+  source      = "./modules/schedulers"
+  name        = "${local.env}_destroy_env"
+  description = "Destroy environment"
+  schedule    = "0 20 * * 1-5"
+  time_zone   = "Central European Summer Time (CEST)"
+  uri         = "https://cloudscheduler.googleapis.com/v1/projects/${var.project}/locations/${var.region}/jobs"
+}
+
+module "google_cloudbuild_trigger" {
+  source      = "./modules/triggers"
+  name        = "${local.env}_build_env_trigger"
+  description = "Trigger for build environment"
+  disabled    = "false"
+  branch_name = local.env
+  repo_name   = "snoogft/pod11-infra"
+  filename    = "./cloudbuild-${local.env}.yaml"
+}
+
+module "google_cloudbuild_trigger" {
+  source      = "./modules/triggers"
+  name        = "${local.env}_destroy_env_trigger"
+  description = "Trigger for destroy environment"
+  disabled    = "false"
+  branch_name = local.env
+  repo_name   = "snoogft/pod11-infra"
+  filename    = "./clouddestroy-${local.env}.yaml"
+}
