@@ -159,7 +159,7 @@ module "cloud_sql" {
   name                 = "${local.env}-db"
 }
 
-module "google_cloud_scheduler_job"{
+module "google_cloud_scheduler_job_build"{
   source      = "./modules/schedulers"
   name        = "${local.env}_create_env"
   description = "Create environment"
@@ -168,7 +168,7 @@ module "google_cloud_scheduler_job"{
   uri         = "https://cloudscheduler.googleapis.com/v1/projects/${var.project}/locations/${var.region}/jobs"
 }
 
-module "google_cloud_scheduler_job" {
+module "google_cloud_scheduler_job_destroy" {
   source      = "./modules/schedulers"
   name        = "${local.env}_destroy_env"
   description = "Destroy environment"
@@ -177,7 +177,7 @@ module "google_cloud_scheduler_job" {
   uri         = "https://cloudscheduler.googleapis.com/v1/projects/${var.project}/locations/${var.region}/jobs"
 }
 
-module "google_cloudbuild_trigger" {
+module "google_cloudbuild_trigger_build" {
   source      = "./modules/triggers"
   name        = "${local.env}_build_env_trigger"
   description = "Trigger for build environment"
@@ -187,7 +187,7 @@ module "google_cloudbuild_trigger" {
   filename    = "./cloudbuild-${local.env}.yaml"
 }
 
-module "google_cloudbuild_trigger" {
+module "google_cloudbuild_trigger_destroy" {
   source      = "./modules/triggers"
   name        = "${local.env}_destroy_env_trigger"
   description = "Trigger for destroy environment"
