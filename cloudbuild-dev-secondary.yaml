@@ -8,6 +8,10 @@ steps:
         echo "***********************"
         echo "$BRANCH_NAME"
         echo "***********************"
+  - id: 'tf add workspace'
+    name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
+    args: ['workspace', 'new', 'dev-secondary']
+    dir: '.'
   - id: 'tf init'
     name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
     args: ['init', '-upgrade']

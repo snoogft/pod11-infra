@@ -186,7 +186,7 @@ module "google_cloudbuild_trigger_build" {
   disabled    = "false"
   branch_name = local.env
   repo_name   = "snoogft/pod11-infra"
-  filename    = "./cloudbuild-${local.env}.yaml"
+  filename    = "cloudbuild-${local.env}.yaml"
 }
 
 module "google_cloudbuild_trigger_destroy" {
@@ -196,5 +196,5 @@ module "google_cloudbuild_trigger_destroy" {
   disabled    = "false"
   branch_name = local.env
   repo_name   = "snoogft/pod11-infra"
-  filename    = "./clouddestroy-${local.env}.yaml"
+  filename    = "clouddestroy-${local.env}.yaml"
 }
