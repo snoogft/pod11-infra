@@ -179,13 +179,33 @@ module "google_cloud_scheduler_job_destroy" {
   region      = "europe-central2"
 }
 
+module "google_cloud_scheduler_job_boa_build"{
+  source      = "./modules/schedulers"
+  name        = "${local.env}-create-env-boa"
+  description = "Create environment bank of anthos"
+  schedule    = "45 7 * * 1-5"
+  time_zone   = "Europe/Warsaw"
+  uri         = "https://cloudbuild.googleapis.com/v1/projects/${var.project}/triggers/${module.google_cloudbuild_trigger_build.trigger_id}:run"
+  region      = "europe-central2"
+}
+
+module "google_cloud_scheduler_job_boa_deploy" {
+  source      = "./modules/schedulers"
+  name        = "${local.env}-deploy-env-boa"
+  description = "Deploy environment bank of anthos"
+  schedule    = "0 20 * * 1-5"
+  time_zone   = "Europe/Warsaw"
+  uri         = "https://cloudbuild.googleapis.com/v1/projects/${var.project}/triggers/${module.google_cloudbuild_trigger_destroy.trigger_id}:run"
+  region      = "europe-central2"
+}
+
 module "google_cloudbuild_trigger_build" {
   source      = "./modules/triggers"
   name        = "${local.env}-build-env-trigger"
   description = "Trigger for build environment"
   disabled    = "false"
   branch_name = local.env
-  repo_name   = "snoogft/pod11-infra"
+  repo_name   = "https://github.com/snoogft/pod11-infra"
   filename    = "cloudbuild-${local.env}.yaml"
 }
 
@@ -195,6 +215,26 @@ module "google_cloudbuild_trigger_destroy" {
   description = "Trigger for destroy environment"
   disabled    = "false"
   branch_name = local.env
-  repo_name   = "snoogft/pod11-infra"
+  repo_name   = "https://github.com/snoogft/pod11-infra"
   filename    = "clouddestroy-${local.env}.yaml"
+}
+
+module "google_cloudbuild_trigger_boa_build" {
+  source      = "./modules/triggers"
+  name        = "${local.env}-build-env-boa-trigger"
+  description = "Trigger for build bank of anthos environment"
+  disabled    = "false"
+  branch_name = local.env
+  repo_name   = "https://github.com/snoogft/bank-of-anthos"
+  filename    = "cloudbuild-${local.env}-build.yaml"
+}
+
+module "google_cloudbuild_trigger_boa_deploy" {
+  source      = "./modules/triggers"
+  name        = "${local.env}-deploy-env-boa-trigger"
+  description = "Trigger for destroy bank of anthos environment"
+  disabled    = "false"
+  branch_name = local.env
+  repo_name   = "https://github.com/snoogft/bank-of-anthos"
+  filename    = "cloudbuild-${local.env}-deploy.yaml"
 }
