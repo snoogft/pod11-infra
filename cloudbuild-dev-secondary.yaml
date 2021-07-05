@@ -12,10 +12,6 @@ steps:
     name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
     args: ['init', '-upgrade']
     dir: '.'
-  - id: 'tf add workspace'
-    name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
-    args: ['workspace', 'new', 'dev-secondary']
-    dir: '.'
   - id: 'tf select workspace'
     name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
     args: ['workspace', 'select', '${BRANCH_NAME}']
