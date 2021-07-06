@@ -17,7 +17,7 @@ module "subnets" {
   version = "~> 3.2.2"
 
   project_id   = var.project_id
-  network_name = var.network_name
+  network_name = module.vpc.network_name
   depends_on   = [module.vpc]
 
   subnets = [
