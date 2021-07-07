@@ -1,13 +1,8 @@
-name: dependabot
+name: Update terraform dependencies
 on: [push, pull_request]
 jobs:
-  version: 2
-  updates:
-    - package-ecosystem: "terraform"
-      directory: "/"
-      schedule:
-        interval: "daily"
-    - package-ecosystem: "docker"
-      directory: "/"
-      schedule:
-        interval: "weekly"
+  dependabot-terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - name: update terraform dependencies
+        uses: patrickjahns/dependabot-terraform-action@v1
