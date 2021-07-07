@@ -6,3 +6,8 @@ jobs:
     steps:
       - name: update terraform dependencies
         uses: patrickjahns/dependabot-terraform-action@v1
+        with:
+          directory: |
+            .
+            /modules/bastion-host/
+            /modules/cluster/
