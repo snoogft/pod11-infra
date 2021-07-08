@@ -8,10 +8,10 @@ jobs:
         uses: patrickjahns/dependabot-terraform-action@v1
         with:
           directory: |
-            ./modules/bastion-host/main.tf
-            ./modules/cluster/main.tf
-            ./modules/database/main.tf
-            ./modules/network/main.tf
-            ./modules/workload-identity/main.tf
-            ./acm-config/main.tf
-            ./k8s-config/main.tf
+            /modules/bastion-host/main.tf
+            /modules/cluster/main.tf
+            /modules/database/main.tf
+            /modules/network/main.tf
+            /modules/workload-identity/main.tf
+            /acm-config/main.tf
+            /k8s-config/main.tf
