@@ -5,6 +5,7 @@ resource "google_cloudbuild_trigger" "build-trigger" {
   filename    = var.filename
 
   github {
+    owner = "snoogft"
     push {
       branch = var.branch
     }
