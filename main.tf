@@ -204,8 +204,7 @@ module "google_cloudbuild_trigger_build" {
   name        = "${local.env}-build-env-trigger"
   description = "Trigger for build environment"
   disabled    = "false"
-  branch_name = local.env
-  repo_name   = "https://github.com/snoogft/pod11-infra"
+  branch = local.env
   filename    = "cloudbuild-${local.env}.yaml"
 }
 
@@ -214,8 +213,7 @@ module "google_cloudbuild_trigger_destroy" {
   name        = "${local.env}-destroy-env-trigger"
   description = "Trigger for destroy environment"
   disabled    = "false"
-  branch_name = local.env
-  repo_name   = "https://github.com/snoogft/pod11-infra"
+  branch = local.env
   filename    = "clouddestroy-${local.env}.yaml"
 }
 
@@ -224,8 +222,7 @@ module "google_cloudbuild_trigger_boa_build" {
   name        = "${local.env}-build-env-boa-trigger"
   description = "Trigger for build bank of anthos environment"
   disabled    = "false"
-  branch_name = local.env
-  repo_name   = "https://github.com/snoogft/bank-of-anthos"
+  branch      = local.env
   filename    = "cloudbuild-${local.env}-build.yaml"
 }
 
@@ -234,7 +231,6 @@ module "google_cloudbuild_trigger_boa_deploy" {
   name        = "${local.env}-deploy-env-boa-trigger"
   description = "Trigger for destroy bank of anthos environment"
   disabled    = "false"
-  branch_name = local.env
-  repo_name   = "https://github.com/snoogft/bank-of-anthos"
+  branch      = local.env
   filename    = "cloudbuild-${local.env}-deploy.yaml"
 }

@@ -13,17 +13,13 @@ variable "disabled" {
   type = string
 }
 
-variable "branch_name" {
-  description = "The name for branch_name"
-  type = string
-}
-
-variable "repo_name" {
-  description = "The name for repo_name"
-  type = string
-}
-
 variable "filename" {
   description = "Path to cloudbuild yaml file"
   type = string
 }
+
+variable "branch" {
+  description = "The name for branch_name"
+  type = string
+}
+
