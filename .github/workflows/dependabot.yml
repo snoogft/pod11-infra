@@ -5,10 +5,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: update terraform dependencies
-        run: "ls -la"
         uses: patrickjahns/dependabot-terraform-action@v1
         with:
           directory: |
-            .
-            /modules/bastion-host/
-            /modules/cluster/
+            ./modules/bastion-host/
+            ./modules/cluster/
+            ./k8s-config/
