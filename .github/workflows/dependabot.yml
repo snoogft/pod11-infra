@@ -7,7 +7,7 @@ jobs:
       - name: update terraform dependencies
         uses: patrickjahns/dependabot-terraform-action@v1
         with:
-          directory:
+          directory: |
             modules/bastion-host
             modules/cluster
             modules/database
