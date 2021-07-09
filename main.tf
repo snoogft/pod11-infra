@@ -118,7 +118,7 @@ module "gke_2" {
 
 module "cloud_router" {
   source  = "terraform-google-modules/cloud-router/google"
-  version = "~> 1.0.0"
+  version = "~> 1.1.0"
 
   name    = format("%s-router", local.env)
   project = var.project
