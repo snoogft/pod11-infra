@@ -1,3 +1,17 @@
+module "cloud_router" {
+  source  = "terraform-google-modules/cloud-router/google"
+  version = "~> 1.0.0"
+
+  name    = format("%s-router", 'tmp')
+  project = var.project_id
+  region  = var.region
+  network = var.network
+
+  nats = [{
+    name = format("%s-nat", 'tmp')
+  }]
+}
+
 module "gke" {
   source                        = "terraform-google-modules/kubernetes-engine/google//modules/private-cluster"
   version                       = "15.0.1"
