@@ -158,3 +158,15 @@ module "cloud_sql" {
   deletion_protection  = false
   name                 = "${local.env}-db"
 }
+
+module "acm" {
+  source           = "terraform-google-modules/kubernetes-engine/google//modules/acm"
+  version          = "15.0.0"
+  project_id       = var.project
+  cluster_name     = '123'
+  location         = '123'
+  cluster_endpoint = '123'
+  operator_path    = "config-management-operator/config-management-operator.yaml"
+  sync_repo        = "https://github.com/Katmar-creator/boa-management-config"
+  sync_branch      = "main"
+}
